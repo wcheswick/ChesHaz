@@ -9,13 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
+    UINavigationController *navController;
+}
 
 @property (strong, nonatomic) UIWindow *window;
-
-@property (readonly, strong) NSPersistentContainer *persistentContainer;
-
-- (void)saveContext;
+@property (strong, nonatomic)   UINavigationController *navController;
 
 
 @end

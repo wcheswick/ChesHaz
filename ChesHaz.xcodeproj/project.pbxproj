@@ -9,11 +9,12 @@
 /* Begin PBXBuildFile section */
 		FBDC10F91FD32697009D3933 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC10F81FD32697009D3933 /* AppDelegate.m */; };
 		FBDC10FC1FD32697009D3933 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC10FB1FD32697009D3933 /* ViewController.m */; };
-		FBDC10FF1FD32697009D3933 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBDC10FD1FD32697009D3933 /* Main.storyboard */; };
 		FBDC11021FD32697009D3933 /* ChesHaz.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FBDC11001FD32697009D3933 /* ChesHaz.xcdatamodeld */; };
 		FBDC11041FD32697009D3933 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBDC11031FD32697009D3933 /* Assets.xcassets */; };
-		FBDC11071FD32697009D3933 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBDC11051FD32697009D3933 /* LaunchScreen.storyboard */; };
 		FBDC110A1FD32697009D3933 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC11091FD32697009D3933 /* main.m */; };
+		FBDC11151FD3277B009D3933 /* Substance.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC11141FD3277B009D3933 /* Substance.m */; };
+		FBDC11181FD32DA4009D3933 /* ergdb in Resources */ = {isa = PBXBuildFile; fileRef = FBDC11171FD32DA4009D3933 /* ergdb */; };
+		FBDC111A1FD334B1009D3933 /* DOT.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBDC11191FD334B1009D3933 /* DOT.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,12 +23,14 @@
 		FBDC10F81FD32697009D3933 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		FBDC10FA1FD32697009D3933 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		FBDC10FB1FD32697009D3933 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		FBDC10FE1FD32697009D3933 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FBDC11011FD32697009D3933 /* ChesHaz.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ChesHaz.xcdatamodel; sourceTree = "<group>"; };
 		FBDC11031FD32697009D3933 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		FBDC11061FD32697009D3933 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FBDC11081FD32697009D3933 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FBDC11091FD32697009D3933 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FBDC11131FD3277B009D3933 /* Substance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Substance.h; sourceTree = "<group>"; };
+		FBDC11141FD3277B009D3933 /* Substance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Substance.m; sourceTree = "<group>"; };
+		FBDC11171FD32DA4009D3933 /* ergdb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ergdb; sourceTree = "<group>"; };
+		FBDC11191FD334B1009D3933 /* DOT.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = DOT.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,14 +67,24 @@
 				FBDC10F81FD32697009D3933 /* AppDelegate.m */,
 				FBDC10FA1FD32697009D3933 /* ViewController.h */,
 				FBDC10FB1FD32697009D3933 /* ViewController.m */,
-				FBDC10FD1FD32697009D3933 /* Main.storyboard */,
-				FBDC11031FD32697009D3933 /* Assets.xcassets */,
-				FBDC11051FD32697009D3933 /* LaunchScreen.storyboard */,
+				FBDC11131FD3277B009D3933 /* Substance.h */,
+				FBDC11141FD3277B009D3933 /* Substance.m */,
 				FBDC11081FD32697009D3933 /* Info.plist */,
 				FBDC11091FD32697009D3933 /* main.m */,
 				FBDC11001FD32697009D3933 /* ChesHaz.xcdatamodeld */,
+				FBDC11161FD32D80009D3933 /* WorkingStuff */,
 			);
 			path = ChesHaz;
+			sourceTree = "<group>";
+		};
+		FBDC11161FD32D80009D3933 /* WorkingStuff */ = {
+			isa = PBXGroup;
+			children = (
+				FBDC11031FD32697009D3933 /* Assets.xcassets */,
+				FBDC11191FD334B1009D3933 /* DOT.gif */,
+				FBDC11171FD32DA4009D3933 /* ergdb */,
+			);
+			path = WorkingStuff;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,9 +145,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FBDC11071FD32697009D3933 /* LaunchScreen.storyboard in Resources */,
+				FBDC11181FD32DA4009D3933 /* ergdb in Resources */,
 				FBDC11041FD32697009D3933 /* Assets.xcassets in Resources */,
-				FBDC10FF1FD32697009D3933 /* Main.storyboard in Resources */,
+				FBDC111A1FD334B1009D3933 /* DOT.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,6 +159,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBDC10FC1FD32697009D3933 /* ViewController.m in Sources */,
+				FBDC11151FD3277B009D3933 /* Substance.m in Sources */,
 				FBDC11021FD32697009D3933 /* ChesHaz.xcdatamodeld in Sources */,
 				FBDC110A1FD32697009D3933 /* main.m in Sources */,
 				FBDC10F91FD32697009D3933 /* AppDelegate.m in Sources */,
@@ -153,25 +167,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		FBDC10FD1FD32697009D3933 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FBDC10FE1FD32697009D3933 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		FBDC11051FD32697009D3933 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FBDC11061FD32697009D3933 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		FBDC110B1FD32697009D3933 /* Debug */ = {
@@ -285,6 +280,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HK64XTSZFA;
 				INFOPLIST_FILE = ChesHaz/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cheswick.ChesHaz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -299,6 +295,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HK64XTSZFA;
 				INFOPLIST_FILE = ChesHaz/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cheswick.ChesHaz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
