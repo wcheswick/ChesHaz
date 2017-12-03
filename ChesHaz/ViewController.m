@@ -6,8 +6,6 @@
 //  Copyright © 2017 Cheswick.com. All rights reserved.
 //
 
-// [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.google.com"]];
-
 #import "ViewController.h"
 #import "Substance.h"
 
@@ -17,6 +15,10 @@
 #define DOT_H           200
 #define HAZ_H           50
 #define HAZ_FONT_SIZE   40
+
+#define HSEP    5
+#define BUTTON_FONT_SIZE    30
+#define BUTTON_H        (BUTTON_FONT_SIZE*1.2)
 
 #define BELOW(r)    ((r).origin.y + (r).size.height)
 #define RIGHT(r)    ((r).origin.x + (r).size.width)
@@ -34,7 +36,10 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
 
 @interface ViewController ()
 
+@property (nonatomic, strong)   UIView *headerView;
 @property (nonatomic, strong)   UIImageView *dotImageView;
+@property (nonatomic, strong)   UIButton *dataSheet;
+@property (nonatomic, strong)   UIButton *ergGuide;
 @property (nonatomic, strong)   UITableView *tableView;
 @property (nonatomic, strong)   UITextField *textField;
 @property (nonatomic, strong)   NSArray *ergDB;
@@ -44,7 +49,9 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
 
 @implementation ViewController
 
+@synthesize headerView;
 @synthesize dotImageView;
+@synthesize dataSheet, ergGuide;
 @synthesize tableView;
 @synthesize textField;
 @synthesize ergDB;
@@ -70,13 +77,17 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
     }
     NSLog(@"database has %lu entries", (unsigned long)[ergDB count]);
 
+    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 30, 320, DOT_H)];
+    headerView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:headerView];
+    
     UIImage *dotImage = [UIImage imageNamed:@"DOT.gif"];
     dotImageView = [[UIImageView alloc] initWithImage:dotImage];
-    dotImageView.frame = CGRectMake(0, 30, DOT_H, DOT_H);
+    dotImageView.frame = CGRectMake(0, 0, DOT_H, DOT_H);
 //    dotImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
 //    dotImageView.layer.borderWidth = 1.0;
 //    dotImageView.layer.cornerRadius = 5.0;
-    [self.view addSubview:dotImageView];
+    [headerView addSubview:dotImageView];
     
     textField = [[UITextField alloc] initWithFrame:CGRectMake(40, 75, 120, HAZ_H)];
     textField.font = [UIFont boldSystemFontOfSize:36];
@@ -88,10 +99,41 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
     textField.backgroundColor = [UIColor clearColor];
     [dotImageView addSubview:textField];
     
-    tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    dataSheet = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    CGRect f = headerView.frame;
+    f.origin.x = RIGHT(dotImageView.frame) - 20;
+    f.origin.y = 40;
+    f.size.width = headerView.frame.size.width - f.origin.x;
+    f.size.height = BUTTON_H;
+    dataSheet.frame = f;
+    [dataSheet setTitle:@"NOAA datasheet"
+                  forState:UIControlStateNormal];
+    dataSheet.titleLabel.font = [UIFont boldSystemFontOfSize:20];
+    [dataSheet addTarget:self
+                     action:@selector(doDataSheet:)
+           forControlEvents:UIControlEventTouchUpInside];
+    dataSheet.hidden = YES;
+    [headerView addSubview:dataSheet];
+    
+// this is wrong, needs multiple for a number
+    ergGuide = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    f.origin.y = BELOW(f) + VSEP;
+    ergGuide.frame = f;
+    [ergGuide setTitle:@"NOAA ERG guide"
+               forState:UIControlStateNormal];
+    ergGuide.titleLabel.font = [UIFont boldSystemFontOfSize:20];
+    [ergGuide addTarget:self
+                  action:@selector(doergGuide:)
+        forControlEvents:UIControlEventTouchUpInside];
+    ergGuide.hidden = YES;
+    [self.view addSubview:ergGuide];
+
+    tableView = [[UITableView alloc] initWithFrame:CGRectZero
+                                             style:UITableViewStylePlain];
     tableView.delegate = self;
     tableView.dataSource = self;
     [self.view addSubview:tableView];
+    
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
@@ -101,11 +143,11 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
     self.navigationController.navigationBar.hidden = YES;
     self.navigationController.toolbarHidden = YES;
 
-    CENTER_VIEW(dotImageView, self.view);
-    [dotImageView setNeedsDisplay];
+    CENTER_VIEW(headerView, self.view);
+    [headerView setNeedsDisplay];
     
     CGRect f = self.view.frame;
-    f.origin.y = BELOW(dotImageView.frame) + VSEP;
+    f.origin.y = BELOW(headerView.frame) + VSEP;
     f.size.height = 0;
     tableView.frame = f;
     [tableView reloadData];
@@ -128,8 +170,24 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
     }
     if (answers.count == 0)
         return NO;
-    [self adjustTableHeight];
+    [self entryValid:YES];
     return YES;
+}
+
+-(IBAction) doDataSheet: (id) sender {
+    if (!answers || ![answers count])   // this should never happen
+        return;
+    Substance *substance = [answers objectAtIndex:0];   // they all have the same URL for this
+    
+    UIApplication *application = [UIApplication sharedApplication];
+    NSURL *URL = [NSURL URLWithString:substance.numberURL];
+    [application openURL:URL
+                 options:@{}
+       completionHandler:^(BOOL success) {
+       }];
+}
+
+-(IBAction) doergGuide: (id) sender {
 }
 
 - (void) adjustTableHeight {
@@ -210,13 +268,22 @@ replacementString:(NSString *)string {
     if (newText.length > 4)
         return NO;
     if (newText.length < 4) {
+        [self entryValid:NO];
+        return YES;
+    }
+    return [self displayAnswers:newText.intValue];
+}
+
+- (void) entryValid:(BOOL)valid {
+    if (valid) {
+        [self adjustTableHeight];
+    } else {
         if (answers.count > 0) {
             [answers removeAllObjects];
             [self adjustTableHeight];
         }
-        return YES;
     }
-    return [self displayAnswers:newText.intValue];
+    dataSheet.hidden = !valid;
 }
 
 - (void)didReceiveMemoryWarning {
