@@ -1,0 +1,43 @@
+curl --output /tmp/index.html https://pubchem.ncbi.nlm.nih.gov/erg/index.html
+
+sed '1,/<tbody>/d' /tmp/index.html	|	# prefix
+sed '/<\/tbody>.*/,$d'			|	# postfix
+grep -v '^$'				|	# empty lines will be special
+sed 's/^ *<tr.*ng-repeat.*/|/'		|	# marked entries
+sed 's/^ *<tr.*$/|/'			|	# <tr> is record separator, mark it
+tr -d '\n'				|	# get rid of newlines...
+tr '|' '\n'				|	# ... and make one record per line
+grep -v 'ng-repeat'			|	# table issue
+sed 's:</td>:	:g'			|	# </td> is field separator, change to tab
+sed 's/ *<td>//g'			|	# remove <td> and leading spaces
+sed 's:[ 	]*</tr>::'		|	# trailing td and white space
+awk -v FS='	' -v OFS='	' '
+{	
+	number = $1
+	sub(/.*unna.*">/, "", number)
+	sub(/<.*$/, "", number)
+	if (number == "")
+		next
+
+	numberURL = $1
+	sub(/^.*href="/, "", numberURL)
+	sub(/".*/, "", numberURL)
+
+	guidenumber = $2
+	sub(/<\/a.*/, "", guidenumber)
+	sub(/^.*>/, "", guidenumber)
+
+	guideURL = $2
+	sub(/^.*href="/, "", guideURL)
+	sub(/".*$/, "", guideURL)
+
+	name = $3
+	flags = ""
+	if ($4 != "")
+		flags = "TIH "
+	if ($5 != "")
+		flags = flags "WR "
+	if ($6 != "")
+		flags = flags "CBW"
+	print number, numberURL, guidenumber, guideURL, name, flags
+}' >ergdb

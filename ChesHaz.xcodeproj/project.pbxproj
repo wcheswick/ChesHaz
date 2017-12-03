@@ -31,6 +31,7 @@
 		FBDC11141FD3277B009D3933 /* Substance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Substance.m; sourceTree = "<group>"; };
 		FBDC11171FD32DA4009D3933 /* ergdb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ergdb; sourceTree = "<group>"; };
 		FBDC11191FD334B1009D3933 /* DOT.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = DOT.gif; sourceTree = "<group>"; };
+		FBDC111B1FD44D87009D3933 /* updatedb */ = {isa = PBXFileReference; lastKnownFileType = text; path = updatedb; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +81,7 @@
 		FBDC11161FD32D80009D3933 /* WorkingStuff */ = {
 			isa = PBXGroup;
 			children = (
+				FBDC111B1FD44D87009D3933 /* updatedb */,
 				FBDC11031FD32697009D3933 /* Assets.xcassets */,
 				FBDC11191FD334B1009D3933 /* DOT.gif */,
 				FBDC11171FD32DA4009D3933 /* ergdb */,
