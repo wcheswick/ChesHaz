@@ -35,8 +35,6 @@
 f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
 (cv).frame = f;}
 
-#define SCROLL_FUDGE    65
-
 @interface ViewController ()
 
 @property (nonatomic, strong)   UIImageView *dotImageView;
@@ -75,8 +73,6 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
         NSLog(@"Inconceivable: DB read error %@",
               [error localizedDescription]);
     }
-    if (DEBUG)
-        NSLog(@"database has %lu entries", (unsigned long)[ergDB count]);
     
     NSDictionary *attrs = [[NSFileManager defaultManager]
                            attributesOfItemAtPath:dbURL.path
@@ -88,8 +84,7 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
         [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
         NSDate *modDate = (NSDate*)[attrs objectForKey: NSFileModificationDate];
         dataDate = [dateFormatter stringFromDate:modDate];
-        if (DEBUG)
-            NSLog(@"Database modification date: %@", dataDate);
+        NSLog(@"Database modification date: %@", dataDate);
     } else {
         NSLog(@" Date Not found");
         dataDate = @"(Unknown)";
@@ -154,7 +149,9 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
     NSDictionary* info = [aNotification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
     
-    SET_VIEW_HEIGHT(webView, self.view.frame.size.height - webView.frame.origin.y - kbSize.height - SCROLL_FUDGE);
+    // - 65
+    
+    SET_VIEW_HEIGHT(webView, webView.frame.size.height - kbSize.height);
     [webView setNeedsLayout];
 }
 
