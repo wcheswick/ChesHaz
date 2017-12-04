@@ -64,7 +64,7 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
     
     NSURL *dbURL = [[NSBundle mainBundle] URLForResource:@"ergdb" withExtension:@""];
     if (!dbURL) {
-        NSLog(@"inconcievable, database missing");
+        NSLog(@"inconceivable, database missing");
     }
     NSError *error;
     ergDB = [[NSString stringWithContentsOfURL:dbURL
@@ -75,7 +75,8 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
         NSLog(@"Inconceivable: DB read error %@",
               [error localizedDescription]);
     }
-    NSLog(@"database has %lu entries", (unsigned long)[ergDB count]);
+    if (DEBUG)
+        NSLog(@"database has %lu entries", (unsigned long)[ergDB count]);
     
     NSDictionary *attrs = [[NSFileManager defaultManager]
                            attributesOfItemAtPath:dbURL.path
@@ -87,7 +88,8 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
         [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
         NSDate *modDate = (NSDate*)[attrs objectForKey: NSFileModificationDate];
         dataDate = [dateFormatter stringFromDate:modDate];
-        NSLog(@"Date Created: %@", dataDate);
+        if (DEBUG)
+            NSLog(@"Database modification date: %@", dataDate);
     } else {
         NSLog(@" Date Not found");
         dataDate = @"(Unknown)";
@@ -125,14 +127,6 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
-#ifdef notdef
-- (void)webView:(WKWebView *)webView
-decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
-decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-}
-#endif
-
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -148,8 +142,6 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     webView.frame = f;
     [webView setNeedsLayout];
     
-    NSLog(@"textfield y, height: %.0f %.0f", textField.frame.origin.y,
-          textField.frame.size.height);
     [textField becomeFirstResponder];
     [textField setNeedsDisplay];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -214,17 +206,23 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     return YES;
 }
 
--(IBAction) doDataSheet: (id) sender {
-    if (!answers || ![answers count])   // this should never happen
+// We intercept clicks on our local web pages and send them off to the Safari
+// app, which makes navigation easier.
+
+- (void)webView:(WKWebView *)webView
+decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
+decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    NSURL *url = navigationAction.request.URL;
+    if ([[url absoluteString].lowercaseString hasPrefix:@"http"]) {
+        UIApplication *application = [UIApplication sharedApplication];
+        [application openURL:url
+                     options:@{}
+           completionHandler:^(BOOL success) {
+           }];
+        decisionHandler(WKNavigationActionPolicyCancel);
         return;
-    Substance *substance = [answers objectAtIndex:0];   // they all have the same URL for this
-    
-    UIApplication *application = [UIApplication sharedApplication];
-    NSURL *URL = [NSURL URLWithString:substance.numberURL];
-    [application openURL:URL
-                 options:@{}
-       completionHandler:^(BOOL success) {
-       }];
+    }
+    decisionHandler(WKNavigationActionPolicyAllow);
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
