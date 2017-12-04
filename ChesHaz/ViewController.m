@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "Substance.h"
 
+#define LATER   0   // rect value to be filled in later
 #define INSET   5
 #define VSEP    9
 
@@ -34,28 +35,27 @@
 f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
 (cv).frame = f;}
 
+#define SCROLL_FUDGE    65
+
 @interface ViewController ()
 
-@property (nonatomic, strong)   UIView *headerView;
 @property (nonatomic, strong)   UIImageView *dotImageView;
-@property (nonatomic, strong)   UIButton *dataSheet;
-@property (nonatomic, strong)   UIButton *ergGuide;
-@property (nonatomic, strong)   UITableView *tableView;
 @property (nonatomic, strong)   UITextField *textField;
+@property (nonatomic, strong)   WKWebView *webView;
 @property (nonatomic, strong)   NSArray *ergDB;
 @property (nonatomic, strong)   NSMutableArray *answers;
+@property (nonatomic, strong)   NSString *dataDate;
 
 @end
 
 @implementation ViewController
 
-@synthesize headerView;
 @synthesize dotImageView;
-@synthesize dataSheet, ergGuide;
-@synthesize tableView;
 @synthesize textField;
+@synthesize webView;
 @synthesize ergDB;
 @synthesize answers;
+@synthesize dataDate;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -76,18 +76,30 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
               [error localizedDescription]);
     }
     NSLog(@"database has %lu entries", (unsigned long)[ergDB count]);
-
-    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 30, 320, DOT_H)];
-    headerView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:headerView];
+    
+    NSDictionary *attrs = [[NSFileManager defaultManager]
+                           attributesOfItemAtPath:dbURL.path
+                           error:&error];
+    if (attrs != nil) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"MMM yyyy"];
+        [dateFormatter setLocale:[NSLocale currentLocale]];
+        [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+        NSDate *modDate = (NSDate*)[attrs objectForKey: NSFileModificationDate];
+        dataDate = [dateFormatter stringFromDate:modDate];
+        NSLog(@"Date Created: %@", dataDate);
+    } else {
+        NSLog(@" Date Not found");
+        dataDate = @"(Unknown)";
+    }
     
     UIImage *dotImage = [UIImage imageNamed:@"DOT.gif"];
     dotImageView = [[UIImageView alloc] initWithImage:dotImage];
-    dotImageView.frame = CGRectMake(0, 0, DOT_H, DOT_H);
+    dotImageView.frame = CGRectMake(0, 30, DOT_H, DOT_H);
 //    dotImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
 //    dotImageView.layer.borderWidth = 1.0;
 //    dotImageView.layer.cornerRadius = 5.0;
-    [headerView addSubview:dotImageView];
+    [self.view addSubview:dotImageView];
     
     textField = [[UITextField alloc] initWithFrame:CGRectMake(40, 75, 120, HAZ_H)];
     textField.font = [UIFont boldSystemFontOfSize:36];
@@ -99,43 +111,27 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
     textField.backgroundColor = [UIColor clearColor];
     [dotImageView addSubview:textField];
     
-    dataSheet = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    CGRect f = headerView.frame;
-    f.origin.x = RIGHT(dotImageView.frame) - 20;
-    f.origin.y = 40;
-    f.size.width = headerView.frame.size.width - f.origin.x;
-    f.size.height = BUTTON_H;
-    dataSheet.frame = f;
-    [dataSheet setTitle:@"NOAA datasheet"
-                  forState:UIControlStateNormal];
-    dataSheet.titleLabel.font = [UIFont boldSystemFontOfSize:20];
-    [dataSheet addTarget:self
-                     action:@selector(doDataSheet:)
-           forControlEvents:UIControlEventTouchUpInside];
-    dataSheet.hidden = YES;
-    [headerView addSubview:dataSheet];
-    
-// this is wrong, needs multiple for a number
-    ergGuide = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    f.origin.y = BELOW(f) + VSEP;
-    ergGuide.frame = f;
-    [ergGuide setTitle:@"NOAA ERG guide"
-               forState:UIControlStateNormal];
-    ergGuide.titleLabel.font = [UIFont boldSystemFontOfSize:20];
-    [ergGuide addTarget:self
-                  action:@selector(doergGuide:)
-        forControlEvents:UIControlEventTouchUpInside];
-    ergGuide.hidden = YES;
-    [self.view addSubview:ergGuide];
-
-    tableView = [[UITableView alloc] initWithFrame:CGRectZero
-                                             style:UITableViewStylePlain];
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    [self.view addSubview:tableView];
+    webView = [[WKWebView alloc] init];
+#ifdef notdef
+    [webView addObserver:self
+              forKeyPath:@"URL"
+                 options:NSKeyValueObservingOptionNew
+                 context:NULL];
+#endif
+    webView.navigationDelegate = self;
+    webView.scrollView.showsVerticalScrollIndicator = YES;
+    [self.view addSubview:webView];
     
     self.view.backgroundColor = [UIColor whiteColor];
 }
+
+#ifdef notdef
+- (void)webView:(WKWebView *)webView
+decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
+decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+#endif
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -143,34 +139,78 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
     self.navigationController.navigationBar.hidden = YES;
     self.navigationController.toolbarHidden = YES;
 
-    CENTER_VIEW(headerView, self.view);
-    [headerView setNeedsDisplay];
+    CENTER_VIEW(dotImageView, self.view);
+    [dotImageView setNeedsDisplay];
     
     CGRect f = self.view.frame;
-    f.origin.y = BELOW(headerView.frame) + VSEP;
-    f.size.height = 0;
-    tableView.frame = f;
-    [tableView reloadData];
+    f.origin.y = BELOW(dotImageView.frame) + VSEP;
+    f.size.height -= f.origin.y;
+    webView.frame = f;
+    [webView setNeedsLayout];
     
+    NSLog(@"textfield y, height: %.0f %.0f", textField.frame.origin.y,
+          textField.frame.size.height);
     [textField becomeFirstResponder];
     [textField setNeedsDisplay];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeShown:)
+                                                 name:UIKeyboardWillShowNotification object:nil];
+
+}
+
+- (void)keyboardWillBeShown:(NSNotification*)aNotification {
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    SET_VIEW_HEIGHT(webView, self.view.frame.size.height - webView.frame.origin.y - kbSize.height - SCROLL_FUDGE);
+    [webView setNeedsLayout];
 }
 
 // Return YES if an answer exists. This database and routine are stupidly ineffecient,
 // but it doesn't matter.
 
 - (BOOL) displayAnswers: (int)query {
+    NSString *substanceURL = nil;
     for (NSString *dbLine in ergDB) {
         Substance *substance = [[Substance alloc] initWithDBLine:dbLine];
         if (substance.number > query)
             break;
         if (substance.number == query) {
             [answers addObject:substance];
+            if (!substanceURL)
+                substanceURL = substance.numberURL;
         }
     }
     if (answers.count == 0)
         return NO;
-    [self entryValid:YES];
+    
+    NSString *answerHTML =  @"<html><head>\n"
+                            @"<style>\n"
+                            @"body {\n"
+                            @"  font-family: system, -apple-system, BlinkMacSystemFont,\n"
+                            @"      \"Helvetica Neue\", \"Lucida Grande\"\n"
+                            @"} </style>\n"
+                            @"<meta name=\"viewport\" content=\"initial-scale=1.3\"/>\n"
+                            @"</head><body>\n";
+    for (Substance *substance in answers) {
+        answerHTML = [NSString stringWithFormat:@"%@<p>\n%@.\n"
+                      @"<a href=\"%@\">(Handling guide #%@)</a>."
+                      @"</p>",
+                      answerHTML, substance.description,
+                      substance.guideURL, substance.guideNumber];
+    }
+    answerHTML = [answerHTML stringByAppendingString:[NSString stringWithFormat:
+                                                      @"<a href=\"%@\">NOAA UN/NA chemical description</a></p>\n",
+                                                      substanceURL]];
+    answerHTML = [answerHTML stringByAppendingString:[NSString stringWithFormat:
+                                                      @"<small>This information is provided for educational purposes from databases "
+                                                      @"from the US NOAA as of %@.  While it is believed to be accurate, first responders "
+                                                      @"should probably use official apps to access data in emergency situations.</small>"
+                                                      @"</body></html>\n",
+                                                      dataDate]];
+   [webView loadHTMLString:answerHTML baseURL:nil];
+    webView.hidden = NO;
+    [webView setNeedsDisplay];
     return YES;
 }
 
@@ -185,68 +225,6 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
                  options:@{}
        completionHandler:^(BOOL success) {
        }];
-}
-
--(IBAction) doergGuide: (id) sender {
-}
-
-- (void) adjustTableHeight {
-    SET_VIEW_HEIGHT(tableView, [answers count] * 44.0);
-    [tableView setNeedsLayout];
-    [tableView reloadData];
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-// Top cell is for new apiary entry
-
-- (NSInteger)tableView:(UITableView *)tableView
- numberOfRowsInSection:(NSInteger)section {
-    return [answers count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"SubstanceCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]
-                initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    }
-    Substance *substance = [answers objectAtIndex:indexPath.row];
-    cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    cell.textLabel.numberOfLines = 0;
-    cell.textLabel.text = substance.description;
-    cell.detailTextLabel.text = substance.flags;
-    return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView
-heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    Substance *substance = [answers objectAtIndex:indexPath.row];
-    CGRect r = [substance.description
-                boundingRectWithSize:CGSizeMake(tableView.frame.size.width - 50, 999999)
-                options:NSStringDrawingUsesLineFragmentOrigin
-                attributes:@{
-                             NSFontAttributeName: [UIFont systemFontOfSize:44]
-                             }
-                context:nil];
-    return r.size.height;
-}
-
-- (BOOL)tableView:(UITableView *)tableView
-canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    return NO;
-}
-
-- (BOOL)tableView:(UITableView *)tableView
-canEditRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    return NO;
-}
-
-- (void)tableView:(UITableView *)tableView
-didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
@@ -268,22 +246,18 @@ replacementString:(NSString *)string {
     if (newText.length > 4)
         return NO;
     if (newText.length < 4) {
-        [self entryValid:NO];
+        [self entryNotValid];
         return YES;
     }
     return [self displayAnswers:newText.intValue];
 }
 
-- (void) entryValid:(BOOL)valid {
-    if (valid) {
-        [self adjustTableHeight];
-    } else {
+- (void) entryNotValid {
         if (answers.count > 0) {
             [answers removeAllObjects];
-            [self adjustTableHeight];
         }
-    }
-    dataSheet.hidden = !valid;
+    webView.hidden = YES;
+    [webView setNeedsDisplay];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -22,7 +22,7 @@
 @property (nonatomic, strong)   NSString *guideNumber;
 @property (nonatomic, strong)   NSString *guideURL;
 @property (nonatomic, strong)   NSString *description;
-@property (nonatomic, strong)    NSString *flags;
+@property (nonatomic, strong)   NSString *flags;
 
 - (id)initWithDBLine:(NSString *) line;
 

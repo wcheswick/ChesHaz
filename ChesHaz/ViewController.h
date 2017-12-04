@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 
 @interface ViewController : UIViewController
-<UITextFieldDelegate,
-    UITableViewDelegate,
-    UITableViewDataSource>
+    <UITextFieldDelegate, WKNavigationDelegate>
 
 @end
 

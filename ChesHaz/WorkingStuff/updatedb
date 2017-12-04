@@ -1,4 +1,4 @@
-curl --output /tmp/index.html https://pubchem.ncbi.nlm.nih.gov/erg/index.html
+# curl --output /tmp/index.html https://pubchem.ncbi.nlm.nih.gov/erg/index.html
 
 sed '1,/<tbody>/d' /tmp/index.html	|	# prefix
 sed '/<\/tbody>.*/,$d'			|	# postfix
@@ -11,6 +11,8 @@ grep -v 'ng-repeat'			|	# table issue
 sed 's:</td>:	:g'			|	# </td> is field separator, change to tab
 sed 's/ *<td>//g'			|	# remove <td> and leading spaces
 sed 's:[ 	]*</tr>::'		|	# trailing td and white space
+grep -v '^$'				|	# no empty lines
+sort -u | tee /tmp/u |
 awk -v FS='	' -v OFS='	' '
 {	
 	number = $1
@@ -40,4 +42,32 @@ awk -v FS='	' -v OFS='	' '
 	if ($6 != "")
 		flags = flags "CBW"
 	print number, numberURL, guidenumber, guideURL, name, flags
+}' |
+sort -u |	tee /tmp/uu |
+awk -v FS='	' -v OFS='	' '
+
+BEGIN {	number = 0 }
+
+$1 == number && $3 == guidenum {
+	name = name "; " $5
+	flags = flags " " $6
+	next
+}
+
+number != 0 {
+	print number, numberURL, guidenum, guideurl, name, flags
+}
+
+{	number = $1
+	numberURL = $2
+	guidenum = $3
+	guideurl = $4
+	name = $5
+	flags = $6
+}
+
+END {	if (number != 0)
+	print number, numberURL, guidenum, guideurl, name, flags
 }' >ergdb
+
+wc -l ergdb
