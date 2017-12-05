@@ -148,9 +148,6 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
 - (void)keyboardWillBeShown:(NSNotification*)aNotification {
     NSDictionary* info = [aNotification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    
-    // - 65
-    
     SET_VIEW_HEIGHT(webView, webView.frame.size.height - kbSize.height);
     [webView setNeedsLayout];
 }
@@ -192,12 +189,13 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
                                                       @"<a href=\"%@\">NOAA UN/NA chemical description</a></p>\n",
                                                       substanceURL]];
     answerHTML = [answerHTML stringByAppendingString:[NSString stringWithFormat:
-                                                      @"<small>This information is provided for educational purposes from databases "
+                                                      @"<p><small>This information is provided for educational purposes from databases "
                                                       @"from the US NOAA as of %@.  While it is believed to be accurate, first responders "
-                                                      @"should probably use official apps to access data in emergency situations.</small>"
+                                                      @"should probably use official apps to access data in emergency situations.</small></p>"
+                                                      @"<p>William Cheswick, ches@cheswick.com</a></p>"
                                                       @"</body></html>\n",
                                                       dataDate]];
-   [webView loadHTMLString:answerHTML baseURL:nil];
+    [webView loadHTMLString:answerHTML baseURL:nil];
     webView.hidden = NO;
     [webView setNeedsDisplay];
     return YES;

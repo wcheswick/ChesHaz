@@ -15,6 +15,7 @@
 		FBDC11151FD3277B009D3933 /* Substance.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC11141FD3277B009D3933 /* Substance.m */; };
 		FBDC11181FD32DA4009D3933 /* ergdb in Resources */ = {isa = PBXBuildFile; fileRef = FBDC11171FD32DA4009D3933 /* ergdb */; };
 		FBDC111A1FD334B1009D3933 /* DOT.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBDC11191FD334B1009D3933 /* DOT.gif */; };
+		FBFFB0371FD5BF45007D6191 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBFFB0361FD5BF45007D6191 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		FBDC11171FD32DA4009D3933 /* ergdb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ergdb; sourceTree = "<group>"; };
 		FBDC11191FD334B1009D3933 /* DOT.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = DOT.gif; sourceTree = "<group>"; };
 		FBDC111B1FD44D87009D3933 /* updatedb */ = {isa = PBXFileReference; lastKnownFileType = text; path = updatedb; sourceTree = "<group>"; };
+		FBFFB0361FD5BF45007D6191 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 				FBDC11081FD32697009D3933 /* Info.plist */,
 				FBDC11091FD32697009D3933 /* main.m */,
 				FBDC11001FD32697009D3933 /* ChesHaz.xcdatamodeld */,
+				FBFFB0361FD5BF45007D6191 /* LaunchScreen.storyboard */,
 				FBDC11161FD32D80009D3933 /* WorkingStuff */,
 			);
 			path = ChesHaz;
@@ -148,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBDC11181FD32DA4009D3933 /* ergdb in Resources */,
+				FBFFB0371FD5BF45007D6191 /* LaunchScreen.storyboard in Resources */,
 				FBDC11041FD32697009D3933 /* Assets.xcassets in Resources */,
 				FBDC111A1FD334B1009D3933 /* DOT.gif in Resources */,
 			);
