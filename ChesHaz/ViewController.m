@@ -192,7 +192,6 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
                                                       @"<p><small>This information is provided for educational purposes from databases "
                                                       @"from the US NOAA as of %@.  While it is believed to be accurate, first responders "
                                                       @"should probably use official apps to access data in emergency situations.</small></p>"
-                                                      @"<p>William Cheswick, ches@cheswick.com</a></p>"
                                                       @"</body></html>\n",
                                                       dataDate]];
     [webView loadHTMLString:answerHTML baseURL:nil];
