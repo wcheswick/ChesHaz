@@ -12,5 +12,7 @@
 @interface ViewController : UIViewController
     <UITextFieldDelegate, WKNavigationDelegate>
 
+- (void) layoutViews;
+
 @end
 

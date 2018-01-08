@@ -11,11 +11,14 @@
 
 @interface AppDelegate ()
 
+@property (nonatomic, strong)   ViewController *VC;
+
 @end
 
 @implementation AppDelegate
 
 @synthesize navController;
+@synthesize VC;
 
 - (BOOL)application:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -23,10 +26,9 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc]
                    initWithFrame:[[UIScreen mainScreen]
                                   bounds]];
-    ViewController *vc = [[ViewController alloc]
-                 init];
+    VC = [[ViewController alloc] init];
     self.navController = [[UINavigationController alloc]
-                          initWithRootViewController: vc];
+                          initWithRootViewController: VC];
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
     return YES;
@@ -52,6 +54,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [VC layoutViews];
 }
 
 

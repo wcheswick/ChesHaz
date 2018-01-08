@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB0AD55A1FDADE230036057C /* IntentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FB0AD5591FDADE230036057C /* IntentHandler.m */; };
+		FB0AD5631FDADE230036057C /* IntentsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB0AD5621FDADE230036057C /* IntentsUI.framework */; };
+		FB0AD5671FDADE230036057C /* IntentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB0AD5661FDADE230036057C /* IntentViewController.m */; };
+		FB0AD56A1FDADE230036057C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB0AD5681FDADE230036057C /* MainInterface.storyboard */; };
+		FB0AD56E1FDADE230036057C /* HazMatIntentsUI.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FB0AD5601FDADE230036057C /* HazMatIntentsUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FB0AD5711FDADE230036057C /* HazMatIntents.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FB0AD5561FDADE230036057C /* HazMatIntents.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FBDC10F91FD32697009D3933 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC10F81FD32697009D3933 /* AppDelegate.m */; };
 		FBDC10FC1FD32697009D3933 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC10FB1FD32697009D3933 /* ViewController.m */; };
 		FBDC11021FD32697009D3933 /* ChesHaz.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FBDC11001FD32697009D3933 /* ChesHaz.xcdatamodeld */; };
@@ -19,7 +25,50 @@
 		FBFFB03B1FD6CCBC007D6191 /* Launch.png in Resources */ = {isa = PBXBuildFile; fileRef = FBFFB03A1FD6CCBC007D6191 /* Launch.png */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		FB0AD56C1FDADE230036057C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FBDC10EC1FD32697009D3933 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FB0AD55F1FDADE230036057C;
+			remoteInfo = HazMatIntentsUI;
+		};
+		FB0AD56F1FDADE230036057C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FBDC10EC1FD32697009D3933 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FB0AD5551FDADE230036057C;
+			remoteInfo = HazMatIntents;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FB0AD5781FDADE230036057C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				FB0AD56E1FDADE230036057C /* HazMatIntentsUI.appex in Embed App Extensions */,
+				FB0AD5711FDADE230036057C /* HazMatIntents.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		FB0AD5511FDADDA50036057C /* ChesHaz.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChesHaz.entitlements; sourceTree = "<group>"; };
+		FB0AD5561FDADE230036057C /* HazMatIntents.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HazMatIntents.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB0AD5581FDADE230036057C /* IntentHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntentHandler.h; sourceTree = "<group>"; };
+		FB0AD5591FDADE230036057C /* IntentHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntentHandler.m; sourceTree = "<group>"; };
+		FB0AD55B1FDADE230036057C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FB0AD5601FDADE230036057C /* HazMatIntentsUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HazMatIntentsUI.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB0AD5621FDADE230036057C /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
+		FB0AD5651FDADE230036057C /* IntentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntentViewController.h; sourceTree = "<group>"; };
+		FB0AD5661FDADE230036057C /* IntentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntentViewController.m; sourceTree = "<group>"; };
+		FB0AD5691FDADE230036057C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		FB0AD56B1FDADE230036057C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FBDC10F41FD32697009D3933 /* ChesHaz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChesHaz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBDC10F71FD32697009D3933 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FBDC10F81FD32697009D3933 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -39,6 +88,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		FB0AD5531FDADE230036057C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB0AD55D1FDADE230036057C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB0AD5631FDADE230036057C /* IntentsUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FBDC10F11FD32697009D3933 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -49,10 +113,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FB0AD5571FDADE230036057C /* HazMatIntents */ = {
+			isa = PBXGroup;
+			children = (
+				FB0AD5581FDADE230036057C /* IntentHandler.h */,
+				FB0AD5591FDADE230036057C /* IntentHandler.m */,
+				FB0AD55B1FDADE230036057C /* Info.plist */,
+			);
+			path = HazMatIntents;
+			sourceTree = "<group>";
+		};
+		FB0AD5611FDADE230036057C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FB0AD5621FDADE230036057C /* IntentsUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FB0AD5641FDADE230036057C /* HazMatIntentsUI */ = {
+			isa = PBXGroup;
+			children = (
+				FB0AD5651FDADE230036057C /* IntentViewController.h */,
+				FB0AD5661FDADE230036057C /* IntentViewController.m */,
+				FB0AD5681FDADE230036057C /* MainInterface.storyboard */,
+				FB0AD56B1FDADE230036057C /* Info.plist */,
+			);
+			path = HazMatIntentsUI;
+			sourceTree = "<group>";
+		};
 		FBDC10EB1FD32697009D3933 = {
 			isa = PBXGroup;
 			children = (
 				FBDC10F61FD32697009D3933 /* ChesHaz */,
+				FB0AD5571FDADE230036057C /* HazMatIntents */,
+				FB0AD5641FDADE230036057C /* HazMatIntentsUI */,
+				FB0AD5611FDADE230036057C /* Frameworks */,
 				FBDC10F51FD32697009D3933 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,6 +157,8 @@
 			isa = PBXGroup;
 			children = (
 				FBDC10F41FD32697009D3933 /* ChesHaz.app */,
+				FB0AD5561FDADE230036057C /* HazMatIntents.appex */,
+				FB0AD5601FDADE230036057C /* HazMatIntentsUI.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -68,6 +166,7 @@
 		FBDC10F61FD32697009D3933 /* ChesHaz */ = {
 			isa = PBXGroup;
 			children = (
+				FB0AD5511FDADDA50036057C /* ChesHaz.entitlements */,
 				FBDC10F71FD32697009D3933 /* AppDelegate.h */,
 				FBDC10F81FD32697009D3933 /* AppDelegate.m */,
 				FBDC10FA1FD32697009D3933 /* ViewController.h */,
@@ -98,6 +197,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		FB0AD5551FDADE230036057C /* HazMatIntents */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB0AD5751FDADE230036057C /* Build configuration list for PBXNativeTarget "HazMatIntents" */;
+			buildPhases = (
+				FB0AD5521FDADE230036057C /* Sources */,
+				FB0AD5531FDADE230036057C /* Frameworks */,
+				FB0AD5541FDADE230036057C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HazMatIntents;
+			productName = HazMatIntents;
+			productReference = FB0AD5561FDADE230036057C /* HazMatIntents.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		FB0AD55F1FDADE230036057C /* HazMatIntentsUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB0AD5721FDADE230036057C /* Build configuration list for PBXNativeTarget "HazMatIntentsUI" */;
+			buildPhases = (
+				FB0AD55C1FDADE230036057C /* Sources */,
+				FB0AD55D1FDADE230036057C /* Frameworks */,
+				FB0AD55E1FDADE230036057C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HazMatIntentsUI;
+			productName = HazMatIntentsUI;
+			productReference = FB0AD5601FDADE230036057C /* HazMatIntentsUI.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		FBDC10F31FD32697009D3933 /* ChesHaz */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FBDC110D1FD32697009D3933 /* Build configuration list for PBXNativeTarget "ChesHaz" */;
@@ -105,10 +238,13 @@
 				FBDC10F01FD32697009D3933 /* Sources */,
 				FBDC10F11FD32697009D3933 /* Frameworks */,
 				FBDC10F21FD32697009D3933 /* Resources */,
+				FB0AD5781FDADE230036057C /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				FB0AD56D1FDADE230036057C /* PBXTargetDependency */,
+				FB0AD5701FDADE230036057C /* PBXTargetDependency */,
 			);
 			name = ChesHaz;
 			productName = ChesHaz;
@@ -124,9 +260,22 @@
 				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = Cheswick.com;
 				TargetAttributes = {
+					FB0AD5551FDADE230036057C = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					FB0AD55F1FDADE230036057C = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
 					FBDC10F31FD32697009D3933 = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Siri = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -144,11 +293,28 @@
 			projectRoot = "";
 			targets = (
 				FBDC10F31FD32697009D3933 /* ChesHaz */,
+				FB0AD5551FDADE230036057C /* HazMatIntents */,
+				FB0AD55F1FDADE230036057C /* HazMatIntentsUI */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		FB0AD5541FDADE230036057C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB0AD55E1FDADE230036057C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB0AD56A1FDADE230036057C /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FBDC10F21FD32697009D3933 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -164,6 +330,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		FB0AD5521FDADE230036057C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB0AD55A1FDADE230036057C /* IntentHandler.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB0AD55C1FDADE230036057C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB0AD5671FDADE230036057C /* IntentViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FBDC10F01FD32697009D3933 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -178,7 +360,91 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		FB0AD56D1FDADE230036057C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FB0AD55F1FDADE230036057C /* HazMatIntentsUI */;
+			targetProxy = FB0AD56C1FDADE230036057C /* PBXContainerItemProxy */;
+		};
+		FB0AD5701FDADE230036057C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FB0AD5551FDADE230036057C /* HazMatIntents */;
+			targetProxy = FB0AD56F1FDADE230036057C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FB0AD5681FDADE230036057C /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FB0AD5691FDADE230036057C /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		FB0AD5731FDADE230036057C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HK64XTSZFA;
+				INFOPLIST_FILE = HazMatIntentsUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cheswick.ChesHaz.HazMatIntentsUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FB0AD5741FDADE230036057C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HK64XTSZFA;
+				INFOPLIST_FILE = HazMatIntentsUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cheswick.ChesHaz.HazMatIntentsUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		FB0AD5761FDADE230036057C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HK64XTSZFA;
+				INFOPLIST_FILE = HazMatIntents/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cheswick.ChesHaz.HazMatIntents;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FB0AD5771FDADE230036057C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HK64XTSZFA;
+				INFOPLIST_FILE = HazMatIntents/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cheswick.ChesHaz.HazMatIntents;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		FBDC110B1FD32697009D3933 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -287,6 +553,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ChesHaz/ChesHaz.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HK64XTSZFA;
@@ -305,6 +572,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ChesHaz/ChesHaz.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HK64XTSZFA;
@@ -322,6 +590,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		FB0AD5721FDADE230036057C /* Build configuration list for PBXNativeTarget "HazMatIntentsUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB0AD5731FDADE230036057C /* Debug */,
+				FB0AD5741FDADE230036057C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FB0AD5751FDADE230036057C /* Build configuration list for PBXNativeTarget "HazMatIntents" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB0AD5761FDADE230036057C /* Debug */,
+				FB0AD5771FDADE230036057C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FBDC10EF1FD32697009D3933 /* Build configuration list for PBXProject "ChesHaz" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

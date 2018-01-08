@@ -6,6 +6,7 @@
 //  Copyright © 2017 Cheswick.com. All rights reserved.
 //
 
+// #import <Intents.h>
 #import "ViewController.h"
 #import "Substance.h"
 
@@ -30,10 +31,6 @@
 #define SET_VIEW_WIDTH(v,w)     {CGRect f = (v).frame; f.size.width = (w); (v).frame = f;}
 #define SET_VIEW_HEIGHT(v,h)    {CGRect f = (v).frame; f.size.height = (h); (v).frame = f;}
 #define SET_VIEW_SIZE(v,w,h)     {CGRect f = (v).frame; f.size = CGSizeMake((w), (h)); (v).frame = f;}
-
-#define CENTER_VIEW(cv, v)  {CGRect f = (cv).frame; \
-f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
-(cv).frame = f;}
 
 @interface ViewController ()
 
@@ -128,27 +125,38 @@ f.origin.x = ((v).frame.size.width - f.size.width)/2.0; \
     self.navigationController.navigationBar.hidden = YES;
     self.navigationController.toolbarHidden = YES;
 
-    CENTER_VIEW(dotImageView, self.view);
+    [self layoutViews];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeShown:)
+                                                 name:UIKeyboardWillShowNotification object:nil];
+//    + (void)requestSiriAuthorization:(void (^)(INSiriAuthorizationStatus status))handler;
+//[INPreferences requestSiriAuthorization]
+}
+
+- (void) layoutViews {
+    CGRect f = self.view.frame;
+    f.origin.x = (f.size.width - dotImageView.frame.size.width)/2.0;
+    f.origin.y = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    f.size = dotImageView.frame.size;
+    dotImageView.frame = f;
     [dotImageView setNeedsDisplay];
     
-    CGRect f = self.view.frame;
+    f = self.view.frame;
     f.origin.y = BELOW(dotImageView.frame) + VSEP;
     f.size.height -= f.origin.y;
     webView.frame = f;
     [webView setNeedsLayout];
-    
+
     [textField becomeFirstResponder];
     [textField setNeedsDisplay];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillBeShown:)
-                                                 name:UIKeyboardWillShowNotification object:nil];
-
 }
 
 - (void)keyboardWillBeShown:(NSNotification*)aNotification {
     NSDictionary* info = [aNotification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    SET_VIEW_HEIGHT(webView, webView.frame.size.height - kbSize.height);
+    CGRect f = webView.frame;
+    f.size.height = self.view.frame.size.height - f.origin.y - kbSize.height;
+    webView.frame = f;
     [webView setNeedsLayout];
 }
 
