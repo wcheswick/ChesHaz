@@ -1,0 +1,57 @@
+#!/bin/sh
+#
+prog="getwikidb"
+usage="$prog"
+#
+#	Get info and pointers to UN chemical data from wikipedia
+
+case $# in
+0)	;;
+*)	echo "$usage" 1>&2
+	exit 1
+esac
+
+WRKDIR=${WRKDIR:-${TMPDIR}/${prog}}
+mkdir -p $WRKDIR
+
+UNURL="https://en.wikipedia.org/wiki/Lists_of_UN_numbers"
+>$WRKDIR/html
+
+>/tmp/table
+>/tmp/uable
+
+lynx -dump https://en.wikipedia.org/wiki/Lists_of_UN_numbers |
+	tee $WRKDIR/indexpage |
+	egrep 'https://en.wikipedia.org/wiki/List_of_UN_numbers_[0-9]+_to_[0-9]+' |
+	awk '{print $2}' |	# just the URL bit
+	tee $WRKDIR/listurls |
+while read url
+do
+	curl -s -S "$url" | tee -a $WRKDIR/html |
+	sed -n '/^<table class="wikitable">/,/^<\/table>/p' |
+		tabletotsv
+done |
+grep -v '^$' |
+sed 's/^UN //' | tee $WRKDIR/tsv |
+awk -v FS='	' -v OFS='	' ' 
+BEGIN {	lastfirst = "" }
+
+NF < 2 || NF > 3 {
+	print "bad line, " NR ": " $0 >>"/dev/stderr"
+	next
+}
+
+NF == 2 {
+	$3 = $2
+	$2 = $1
+	$1 = lastfirst
+}
+
+{
+	print $0
+	next
+}' |
+grep -v '^$' |
+grep -iv 'no longer in use' |
+grep -iv 'not yet in use'
+

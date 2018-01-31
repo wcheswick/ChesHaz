@@ -1,0 +1,69 @@
+#!/bin/sh
+#
+prog=build
+usage="$prog [partial|full]"
+#
+# Assemble the database information for the app.  
+#
+#	partial	grab the easy databases
+#	full	grab all the databases
+
+case "$1" in
+"")	;;
+partial|full)
+	fetch="$1"
+	shift;;
+*)
+	echo "$usage" 1>&2
+	exit 1
+esac
+
+if [ "$fetch" = "partial" ]
+then
+	getergdb >ergdb
+	getwikidb >wikidb
+	getclasses >classesdb
+fi
+
+wc -l ergdb
+wc -l wikidb
+wc -l classesdb
+
+if [ "$fetch" = "full" -o "$fetch" = "partial" ]
+then		# this is invasive and takes a while
+	awk '{print $1}' ergdb |
+	while read un
+	do
+		echo -n "$un " 1>&2
+		getnfpa704 $un
+	done >nfpadb
+fi
+
+wc -l nfpadb
+
+grep '^[0-9][0-9][0-9][0-9]' nfpadb	|	# get rid of debugging stuff
+awk -v FS="	" 'NF > 2 { print }' >../nfpadb
+
+wc -l ../nfpadb
+
+exit 0
+
+awk -v FS='	' <nfpadb '
+NF > 2 {
+	hazdigits = ""
+	for (i=2; i<2+4; i++) {
+		digit = $i
+		sub(/ .*$/, "", digit)
+		hazdigits = hazdigits digit " "
+	}
+
+	print "Health", $3
+	print "Flammability", $4
+	print "Instability", $5
+	print "Special", $6
+}' |
+egrep 'Health|Flammability|Instability' |
+sort -k1,1 -k2,2n -u >hazlist
+wc -l hazlist
+
+
