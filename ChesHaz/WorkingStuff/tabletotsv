@@ -1,0 +1,32 @@
+#!//bin/sh
+#
+#prog=tabletotsv
+#usage="$prog [file]"
+#
+#	read the file and crack the <table>..</table> into
+#	a csv on stdout.
+
+cat $* | tee -a /tmp/table |
+sed 's/<tr[^>]*>/|>|/g
+	s/<\/tr[^>]*>/|<|/g
+	s/<td[^>]*>/{/g
+	s/<\/td>//g'	|
+	tr '|' '\n'	|
+	grep -v '^$'	| tee -a /tmp/uable |
+awk '
+/^>$/ { entry = ""
+	next
+}
+
+/^<$/ {	print entry
+	next
+}
+
+/^{/ {	field = $0
+	sub(/^{/, "", field)
+	if (entry != "")
+		entry = entry "	"
+	entry = entry field
+	next
+}'
+

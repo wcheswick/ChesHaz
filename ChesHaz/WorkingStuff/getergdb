@@ -1,4 +1,12 @@
-# curl --output /tmp/index.html https://pubchem.ncbi.nlm.nih.gov/erg/index.html
+#!/bin/sh
+#
+prog=getregdb
+usage=$prog
+#
+# Get the hazardous UN ERG database from NOAA, and format it for
+# the app.
+
+curl -s -S --output /tmp/index.html https://pubchem.ncbi.nlm.nih.gov/erg/index.html
 
 sed '1,/<tbody>/d' /tmp/index.html	|	# prefix
 sed '/<\/tbody>.*/,$d'			|	# postfix
@@ -69,5 +77,3 @@ number != 0 {
 END {	if (number != 0)
 	print number, numberURL, guidenum, guideurl, name, flags
 }' >ergdb
-
-wc -l ergdb

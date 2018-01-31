@@ -1,0 +1,105 @@
+#!/bin/sh
+#
+prog="getnfpa704"
+usage="$prog un-number"
+#
+#	Get info NFPA numbers for a given hazardous UN number.  We
+#	can't do this for all numbers.
+#
+#	Writes to stdout the following tab-separated fields:
+#
+#	UN number
+#	cameochemicals.noaa.gov URL
+#
+#	optional fields
+#	space-separated hazardous label fields, either three digits, or
+#		three digits plus a special code.  Special code brings a
+#		fourth tab-separated field, the description.
+#
+#	e.g.:
+#
+#	1612    https://cameochemicals.noaa.gov/chemical/1612      
+#	1613    https://cameochemicals.noaa.gov/chemical/1613   3 1 2 
+#	1614    https://cameochemicals.noaa.gov/chemical/1614   3 1 2 W	Reacts violently or explosively with water.
+
+case $1 in
+[0-9][0-9][0-9][0-9])
+	UN="$1";;
+*)	echo "$usage" 1>&2
+	exit 1
+esac
+
+WRKDIR=${WRKDIR:-${TMPDIR}/${prog}}
+mkdir -p $WRKDIR
+
+NFPAURL="https://cameochemicals.noaa.gov/chemical/$UN"
+
+curl -s -S "$NFPAURL" | tee $WRKDIR/noaa.html |
+awk '
+BEGIN {	seeking = ""
+	n = split("Health|Flammability|Instability|Special", hazlist, "|")
+	for (i in hazlist)
+		hazard[hazlist[i]] = hazlist[i]
+	havehaz = 0
+}
+
+#/^<img src="\/images\/placards\// {
+#	print
+#	next
+#}
+
+/PACs/ {
+	nextfile
+}
+	
+seeking == "" && $1 in hazard {
+	if ($1 in number)
+		next
+	seeking = $1
+	next
+}
+
+seeking != "" && $0 ~ /<td class="value">/ {
+	v = $0
+	gsub(/<[^>]*>/, "", v)
+	gsub(/^[ 	]*/, "", v)
+	number[seeking] = v
+#if (seeking == "Special") print v, $0
+	if (seeking in description) {
+		seeking = ""
+		havehaz = 1
+	}
+	next
+}
+
+seeking != "" && $0 ~ /<td class="description">/ {
+	v = $0
+	sub(/^.*">/, "", v)
+	sub(/<.*$/, "", v)
+	description[seeking] = v
+	if (seeking in number) {
+		seeking = ""
+		havehaz = 1
+	}
+	next
+}
+
+/<\tr>/ {
+	seeking = ""
+	next
+}
+
+END {	printf("%s	%s", '$UN', "'$NFPAURL'");
+	if (havehaz) {
+		printf("	")
+		for (i=1; i<=4; i++) {
+			h = hazlist[i]
+			if (i < 4)
+				printf("%s ", number[h])
+			else
+				printf("%s", number[h] "	" description[h])
+		}
+	}
+	printf("\n")
+}
+'

@@ -1,0 +1,55 @@
+#!/bin/sh
+#
+prog="getclasses"
+usage="$prog"
+#
+#	Get the hazard classes
+
+
+
+URL="https://ehs.ncsu.edu/hazardous-materials-classification/"
+
+WRKDIR=${WRKDIR:-${TMPDIR}/${prog}}
+mkdir -p $WRKDIR
+
+
+#curl -s -S "$URL" | tee $WRKDIR/src |
+#sed 's/[^0-9]* <u>/	/' |
+#sed 's/ â /	/' |
+
+lynx -dump -nolist "$URL" | tee $WRKDIR/src |
+awk '
+function flush() {
+	if (buffer == "")
+		return
+	print buffer
+	buffer = ""
+}
+
+BEGIN {	buffer = "" }
+
+/^$/ {	flush()
+	next }
+
+/^Class [0-9]/ {
+	label = $2
+	sub(/-/, "", label)
+	sub(/[^\-]*[\- ]*/, "", $0)
+	buffer = "Class	" label "	" $0
+	next
+}
+
+/Division [0-9]\.[0-9]/ {
+	flush()
+	sub(/^.*Division  */, "", $0)
+	sub(/  */, "	", $0)
+	buffer = "Division	" $0
+	next
+}
+
+buffer != "" {
+	buffer = buffer " " $0
+	gsub(/ [ \t]*/, " ", buffer)
+}
+'
+
