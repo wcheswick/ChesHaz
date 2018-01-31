@@ -41,6 +41,10 @@
 @property (nonatomic, strong)   NSMutableArray *answers;
 @property (nonatomic, strong)   NSString *dataDate;
 
+@property (nonatomic, strong)   NSArray *flammabilityList;
+@property (nonatomic, strong)   NSArray *healthList;
+@property (nonatomic, strong)   NSArray *instabilityList;
+
 @end
 
 @implementation ViewController
@@ -52,8 +56,32 @@
 @synthesize answers;
 @synthesize dataDate;
 
+@synthesize flammabilityList;
+@synthesize healthList;
+@synthesize instabilityList;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    flammabilityList = [NSArray arrayWithObjects:   // starting with 0
+                        @"Normally stable, even under fire conditions."
+                        @"Must be preheated before ignition can occur.",
+                        @"Must be moderately heated or exposed to relatively high ambient temperatures before ignition can occur.",
+                        @"Can be ignited under almost all ambient temperature conditions.",
+                        @"Burns readily. Rapidly or completely vaporizes at atmospheric pressure and normal ambient temperature.",
+                        nil];
+    healthList = [NSArray arrayWithObjects:
+                        @"Can cause significant irritation.",
+                        @"Can cause temporary incapacitation or residual injury.",
+                        @"Can cause serious or permanent injury.",
+                        @"Can be lethal.",
+                  nil];
+    instabilityList = [NSArray arrayWithObjects:
+                        @"Normally stable but can become unstable at elevated temperatures and pressures.",
+                        @"Readily undergoes violent chemical changes at elevated temperatures and pressures.",
+                        @"Capable of detonation or explosive decomposition or explosive reaction but requires a strong initiating source or must be heated under confinement before initiation.",
+                        @"Readily capable of detonation or explosive decomposition or explosive reaction at normal temperatures and pressures.",
+                       nil];
     
     answers = [[NSMutableArray alloc] initWithCapacity:5];
     
