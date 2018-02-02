@@ -13,6 +13,9 @@
 		FB0AD56A1FDADE230036057C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB0AD5681FDADE230036057C /* MainInterface.storyboard */; };
 		FB0AD56E1FDADE230036057C /* HazMatIntentsUI.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FB0AD5601FDADE230036057C /* HazMatIntentsUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FB0AD5711FDADE230036057C /* HazMatIntents.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FB0AD5561FDADE230036057C /* HazMatIntents.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FBC3CE752024A68B00D4EDE2 /* AboutVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC3CE742024A68B00D4EDE2 /* AboutVC.m */; };
+		FBC3CE772024AD1F00D4EDE2 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE762024AD1F00D4EDE2 /* about.html */; };
+		FBC3CE7A2024B25800D4EDE2 /* OfficialVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC3CE792024B25800D4EDE2 /* OfficialVC.m */; };
 		FBDC10F91FD32697009D3933 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC10F81FD32697009D3933 /* AppDelegate.m */; };
 		FBDC10FC1FD32697009D3933 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC10FB1FD32697009D3933 /* ViewController.m */; };
 		FBDC11021FD32697009D3933 /* ChesHaz.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FBDC11001FD32697009D3933 /* ChesHaz.xcdatamodeld */; };
@@ -69,6 +72,11 @@
 		FB0AD5661FDADE230036057C /* IntentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntentViewController.m; sourceTree = "<group>"; };
 		FB0AD5691FDADE230036057C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		FB0AD56B1FDADE230036057C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FBC3CE732024A68B00D4EDE2 /* AboutVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AboutVC.h; path = ChesHaz/AboutVC.h; sourceTree = SOURCE_ROOT; };
+		FBC3CE742024A68B00D4EDE2 /* AboutVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AboutVC.m; path = ChesHaz/AboutVC.m; sourceTree = SOURCE_ROOT; };
+		FBC3CE762024AD1F00D4EDE2 /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
+		FBC3CE782024B25800D4EDE2 /* OfficialVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OfficialVC.h; sourceTree = "<group>"; };
+		FBC3CE792024B25800D4EDE2 /* OfficialVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OfficialVC.m; sourceTree = "<group>"; };
 		FBDC10F41FD32697009D3933 /* ChesHaz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChesHaz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBDC10F71FD32697009D3933 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FBDC10F81FD32697009D3933 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -173,6 +181,10 @@
 				FBDC10FB1FD32697009D3933 /* ViewController.m */,
 				FBDC11131FD3277B009D3933 /* Substance.h */,
 				FBDC11141FD3277B009D3933 /* Substance.m */,
+				FBC3CE782024B25800D4EDE2 /* OfficialVC.h */,
+				FBC3CE792024B25800D4EDE2 /* OfficialVC.m */,
+				FBC3CE732024A68B00D4EDE2 /* AboutVC.h */,
+				FBC3CE742024A68B00D4EDE2 /* AboutVC.m */,
 				FBDC11081FD32697009D3933 /* Info.plist */,
 				FBDC11091FD32697009D3933 /* main.m */,
 				FBDC11001FD32697009D3933 /* ChesHaz.xcdatamodeld */,
@@ -185,6 +197,7 @@
 		FBDC11161FD32D80009D3933 /* WorkingStuff */ = {
 			isa = PBXGroup;
 			children = (
+				FBC3CE762024AD1F00D4EDE2 /* about.html */,
 				FBDC111B1FD44D87009D3933 /* updatedb */,
 				FBDC11031FD32697009D3933 /* Assets.xcassets */,
 				FBDC11191FD334B1009D3933 /* DOT.gif */,
@@ -319,6 +332,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBC3CE772024AD1F00D4EDE2 /* about.html in Resources */,
 				FBDC11181FD32DA4009D3933 /* ergdb in Resources */,
 				FBFFB0391FD6C433007D6191 /* Main.storyboard in Resources */,
 				FBDC11041FD32697009D3933 /* Assets.xcassets in Resources */,
@@ -350,7 +364,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBC3CE752024A68B00D4EDE2 /* AboutVC.m in Sources */,
 				FBDC10FC1FD32697009D3933 /* ViewController.m in Sources */,
+				FBC3CE7A2024B25800D4EDE2 /* OfficialVC.m in Sources */,
 				FBDC11151FD3277B009D3933 /* Substance.m in Sources */,
 				FBDC11021FD32697009D3933 /* ChesHaz.xcdatamodeld in Sources */,
 				FBDC110A1FD32697009D3933 /* main.m in Sources */,

@@ -10,7 +10,9 @@
 #import <WebKit/WebKit.h>
 
 @interface ViewController : UIViewController
-    <UITextFieldDelegate, WKNavigationDelegate>
+    <UITextFieldDelegate,
+        UIPopoverPresentationControllerDelegate,
+        WKNavigationDelegate>
 
 - (void) layoutViews;
 

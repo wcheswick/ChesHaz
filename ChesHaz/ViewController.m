@@ -7,6 +7,8 @@
 //
 
 // #import <Intents.h>
+#import "AboutVC.h"
+#import "OfficialVC.h"
 #import "ViewController.h"
 #import "Substance.h"
 
@@ -40,6 +42,9 @@
 @property (nonatomic, strong)   NSArray *ergDB;
 @property (nonatomic, strong)   NSMutableArray *answers;
 @property (nonatomic, strong)   NSString *dataDate;
+@property (nonatomic, strong)   UISwipeGestureRecognizer *leftSwipe;
+
+@property (nonatomic, strong)   UIButton *aboutButton;
 
 @property (nonatomic, strong)   NSArray *flammabilityList;
 @property (nonatomic, strong)   NSArray *healthList;
@@ -55,6 +60,8 @@
 @synthesize ergDB;
 @synthesize answers;
 @synthesize dataDate;
+@synthesize aboutButton;
+@synthesize leftSwipe;
 
 @synthesize flammabilityList;
 @synthesize healthList;
@@ -115,6 +122,17 @@
         dataDate = @"(Unknown)";
     }
     
+    aboutButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    aboutButton.frame = CGRectMake(0, 0, 70, HAZ_H);
+    [aboutButton setTitle:@"?"
+                 forState:UIControlStateNormal];
+    aboutButton.titleLabel.font = [UIFont systemFontOfSize:30];
+    aboutButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [aboutButton addTarget:self
+                    action:@selector(doAbout:)
+          forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:aboutButton];
+
     UIImage *dotImage = [UIImage imageNamed:@"DOT.gif"];
     dotImageView = [[UIImageView alloc] initWithImage:dotImage];
     dotImageView.frame = CGRectMake(0, 30, DOT_H, DOT_H);
@@ -129,6 +147,8 @@
     textField.delegate = self;
     textField.keyboardType = UIKeyboardTypeNumberPad;
     textField.enabled = YES;
+// can't get this to work:
+//  textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     textField.textAlignment = NSTextAlignmentCenter;
     textField.backgroundColor = [UIColor clearColor];
     [dotImageView addSubview:textField];
@@ -144,6 +164,13 @@
     webView.scrollView.showsVerticalScrollIndicator = YES;
     [self.view addSubview:webView];
     
+    leftSwipe = [[UISwipeGestureRecognizer alloc]
+                 initWithTarget:self
+                 action:@selector(swipeLeft:)];
+    leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+    leftSwipe.enabled = NO;
+    [self.view addGestureRecognizer:leftSwipe];
+
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
@@ -168,6 +195,11 @@
     f.size = dotImageView.frame.size;
     dotImageView.frame = f;
     [dotImageView setNeedsDisplay];
+    
+    f = aboutButton.frame;
+    f.origin.y = dotImageView.frame.origin.y;
+    aboutButton.frame = f;
+    [aboutButton setNeedsDisplay];
     
     f = self.view.frame;
     f.origin.y = BELOW(dotImageView.frame) + VSEP;
@@ -233,7 +265,28 @@
     [webView loadHTMLString:answerHTML baseURL:nil];
     webView.hidden = NO;
     [webView setNeedsDisplay];
+    leftSwipe.enabled = YES;
     return YES;
+}
+
+-(IBAction) doAbout: (id) sender {
+    AboutVC *avc = [[AboutVC alloc] init];
+    
+    UINavigationController *nav = [[UINavigationController alloc]
+                                   initWithRootViewController:avc];
+    avc.modalPresentationStyle = UIModalPresentationPopover;
+    avc.preferredContentSize = CGSizeMake(280,400);
+    
+    UIPopoverPresentationController *popvc = nav.popoverPresentationController;
+    popvc.delegate = self;
+    popvc.sourceView = self.view;
+    popvc.barButtonItem = sender;
+    [self presentViewController:nav animated:YES completion:nil];
+}
+
+- (IBAction)swipeLeft:(UISwipeGestureRecognizer *)sender {
+    OfficialVC *ovc = [[OfficialVC alloc] init];
+    [[self navigationController] pushViewController: ovc animated: YES];
 }
 
 // We intercept clicks on our local web pages and send them off to the Safari
@@ -285,6 +338,7 @@ replacementString:(NSString *)string {
             [answers removeAllObjects];
         }
     webView.hidden = YES;
+    leftSwipe.enabled = NO;
     [webView setNeedsDisplay];
 }
 
