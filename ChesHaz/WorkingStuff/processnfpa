@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+prog="processnfpa"
+usage="$prog [ergdb]"
+#
+#	Fetch NFPA data and create database for the app.  Stdin has
+#	the ergdb, and we use the first field, the UN number.
+#
+#	The database is written to stdout.
+
+
+case $# in
+0|1)	;;
+*)	echo "$usage" 1>&2
+	exit 1
+esac
+
+WRKDIR=${WRKDIR:-${TMPDIR}/${prog}}
+mkdir -p $WRKDIR
+
+awk '{print $1}' $* |
+while read un
+do
+	echo -n "$un " 1>&2
+	getnfpa704 $un
+done | tee $WRKDIR/nfpadbraw | 
+grep '^[0-9][0-9][0-9][0-9]'	|
+awk -v FS="	" 'NF > 2 { print }'
