@@ -36,15 +36,15 @@ then		# this is invasive and takes a while
 	do
 		echo -n "$un " 1>&2
 		getnfpa704 $un
-	done >nfpadb
+	done >nfpadbraw
 fi
 
+wc -l nfpadbraw
+
+grep '^[0-9][0-9][0-9][0-9]' nfpadbraw	|	# get rid of debugging stuff
+awk -v FS="	" 'NF > 2 { print }' >nfpadb
+
 wc -l nfpadb
-
-grep '^[0-9][0-9][0-9][0-9]' nfpadb	|	# get rid of debugging stuff
-awk -v FS="	" 'NF > 2 { print }' >../nfpadb
-
-wc -l ../nfpadb
 
 exit 0
 
@@ -65,5 +65,3 @@ NF > 2 {
 egrep 'Health|Flammability|Instability' |
 sort -k1,1 -k2,2n -u >hazlist
 wc -l hazlist
-
-

@@ -1,0 +1,24 @@
+Class	1	Explosives
+Division	1.1	Explosives with a mass explosion hazard
+Division	1.2	Explosives with a projection hazard
+Division	1.3	Explosives with predominately a fire hazard
+Division	1.4	Explosives with no significant blast hazard
+Division	1.5	Very sensitive explosives; blasting agents
+Division	1.6	Extremely insensitive detonating devices
+Class	2	Gases
+Division	2.1	Flammable Gases
+Division	2.2	Non-flammable, non-toxic compressed gases
+Division	2.3	Gases toxic by inhalation
+Class	3	Flammable Liquids (and Combustible Liquids)
+Class	4	Flammable Solids; Spontaneously Combustible Materials; Dangerous when Wet Materials
+Division	4.1	Flammable solids - wetted class 1 explosives, self-reactive materials or readily combustible solids
+Division	4.2	Spontaneously combustible materials -pyrophoric or self-heating materials
+Division	4.3	Dangerous when wet materials - gives off flammable or toxic gas or become spontaneously combustible on contact with water
+Class	5	Oxidizers and Organic Peroxides
+Division	5.1	Oxidizers - by yielding oxygen, causes or enhances the combustion of other materials
+Division	5.2	Organic peroxides - organic compounds with the bivalent R-O-O-R structure where at least one R is a carbon chain, except for materials that meet class 1 (Explosive) definition, or are "forbidden" on the HMT.
+Class	6	Toxic Materials and Infectious Substances
+Division	6.1	Poisonous materials - a liquid with an LD50 oral not more than 500 mg/Kg, or a solid with an LD50 oral not more than 200 mg/Kg, or a compound with a LD50 dermal not more than 1000 mg/Kg, or a dust/mist with a LC50 or not more than 10 mg/L
+Division	6.2	Infectious substances - Go to Guide to Shipping Biological Materials and Biological Materials Online Certification for more information.
+Class	7	Radioactive Materials
+Class	9	Miscellaneous Dangerous Goods
