@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+prog="fetchplacards"
+usage="$prog [placarddb]"
+#
+#	Fetch all placard images we need to display.
+
+
+case $# in
+0|1)	;;
+*)	echo "$usage" 1>&2
+	exit 1
+esac
+
+URL="https://cameochemicals.noaa.gov/images/placards"
+
+mkdir -p Placards 2>/dev/null
+
+cd Placards || exit 2
+
+cat $*	|
+awk -v FS='	' '
+{	n = split($2, filelist, " ")
+	for (i=1; i<=n; i++)
+		files[filelist[i]] = 1
+}
+END {	for (fn in files)
+		print fn
+}' |	
+while read fn
+do
+	if [ ! -s $fn ]
+	then
+		curl -s -S -o $fn "${URL}/$fn"
+	fi
+done

@@ -1,6 +1,6 @@
 DB=../Databases
 
-DBS=ergdb wikidb classesdb nfpadb
+DBS=ergdb wikidb classesdb nfpadb placarddb
 
 all:	${DBS}
 
@@ -21,7 +21,16 @@ nfpadb:	ergdb
 	wc -l $@
 
 
-install::	${DB}/ergdb ${DB}/wikidb ${DB}/classesdb ${DB}/nfpadb
+placarddb:	ergdb
+	fetchplacardinfo <ergdb >$@
+	wc -l $@
+
+Placards:	placarddb
+	fetchplacards <$@
+	ls Placards/* | wc -l
+
+install::	${DB}/ergdb ${DB}/wikidb ${DB}/classesdb ${DB}/nfpadb \
+		${DB}/placarddb ${DB}/Placards
 
 ${DB}/ergdb:	ergdb
 	cp $> $@
@@ -35,6 +44,11 @@ ${DB}/classesdb:	classesdb
 ${DB}/nfpadb:	nfpadb
 	cp $> $@
 
+${DB}/placarddb:	placarddb
+	cp $> $@
+
+${DB}/Placards:	Placards
+	rsync -av Placards ${DB}/Placards
 
 clean::
 	rm *.core
