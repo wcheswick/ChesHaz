@@ -20,6 +20,28 @@
 		FBC3CE852025F8EC00D4EDE2 /* ergdb in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE812025F8EC00D4EDE2 /* ergdb */; };
 		FBC3CE862025F8EC00D4EDE2 /* nfpadb in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE822025F8EC00D4EDE2 /* nfpadb */; };
 		FBC3CE872025F8EC00D4EDE2 /* wikidb in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE832025F8EC00D4EDE2 /* wikidb */; };
+		FBC3CEA02026590D00D4EDE2 /* Placard1.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE8A2026590D00D4EDE2 /* Placard1.gif */; };
+		FBC3CEA12026590D00D4EDE2 /* Placard1005.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE8B2026590D00D4EDE2 /* Placard1005.gif */; };
+		FBC3CEA22026590D00D4EDE2 /* Placard2.1.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE8C2026590D00D4EDE2 /* Placard2.1.gif */; };
+		FBC3CEA32026590D00D4EDE2 /* Placard2.2.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE8D2026590D00D4EDE2 /* Placard2.2.gif */; };
+		FBC3CEA42026590D00D4EDE2 /* Placard2.2_Ox.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE8E2026590D00D4EDE2 /* Placard2.2_Ox.gif */; };
+		FBC3CEA52026590D00D4EDE2 /* Placard2.3.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE8F2026590D00D4EDE2 /* Placard2.3.gif */; };
+		FBC3CEA62026590D00D4EDE2 /* Placard3.0_CL.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE902026590D00D4EDE2 /* Placard3.0_CL.gif */; };
+		FBC3CEA72026590D00D4EDE2 /* Placard3.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE912026590D00D4EDE2 /* Placard3.gif */; };
+		FBC3CEA82026590D00D4EDE2 /* Placard3373.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE922026590D00D4EDE2 /* Placard3373.gif */; };
+		FBC3CEA92026590D00D4EDE2 /* Placard4.1.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE932026590D00D4EDE2 /* Placard4.1.gif */; };
+		FBC3CEAA2026590D00D4EDE2 /* Placard4.2.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE942026590D00D4EDE2 /* Placard4.2.gif */; };
+		FBC3CEAB2026590D00D4EDE2 /* Placard4.3.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE952026590D00D4EDE2 /* Placard4.3.gif */; };
+		FBC3CEAC2026590D00D4EDE2 /* Placard5.1.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE962026590D00D4EDE2 /* Placard5.1.gif */; };
+		FBC3CEAD2026590D00D4EDE2 /* Placard5.2.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE972026590D00D4EDE2 /* Placard5.2.gif */; };
+		FBC3CEAE2026590D00D4EDE2 /* Placard6.1.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE982026590D00D4EDE2 /* Placard6.1.gif */; };
+		FBC3CEAF2026590D00D4EDE2 /* Placard6.1IH.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE992026590D00D4EDE2 /* Placard6.1IH.gif */; };
+		FBC3CEB02026590D00D4EDE2 /* Placard6.2.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE9A2026590D00D4EDE2 /* Placard6.2.gif */; };
+		FBC3CEB12026590D00D4EDE2 /* Placard7.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE9B2026590D00D4EDE2 /* Placard7.gif */; };
+		FBC3CEB22026590D00D4EDE2 /* Placard8.6.1.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE9C2026590D00D4EDE2 /* Placard8.6.1.gif */; };
+		FBC3CEB32026590D00D4EDE2 /* Placard8.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE9D2026590D00D4EDE2 /* Placard8.gif */; };
+		FBC3CEB42026590D00D4EDE2 /* Placard9.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE9E2026590D00D4EDE2 /* Placard9.gif */; };
+		FBC3CEB52026590D00D4EDE2 /* PlacardIH.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE9F2026590D00D4EDE2 /* PlacardIH.gif */; };
 		FBDC10F91FD32697009D3933 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC10F81FD32697009D3933 /* AppDelegate.m */; };
 		FBDC10FC1FD32697009D3933 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC10FB1FD32697009D3933 /* ViewController.m */; };
 		FBDC11021FD32697009D3933 /* ChesHaz.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FBDC11001FD32697009D3933 /* ChesHaz.xcdatamodeld */; };
@@ -84,6 +106,28 @@
 		FBC3CE812025F8EC00D4EDE2 /* ergdb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ergdb; sourceTree = "<group>"; };
 		FBC3CE822025F8EC00D4EDE2 /* nfpadb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nfpadb; sourceTree = "<group>"; };
 		FBC3CE832025F8EC00D4EDE2 /* wikidb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wikidb; sourceTree = "<group>"; };
+		FBC3CE8A2026590D00D4EDE2 /* Placard1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard1.gif; sourceTree = "<group>"; };
+		FBC3CE8B2026590D00D4EDE2 /* Placard1005.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard1005.gif; sourceTree = "<group>"; };
+		FBC3CE8C2026590D00D4EDE2 /* Placard2.1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard2.1.gif; sourceTree = "<group>"; };
+		FBC3CE8D2026590D00D4EDE2 /* Placard2.2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard2.2.gif; sourceTree = "<group>"; };
+		FBC3CE8E2026590D00D4EDE2 /* Placard2.2_Ox.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard2.2_Ox.gif; sourceTree = "<group>"; };
+		FBC3CE8F2026590D00D4EDE2 /* Placard2.3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard2.3.gif; sourceTree = "<group>"; };
+		FBC3CE902026590D00D4EDE2 /* Placard3.0_CL.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard3.0_CL.gif; sourceTree = "<group>"; };
+		FBC3CE912026590D00D4EDE2 /* Placard3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard3.gif; sourceTree = "<group>"; };
+		FBC3CE922026590D00D4EDE2 /* Placard3373.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard3373.gif; sourceTree = "<group>"; };
+		FBC3CE932026590D00D4EDE2 /* Placard4.1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard4.1.gif; sourceTree = "<group>"; };
+		FBC3CE942026590D00D4EDE2 /* Placard4.2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard4.2.gif; sourceTree = "<group>"; };
+		FBC3CE952026590D00D4EDE2 /* Placard4.3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard4.3.gif; sourceTree = "<group>"; };
+		FBC3CE962026590D00D4EDE2 /* Placard5.1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard5.1.gif; sourceTree = "<group>"; };
+		FBC3CE972026590D00D4EDE2 /* Placard5.2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard5.2.gif; sourceTree = "<group>"; };
+		FBC3CE982026590D00D4EDE2 /* Placard6.1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard6.1.gif; sourceTree = "<group>"; };
+		FBC3CE992026590D00D4EDE2 /* Placard6.1IH.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard6.1IH.gif; sourceTree = "<group>"; };
+		FBC3CE9A2026590D00D4EDE2 /* Placard6.2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard6.2.gif; sourceTree = "<group>"; };
+		FBC3CE9B2026590D00D4EDE2 /* Placard7.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard7.gif; sourceTree = "<group>"; };
+		FBC3CE9C2026590D00D4EDE2 /* Placard8.6.1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard8.6.1.gif; sourceTree = "<group>"; };
+		FBC3CE9D2026590D00D4EDE2 /* Placard8.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard8.gif; sourceTree = "<group>"; };
+		FBC3CE9E2026590D00D4EDE2 /* Placard9.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard9.gif; sourceTree = "<group>"; };
+		FBC3CE9F2026590D00D4EDE2 /* PlacardIH.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = PlacardIH.gif; sourceTree = "<group>"; };
 		FBDC10F41FD32697009D3933 /* ChesHaz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChesHaz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBDC10F71FD32697009D3933 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FBDC10F81FD32697009D3933 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -158,12 +202,50 @@
 		FBC3CE7F2025F8EC00D4EDE2 /* Databases */ = {
 			isa = PBXGroup;
 			children = (
+				FBC3CE882026590D00D4EDE2 /* Placards */,
 				FBC3CE802025F8EC00D4EDE2 /* classesdb */,
 				FBC3CE812025F8EC00D4EDE2 /* ergdb */,
 				FBC3CE822025F8EC00D4EDE2 /* nfpadb */,
 				FBC3CE832025F8EC00D4EDE2 /* wikidb */,
 			);
 			path = Databases;
+			sourceTree = "<group>";
+		};
+		FBC3CE882026590D00D4EDE2 /* Placards */ = {
+			isa = PBXGroup;
+			children = (
+				FBC3CE892026590D00D4EDE2 /* Placards */,
+			);
+			path = Placards;
+			sourceTree = "<group>";
+		};
+		FBC3CE892026590D00D4EDE2 /* Placards */ = {
+			isa = PBXGroup;
+			children = (
+				FBC3CE8A2026590D00D4EDE2 /* Placard1.gif */,
+				FBC3CE8B2026590D00D4EDE2 /* Placard1005.gif */,
+				FBC3CE8C2026590D00D4EDE2 /* Placard2.1.gif */,
+				FBC3CE8D2026590D00D4EDE2 /* Placard2.2.gif */,
+				FBC3CE8E2026590D00D4EDE2 /* Placard2.2_Ox.gif */,
+				FBC3CE8F2026590D00D4EDE2 /* Placard2.3.gif */,
+				FBC3CE902026590D00D4EDE2 /* Placard3.0_CL.gif */,
+				FBC3CE912026590D00D4EDE2 /* Placard3.gif */,
+				FBC3CE922026590D00D4EDE2 /* Placard3373.gif */,
+				FBC3CE932026590D00D4EDE2 /* Placard4.1.gif */,
+				FBC3CE942026590D00D4EDE2 /* Placard4.2.gif */,
+				FBC3CE952026590D00D4EDE2 /* Placard4.3.gif */,
+				FBC3CE962026590D00D4EDE2 /* Placard5.1.gif */,
+				FBC3CE972026590D00D4EDE2 /* Placard5.2.gif */,
+				FBC3CE982026590D00D4EDE2 /* Placard6.1.gif */,
+				FBC3CE992026590D00D4EDE2 /* Placard6.1IH.gif */,
+				FBC3CE9A2026590D00D4EDE2 /* Placard6.2.gif */,
+				FBC3CE9B2026590D00D4EDE2 /* Placard7.gif */,
+				FBC3CE9C2026590D00D4EDE2 /* Placard8.6.1.gif */,
+				FBC3CE9D2026590D00D4EDE2 /* Placard8.gif */,
+				FBC3CE9E2026590D00D4EDE2 /* Placard9.gif */,
+				FBC3CE9F2026590D00D4EDE2 /* PlacardIH.gif */,
+			);
+			path = Placards;
 			sourceTree = "<group>";
 		};
 		FBDC10EB1FD32697009D3933 = {
@@ -347,15 +429,37 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBC3CEA42026590D00D4EDE2 /* Placard2.2_Ox.gif in Resources */,
 				FBC3CE772024AD1F00D4EDE2 /* about.html in Resources */,
 				FBC3CE862025F8EC00D4EDE2 /* nfpadb in Resources */,
 				FBFFB0391FD6C433007D6191 /* Main.storyboard in Resources */,
+				FBC3CEA82026590D00D4EDE2 /* Placard3373.gif in Resources */,
+				FBC3CEA72026590D00D4EDE2 /* Placard3.gif in Resources */,
+				FBC3CEB42026590D00D4EDE2 /* Placard9.gif in Resources */,
+				FBC3CEAE2026590D00D4EDE2 /* Placard6.1.gif in Resources */,
+				FBC3CEA32026590D00D4EDE2 /* Placard2.2.gif in Resources */,
+				FBC3CEA92026590D00D4EDE2 /* Placard4.1.gif in Resources */,
+				FBC3CEB12026590D00D4EDE2 /* Placard7.gif in Resources */,
 				FBDC11041FD32697009D3933 /* Assets.xcassets in Resources */,
+				FBC3CEA12026590D00D4EDE2 /* Placard1005.gif in Resources */,
 				FBC3CE842025F8EC00D4EDE2 /* classesdb in Resources */,
+				FBC3CEA22026590D00D4EDE2 /* Placard2.1.gif in Resources */,
+				FBC3CEB22026590D00D4EDE2 /* Placard8.6.1.gif in Resources */,
 				FBC3CE852025F8EC00D4EDE2 /* ergdb in Resources */,
+				FBC3CEAB2026590D00D4EDE2 /* Placard4.3.gif in Resources */,
+				FBC3CEB02026590D00D4EDE2 /* Placard6.2.gif in Resources */,
+				FBC3CEAD2026590D00D4EDE2 /* Placard5.2.gif in Resources */,
+				FBC3CEAA2026590D00D4EDE2 /* Placard4.2.gif in Resources */,
+				FBC3CEA02026590D00D4EDE2 /* Placard1.gif in Resources */,
+				FBC3CEB52026590D00D4EDE2 /* PlacardIH.gif in Resources */,
+				FBC3CEA62026590D00D4EDE2 /* Placard3.0_CL.gif in Resources */,
 				FBC3CE872025F8EC00D4EDE2 /* wikidb in Resources */,
 				FBDC111A1FD334B1009D3933 /* DOT.gif in Resources */,
+				FBC3CEA52026590D00D4EDE2 /* Placard2.3.gif in Resources */,
 				FBFFB03B1FD6CCBC007D6191 /* Launch.png in Resources */,
+				FBC3CEB32026590D00D4EDE2 /* Placard8.gif in Resources */,
+				FBC3CEAC2026590D00D4EDE2 /* Placard5.1.gif in Resources */,
+				FBC3CEAF2026590D00D4EDE2 /* Placard6.1IH.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
