@@ -7,6 +7,8 @@
 //
 
 // #import <Intents.h>
+#import "AboutVC.h"
+#import "OfficialVC.h"
 #import "ViewController.h"
 #import "Substance.h"
 
@@ -40,6 +42,11 @@
 @property (nonatomic, strong)   NSArray *ergDB;
 @property (nonatomic, strong)   NSMutableArray *answers;
 @property (nonatomic, strong)   NSString *dataDate;
+@property (nonatomic, strong)   UISwipeGestureRecognizer *leftSwipe;
+
+@property (nonatomic, strong)   NSArray *flammabilityList;
+@property (nonatomic, strong)   NSArray *healthList;
+@property (nonatomic, strong)   NSArray *instabilityList;
 
 @end
 
@@ -51,9 +58,54 @@
 @synthesize ergDB;
 @synthesize answers;
 @synthesize dataDate;
+@synthesize leftSwipe;
+
+@synthesize flammabilityList;
+@synthesize healthList;
+@synthesize instabilityList;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationController.navigationBar.hidden = NO;
+    self.navigationController.navigationBar.opaque = YES;
+    self.navigationController.toolbarHidden = YES;
+    self.title = @"ChesHaz";
+
+    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]
+                                      initWithTitle:@"?"
+                                      style:UIBarButtonItemStylePlain
+                                      target:self
+                                      action:@selector(doAbout:)];
+    self.navigationItem.leftBarButtonItem = leftBarButton;
+ 
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+                                      initWithTitle:@"Official links >"
+                                      style:UIBarButtonItemStylePlain
+                                      target:self
+                                      action:@selector(doOfficial:)];
+    rightBarButton.enabled = NO;
+    self.navigationItem.rightBarButtonItem = rightBarButton;
+
+    flammabilityList = [NSArray arrayWithObjects:   // starting with 0
+                        @"Normally stable, even under fire conditions."
+                        @"Must be preheated before ignition can occur.",
+                        @"Must be moderately heated or exposed to relatively high ambient temperatures before ignition can occur.",
+                        @"Can be ignited under almost all ambient temperature conditions.",
+                        @"Burns readily. Rapidly or completely vaporizes at atmospheric pressure and normal ambient temperature.",
+                        nil];
+    healthList = [NSArray arrayWithObjects:
+                        @"Can cause significant irritation.",
+                        @"Can cause temporary incapacitation or residual injury.",
+                        @"Can cause serious or permanent injury.",
+                        @"Can be lethal.",
+                  nil];
+    instabilityList = [NSArray arrayWithObjects:
+                        @"Normally stable but can become unstable at elevated temperatures and pressures.",
+                        @"Readily undergoes violent chemical changes at elevated temperatures and pressures.",
+                        @"Capable of detonation or explosive decomposition or explosive reaction but requires a strong initiating source or must be heated under confinement before initiation.",
+                        @"Readily capable of detonation or explosive decomposition or explosive reaction at normal temperatures and pressures.",
+                       nil];
     
     answers = [[NSMutableArray alloc] initWithCapacity:5];
     
@@ -86,7 +138,7 @@
         NSLog(@" Date Not found");
         dataDate = @"(Unknown)";
     }
-    
+
     UIImage *dotImage = [UIImage imageNamed:@"DOT.gif"];
     dotImageView = [[UIImageView alloc] initWithImage:dotImage];
     dotImageView.frame = CGRectMake(0, 30, DOT_H, DOT_H);
@@ -101,6 +153,8 @@
     textField.delegate = self;
     textField.keyboardType = UIKeyboardTypeNumberPad;
     textField.enabled = YES;
+// can't get this to work:
+//  textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     textField.textAlignment = NSTextAlignmentCenter;
     textField.backgroundColor = [UIColor clearColor];
     [dotImageView addSubview:textField];
@@ -116,14 +170,18 @@
     webView.scrollView.showsVerticalScrollIndicator = YES;
     [self.view addSubview:webView];
     
+    leftSwipe = [[UISwipeGestureRecognizer alloc]
+                 initWithTarget:self
+                 action:@selector(swipeLeft:)];
+    leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+    leftSwipe.enabled = NO;
+    [self.view addGestureRecognizer:leftSwipe];
+
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    self.navigationController.navigationBar.hidden = YES;
-    self.navigationController.toolbarHidden = YES;
 
     [self layoutViews];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -136,7 +194,8 @@
 - (void) layoutViews {
     CGRect f = self.view.frame;
     f.origin.x = (f.size.width - dotImageView.frame.size.width)/2.0;
-    f.origin.y = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    f.origin.y = [[UIApplication sharedApplication] statusBarFrame].size.height +
+    self.navigationController.navigationBar.frame.size.height;
     f.size = dotImageView.frame.size;
     dotImageView.frame = f;
     [dotImageView setNeedsDisplay];
@@ -205,7 +264,34 @@
     [webView loadHTMLString:answerHTML baseURL:nil];
     webView.hidden = NO;
     [webView setNeedsDisplay];
+    self.navigationItem.rightBarButtonItem.enabled = leftSwipe.enabled = YES;
     return YES;
+}
+
+-(IBAction) doAbout: (id) sender {
+    AboutVC *avc = [[AboutVC alloc] init];
+    
+    UINavigationController *nav = [[UINavigationController alloc]
+                                   initWithRootViewController:avc];
+    avc.modalPresentationStyle = UIModalPresentationPopover;
+    avc.preferredContentSize = CGSizeMake(self.view.frame.size.width - 20,
+                                          self.view.frame.size.height - 120);
+    
+    UIPopoverPresentationController *popvc = nav.popoverPresentationController;
+    popvc.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    popvc.delegate = self;
+    popvc.sourceView = self.view;
+    popvc.barButtonItem = sender;   // not working onthe iPhone
+    [self presentViewController:nav animated:YES completion:nil];
+}
+
+- (IBAction)doOfficial:(UISwipeGestureRecognizer *)sender {
+    OfficialVC *ovc = [[OfficialVC alloc] init];
+    [[self navigationController] pushViewController: ovc animated: YES];
+}
+
+- (IBAction)swipeLeft:(UISwipeGestureRecognizer *)sender {
+    [self doOfficial:sender];
 }
 
 // We intercept clicks on our local web pages and send them off to the Safari
@@ -257,6 +343,7 @@ replacementString:(NSString *)string {
             [answers removeAllObjects];
         }
     webView.hidden = YES;
+    self.navigationItem.rightBarButtonItem.enabled = leftSwipe.enabled = NO;
     [webView setNeedsDisplay];
 }
 
