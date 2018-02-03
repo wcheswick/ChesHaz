@@ -21,9 +21,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.navigationController.navigationBar setOpaque:YES];
-    [self.navigationController.navigationBar setTranslucent:NO];
-    
     self.title = @"Links to Official Sites";
     
     UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]

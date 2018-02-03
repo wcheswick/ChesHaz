@@ -15,6 +15,8 @@
     NSString *guideURL;
     NSString *description;
     NSString *flags;
+    
+    
 }
 
 @property (assign)              int number;

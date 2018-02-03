@@ -44,8 +44,6 @@
 @property (nonatomic, strong)   NSString *dataDate;
 @property (nonatomic, strong)   UISwipeGestureRecognizer *leftSwipe;
 
-@property (nonatomic, strong)   UIButton *aboutButton;
-
 @property (nonatomic, strong)   NSArray *flammabilityList;
 @property (nonatomic, strong)   NSArray *healthList;
 @property (nonatomic, strong)   NSArray *instabilityList;
@@ -60,7 +58,6 @@
 @synthesize ergDB;
 @synthesize answers;
 @synthesize dataDate;
-@synthesize aboutButton;
 @synthesize leftSwipe;
 
 @synthesize flammabilityList;
@@ -69,6 +66,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationController.navigationBar.hidden = NO;
+    self.navigationController.navigationBar.opaque = YES;
+    self.navigationController.toolbarHidden = YES;
+    self.title = @"ChesHaz";
+
+    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]
+                                      initWithTitle:@"?"
+                                      style:UIBarButtonItemStylePlain
+                                      target:self
+                                      action:@selector(doAbout:)];
+    self.navigationItem.leftBarButtonItem = leftBarButton;
+ 
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+                                      initWithTitle:@"Official links >"
+                                      style:UIBarButtonItemStylePlain
+                                      target:self
+                                      action:@selector(doOfficial:)];
+    rightBarButton.enabled = NO;
+    self.navigationItem.rightBarButtonItem = rightBarButton;
 
     flammabilityList = [NSArray arrayWithObjects:   // starting with 0
                         @"Normally stable, even under fire conditions."
@@ -121,17 +138,6 @@
         NSLog(@" Date Not found");
         dataDate = @"(Unknown)";
     }
-    
-    aboutButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    aboutButton.frame = CGRectMake(0, 0, 70, HAZ_H);
-    [aboutButton setTitle:@"?"
-                 forState:UIControlStateNormal];
-    aboutButton.titleLabel.font = [UIFont systemFontOfSize:30];
-    aboutButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [aboutButton addTarget:self
-                    action:@selector(doAbout:)
-          forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:aboutButton];
 
     UIImage *dotImage = [UIImage imageNamed:@"DOT.gif"];
     dotImageView = [[UIImageView alloc] initWithImage:dotImage];
@@ -176,9 +182,6 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    self.navigationController.navigationBar.hidden = YES;
-    self.navigationController.toolbarHidden = YES;
 
     [self layoutViews];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -191,15 +194,11 @@
 - (void) layoutViews {
     CGRect f = self.view.frame;
     f.origin.x = (f.size.width - dotImageView.frame.size.width)/2.0;
-    f.origin.y = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    f.origin.y = [[UIApplication sharedApplication] statusBarFrame].size.height +
+    self.navigationController.navigationBar.frame.size.height;
     f.size = dotImageView.frame.size;
     dotImageView.frame = f;
     [dotImageView setNeedsDisplay];
-    
-    f = aboutButton.frame;
-    f.origin.y = dotImageView.frame.origin.y;
-    aboutButton.frame = f;
-    [aboutButton setNeedsDisplay];
     
     f = self.view.frame;
     f.origin.y = BELOW(dotImageView.frame) + VSEP;
@@ -265,7 +264,7 @@
     [webView loadHTMLString:answerHTML baseURL:nil];
     webView.hidden = NO;
     [webView setNeedsDisplay];
-    leftSwipe.enabled = YES;
+    self.navigationItem.rightBarButtonItem.enabled = leftSwipe.enabled = YES;
     return YES;
 }
 
@@ -275,18 +274,24 @@
     UINavigationController *nav = [[UINavigationController alloc]
                                    initWithRootViewController:avc];
     avc.modalPresentationStyle = UIModalPresentationPopover;
-    avc.preferredContentSize = CGSizeMake(280,400);
+    avc.preferredContentSize = CGSizeMake(self.view.frame.size.width - 20,
+                                          self.view.frame.size.height - 120);
     
     UIPopoverPresentationController *popvc = nav.popoverPresentationController;
+    popvc.permittedArrowDirections = UIPopoverArrowDirectionAny;
     popvc.delegate = self;
     popvc.sourceView = self.view;
-    popvc.barButtonItem = sender;
+    popvc.barButtonItem = sender;   // not working onthe iPhone
     [self presentViewController:nav animated:YES completion:nil];
 }
 
-- (IBAction)swipeLeft:(UISwipeGestureRecognizer *)sender {
+- (IBAction)doOfficial:(UISwipeGestureRecognizer *)sender {
     OfficialVC *ovc = [[OfficialVC alloc] init];
     [[self navigationController] pushViewController: ovc animated: YES];
+}
+
+- (IBAction)swipeLeft:(UISwipeGestureRecognizer *)sender {
+    [self doOfficial:sender];
 }
 
 // We intercept clicks on our local web pages and send them off to the Safari
@@ -338,7 +343,7 @@ replacementString:(NSString *)string {
             [answers removeAllObjects];
         }
     webView.hidden = YES;
-    leftSwipe.enabled = NO;
+    self.navigationItem.rightBarButtonItem.enabled = leftSwipe.enabled = NO;
     [webView setNeedsDisplay];
 }
 
