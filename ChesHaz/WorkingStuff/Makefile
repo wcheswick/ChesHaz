@@ -4,6 +4,29 @@ DBS=ergdb wikidb classesdb nfpadb placarddb
 
 all:	${DBS}
 
+fetcherg::
+	rm -f ergdb
+	make ergdb
+
+fetchwiki::
+	rm -f wikidb
+	make wikidb
+
+fetchclasses::
+	rm -f classesdb
+	make classesdb
+
+fetchnfpa::
+	rm -f nfpadb
+	make nfpadb
+
+fetchplacstuff::
+	rm -f placarddb
+	rm -f Placards/*
+
+fetchall::	fetcherg fetchwiki fetchclasses \
+		fetchnfpa fetchplacstuff
+
 ergdb:	getergdb
 	./getergdb >$@
 	wc -l $@
@@ -17,12 +40,12 @@ classesdb:	getclasses
 	wc -l $@
 
 nfpadb:	ergdb
-	processnfpa <ergdb >$@
+	# processnfpa <ergdb >$@
 	wc -l $@
 
 
 placarddb:	ergdb
-	fetchplacardinfo <ergdb >$@
+	# fetchplacardinfo <ergdb >$@
 	wc -l $@
 
 Placards:	placarddb
@@ -47,7 +70,7 @@ ${DB}/nfpadb:	nfpadb
 ${DB}/placarddb:	placarddb
 	cp $> $@
 
-${DB}/Placards:	Placards
+${DB}/Placards:
 	rsync -av Placards ${DB}/Placards
 
 clean::
