@@ -17,6 +17,10 @@
 		FBC3CE772024AD1F00D4EDE2 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE762024AD1F00D4EDE2 /* about.html */; };
 		FBC3CE7A2024B25800D4EDE2 /* OfficialVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC3CE792024B25800D4EDE2 /* OfficialVC.m */; };
 		FBC3CE7D2024EBA900D4EDE2 /* SubstanceData.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC3CE7C2024EBA900D4EDE2 /* SubstanceData.m */; };
+		FBC3CE842025F8EC00D4EDE2 /* classesdb in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE802025F8EC00D4EDE2 /* classesdb */; };
+		FBC3CE852025F8EC00D4EDE2 /* ergdb in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE812025F8EC00D4EDE2 /* ergdb */; };
+		FBC3CE862025F8EC00D4EDE2 /* nfpadb in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE822025F8EC00D4EDE2 /* nfpadb */; };
+		FBC3CE872025F8EC00D4EDE2 /* wikidb in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE832025F8EC00D4EDE2 /* wikidb */; };
 		FBDC10F91FD32697009D3933 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC10F81FD32697009D3933 /* AppDelegate.m */; };
 		FBDC10FC1FD32697009D3933 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC10FB1FD32697009D3933 /* ViewController.m */; };
 		FBDC11021FD32697009D3933 /* ChesHaz.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FBDC11001FD32697009D3933 /* ChesHaz.xcdatamodeld */; };
@@ -79,6 +83,10 @@
 		FBC3CE792024B25800D4EDE2 /* OfficialVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OfficialVC.m; sourceTree = "<group>"; };
 		FBC3CE7B2024EBA900D4EDE2 /* SubstanceData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SubstanceData.h; sourceTree = "<group>"; };
 		FBC3CE7C2024EBA900D4EDE2 /* SubstanceData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SubstanceData.m; sourceTree = "<group>"; };
+		FBC3CE802025F8EC00D4EDE2 /* classesdb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = classesdb; sourceTree = "<group>"; };
+		FBC3CE812025F8EC00D4EDE2 /* ergdb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ergdb; sourceTree = "<group>"; };
+		FBC3CE822025F8EC00D4EDE2 /* nfpadb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nfpadb; sourceTree = "<group>"; };
+		FBC3CE832025F8EC00D4EDE2 /* wikidb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wikidb; sourceTree = "<group>"; };
 		FBDC10F41FD32697009D3933 /* ChesHaz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChesHaz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBDC10F71FD32697009D3933 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FBDC10F81FD32697009D3933 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -150,6 +158,17 @@
 			path = HazMatIntentsUI;
 			sourceTree = "<group>";
 		};
+		FBC3CE7F2025F8EC00D4EDE2 /* Databases */ = {
+			isa = PBXGroup;
+			children = (
+				FBC3CE802025F8EC00D4EDE2 /* classesdb */,
+				FBC3CE812025F8EC00D4EDE2 /* ergdb */,
+				FBC3CE822025F8EC00D4EDE2 /* nfpadb */,
+				FBC3CE832025F8EC00D4EDE2 /* wikidb */,
+			);
+			path = Databases;
+			sourceTree = "<group>";
+		};
 		FBDC10EB1FD32697009D3933 = {
 			isa = PBXGroup;
 			children = (
@@ -191,6 +210,7 @@
 				FBDC11091FD32697009D3933 /* main.m */,
 				FBDC11001FD32697009D3933 /* ChesHaz.xcdatamodeld */,
 				FBFFB0381FD6C433007D6191 /* Main.storyboard */,
+				FBC3CE7F2025F8EC00D4EDE2 /* Databases */,
 				FBDC11161FD32D80009D3933 /* WorkingStuff */,
 			);
 			path = ChesHaz;
@@ -333,8 +353,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBC3CE772024AD1F00D4EDE2 /* about.html in Resources */,
+				FBC3CE862025F8EC00D4EDE2 /* nfpadb in Resources */,
 				FBFFB0391FD6C433007D6191 /* Main.storyboard in Resources */,
 				FBDC11041FD32697009D3933 /* Assets.xcassets in Resources */,
+				FBC3CE842025F8EC00D4EDE2 /* classesdb in Resources */,
+				FBC3CE852025F8EC00D4EDE2 /* ergdb in Resources */,
+				FBC3CE872025F8EC00D4EDE2 /* wikidb in Resources */,
 				FBDC111A1FD334B1009D3933 /* DOT.gif in Resources */,
 				FBFFB03B1FD6CCBC007D6191 /* Launch.png in Resources */,
 			);
