@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+enum ERG
 @interface Substance : NSObject {
-    int number;
-    NSString *numberURL;
-    NSString *guideNumber;
-    NSString *guideURL;
+    int number;             // UN/NA number from ERG db
+    NSString *numberURL;    // https://cameochemicals.noaa.gov/unna/1003
+    NSString *guideNumber;  // ERG handling guide number
+    NSString *guideURL;     // ERG handling guide URL
     NSString *description;
-    NSString *flags;
+    NSString *flags;        // TIH, WR, CBW
     
     
 }
@@ -26,6 +27,6 @@
 @property (nonatomic, strong)   NSString *description;
 @property (nonatomic, strong)   NSString *flags;
 
-- (id)initWithDBLine:(NSString *) line;
+- (id)initWithERGDBLine:(NSString *) line;
 
 @end

@@ -16,7 +16,7 @@
 @synthesize flags;
 
 
-- (id)initWithDBLine:(NSString *) line {
+- (id)initWithERGDBLine:(NSString *) line {
     self = [super init];
     if (self) {
         NSArray *fields = [line componentsSeparatedByString:@"\t"];

@@ -225,7 +225,7 @@
 - (BOOL) displayAnswers: (int)query {
     NSString *substanceURL = nil;
     for (NSString *dbLine in ergDB) {
-        Substance *substance = [[Substance alloc] initWithDBLine:dbLine];
+        Substance *substance = [[Substance alloc] initWithERGDBLine:dbLine];
         if (substance.number > query)
             break;
         if (substance.number == query) {

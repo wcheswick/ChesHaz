@@ -16,7 +16,6 @@
 		FBC3CE752024A68B00D4EDE2 /* AboutVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC3CE742024A68B00D4EDE2 /* AboutVC.m */; };
 		FBC3CE772024AD1F00D4EDE2 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE762024AD1F00D4EDE2 /* about.html */; };
 		FBC3CE7A2024B25800D4EDE2 /* OfficialVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC3CE792024B25800D4EDE2 /* OfficialVC.m */; };
-		FBC3CE7D2024EBA900D4EDE2 /* SubstanceData.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC3CE7C2024EBA900D4EDE2 /* SubstanceData.m */; };
 		FBC3CE842025F8EC00D4EDE2 /* classesdb in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE802025F8EC00D4EDE2 /* classesdb */; };
 		FBC3CE852025F8EC00D4EDE2 /* ergdb in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE812025F8EC00D4EDE2 /* ergdb */; };
 		FBC3CE862025F8EC00D4EDE2 /* nfpadb in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE822025F8EC00D4EDE2 /* nfpadb */; };
@@ -81,8 +80,6 @@
 		FBC3CE762024AD1F00D4EDE2 /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		FBC3CE782024B25800D4EDE2 /* OfficialVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OfficialVC.h; sourceTree = "<group>"; };
 		FBC3CE792024B25800D4EDE2 /* OfficialVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OfficialVC.m; sourceTree = "<group>"; };
-		FBC3CE7B2024EBA900D4EDE2 /* SubstanceData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SubstanceData.h; sourceTree = "<group>"; };
-		FBC3CE7C2024EBA900D4EDE2 /* SubstanceData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SubstanceData.m; sourceTree = "<group>"; };
 		FBC3CE802025F8EC00D4EDE2 /* classesdb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = classesdb; sourceTree = "<group>"; };
 		FBC3CE812025F8EC00D4EDE2 /* ergdb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ergdb; sourceTree = "<group>"; };
 		FBC3CE822025F8EC00D4EDE2 /* nfpadb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = nfpadb; sourceTree = "<group>"; };
@@ -198,8 +195,6 @@
 				FBDC10F81FD32697009D3933 /* AppDelegate.m */,
 				FBDC10FA1FD32697009D3933 /* ViewController.h */,
 				FBDC10FB1FD32697009D3933 /* ViewController.m */,
-				FBC3CE7B2024EBA900D4EDE2 /* SubstanceData.h */,
-				FBC3CE7C2024EBA900D4EDE2 /* SubstanceData.m */,
 				FBDC11131FD3277B009D3933 /* Substance.h */,
 				FBDC11141FD3277B009D3933 /* Substance.m */,
 				FBC3CE782024B25800D4EDE2 /* OfficialVC.h */,
@@ -391,7 +386,6 @@
 				FBDC10FC1FD32697009D3933 /* ViewController.m in Sources */,
 				FBC3CE7A2024B25800D4EDE2 /* OfficialVC.m in Sources */,
 				FBDC11151FD3277B009D3933 /* Substance.m in Sources */,
-				FBC3CE7D2024EBA900D4EDE2 /* SubstanceData.m in Sources */,
 				FBDC11021FD32697009D3933 /* ChesHaz.xcdatamodeld in Sources */,
 				FBDC110A1FD32697009D3933 /* main.m in Sources */,
 				FBDC10F91FD32697009D3933 /* AppDelegate.m in Sources */,
