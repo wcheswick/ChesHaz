@@ -232,17 +232,21 @@
                                                 encoding:NSUTF8StringEncoding
                                                    error:&error]
                        componentsSeparatedByString:@"\n"];
+    count = 0;
+    int skipped = 0;
     for (NSString *nfpaLine in nfpaDB) {
         NSString *UNNumber = [self firstField:nfpaLine];
         if (!UNNumber)
             continue;
         Substance *s = [substances objectForKey:UNNumber];
-        if (!s)
+        if (!s) {
+            skipped++;
             continue;   // we don't know about this one
+        }
         count++;
         [s addNFPA704DataLine:nfpaLine];
     }
-    NSLog(@"NFPA 704 list accepted: %d", count);
+    NSLog(@"NFPA 704 list accepted: %d, skipped %d", count, skipped);
     
     NSURL *wikiDBURL = [[NSBundle mainBundle] URLForResource:@"wikidb" withExtension:@""];
     if (!wikiDBURL) {
@@ -252,18 +256,20 @@
                                                 encoding:NSUTF8StringEncoding
                                                    error:&error]
                        componentsSeparatedByString:@"\n"];
-    count = 0;
+    count = skipped = 0;
     for (NSString *wikiLine in wikiDB) {
         NSString *UNNumber = [self firstField:wikiLine];
-        if (!UNNumber)
+        if (!UNNumber) {
+            skipped++;
             continue;
+        }
         Substance *s = [substances objectForKey:wikiLine];
         if (!s)
             continue;   // we don't know about this one
         count++;
         [s addwikiLine:wikiLine];
     }
-    NSLog(@"wiki items accepted: %d", count);
+    NSLog(@"wiki items accepted: %d, skipped %d", count, skipped);
     
     NSURL *placardDBURL = [[NSBundle mainBundle] URLForResource:@"placarddb" withExtension:@""];
     if (!placardDBURL) {
@@ -273,18 +279,20 @@
                                                 encoding:NSUTF8StringEncoding
                                                    error:&error]
                        componentsSeparatedByString:@"\n"];
-    count = 0;
+    count = skipped = 0;
     for (NSString *placardLine in placardDB) {
         NSString *UNNumber = [self firstField:placardLine];
-        if (!UNNumber)
+        if (!UNNumber) {
+            skipped++;
             continue;
+        }
         Substance *s = [substances objectForKey:UNNumber];
         if (!s)
             continue;   // we don't know about this one
         count++;
         [s addPlacardLine: placardLine];
     }
-    NSLog(@"placard items accepted: %d", count);
+    NSLog(@"placard items accepted: %d, skipped %d", count, skipped);
 }
 
 - (NSString *) firstField:(NSString *) line {
