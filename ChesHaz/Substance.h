@@ -15,7 +15,7 @@ typedef enum HazardFlags {
 } HazardFlags;
 
 @interface Substance : NSObject {
-    int number;             // UN/NA number from ERG db
+    NSString *UNnumber;      // UN/NA number from ERG db
     NSString *numberURL;    // https://cameochemicals.noaa.gov/unna/1003
     NSString *guideNumber;  // ERG handling guide number
     NSString *guideURL;     // ERG handling guide URL
@@ -28,9 +28,11 @@ typedef enum HazardFlags {
     
     NSString *hazardClass;  // From wikipedia
     NSString *htmlDescription;
+    
+    NSString *placardFiles; // from placard database
 }
 
-@property (assign)              int number;
+@property (nonatomic, strong)   NSString *UNnumber;
 @property (nonatomic, strong)   NSString *numberURL;
 @property (nonatomic, strong)   NSString *guideNumber;
 @property (nonatomic, strong)   NSString *guideURL;
@@ -47,5 +49,6 @@ typedef enum HazardFlags {
 - (id)initWithERGDBLine:(NSString *) line;
 - (void) addNFPA704DataLine: (NSString *) line;
 - (void) addwikiLine: (NSString *) line;
+- (void) addPlacardLine: (NSString *) line;
 
 @end

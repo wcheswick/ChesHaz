@@ -10,7 +10,7 @@
 
 @implementation Substance
 
-@synthesize number, numberURL;
+@synthesize UNnumber, numberURL;
 @synthesize guideNumber, guideURL;
 @synthesize description;
 @synthesize hazardFlags;
@@ -23,10 +23,10 @@
     if (self) {
         NSArray *fields = [line componentsSeparatedByString:@"\t"];
         if ([fields count] != 6) {
-            NSLog(@"db error, wrong field count:%@", line);
+            NSLog(@"ERG db error, wrong field count:%@", line);
             return nil;
         }
-        number = [(NSString *)[fields objectAtIndex:0] intValue];
+        UNnumber = [fields objectAtIndex:0];
         numberURL = [fields objectAtIndex:1];
         guideNumber = [fields objectAtIndex:2];
         guideURL = [fields objectAtIndex:3];
@@ -61,6 +61,15 @@
     }
     hazardClass = [fields objectAtIndex:1];
     htmlDescription = [fields objectAtIndex:2];
+}
+
+- (void) addPlacardLine: (NSString *) line {
+    NSArray *fields = [line componentsSeparatedByString:@"\t"];
+    if ([fields count] != 1) {
+        NSLog(@"Wiki db error, wrong field count:%@", line);
+        return;
+    }
+    placardFiles = [fields objectAtIndex:1];
 }
 
 @end

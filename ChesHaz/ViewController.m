@@ -39,14 +39,14 @@
 @property (nonatomic, strong)   UIImageView *dotImageView;
 @property (nonatomic, strong)   UITextField *textField;
 @property (nonatomic, strong)   WKWebView *webView;
-@property (nonatomic, strong)   NSArray *ergDB;
-@property (nonatomic, strong)   NSMutableArray *answers;
 @property (nonatomic, strong)   NSString *dataDate;
 @property (nonatomic, strong)   UISwipeGestureRecognizer *leftSwipe;
 
 @property (nonatomic, strong)   NSArray *flammabilityList;
 @property (nonatomic, strong)   NSArray *healthList;
 @property (nonatomic, strong)   NSArray *instabilityList;
+
+@property (nonatomic, strong)   NSMutableDictionary *substances;
 
 @end
 
@@ -55,14 +55,14 @@
 @synthesize dotImageView;
 @synthesize textField;
 @synthesize webView;
-@synthesize ergDB;
-@synthesize answers;
 @synthesize dataDate;
 @synthesize leftSwipe;
 
 @synthesize flammabilityList;
 @synthesize healthList;
 @synthesize instabilityList;
+
+@synthesize substances;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -107,22 +107,9 @@
                         @"Readily capable of detonation or explosive decomposition or explosive reaction at normal temperatures and pressures.",
                        nil];
     
-    answers = [[NSMutableArray alloc] initWithCapacity:5];
-    
-    NSURL *dbURL = [[NSBundle mainBundle] URLForResource:@"ergdb" withExtension:@""];
-    if (!dbURL) {
-        NSLog(@"inconceivable, database missing");
-    }
-    NSError *error;
-    ergDB = [[NSString stringWithContentsOfURL:dbURL
-                                      encoding:NSUTF8StringEncoding
-                                         error:&error]
-             componentsSeparatedByString:@"\n"];
-    if (!ergDB || error) {
-        NSLog(@"Inconceivable: DB read error %@",
-              [error localizedDescription]);
-    }
-    
+    [self loadDataBases];
+
+#ifdef notdef
     NSDictionary *attrs = [[NSFileManager defaultManager]
                            attributesOfItemAtPath:dbURL.path
                            error:&error];
@@ -138,7 +125,8 @@
         NSLog(@" Date Not found");
         dataDate = @"(Unknown)";
     }
-
+#endif
+    
     UIImage *dotImage = [UIImage imageNamed:@"DOT.gif"];
     dotImageView = [[UIImageView alloc] initWithImage:dotImage];
     dotImageView.frame = CGRectMake(0, 30, DOT_H, DOT_H);
@@ -210,6 +198,103 @@
     [textField setNeedsDisplay];
 }
 
+- (void) loadDataBases {
+    NSError *error;
+    int count = 0;
+
+    NSURL *dbURL = [[NSBundle mainBundle] URLForResource:@"ergdb" withExtension:@""];
+    if (!dbURL) {
+        NSLog(@"inconceivable, erg database missing");
+    }
+    NSArray *ergDB = [[NSString stringWithContentsOfURL:dbURL
+                                               encoding:NSUTF8StringEncoding
+                                                  error:&error]
+                      componentsSeparatedByString:@"\n"];
+    substances = [[NSMutableDictionary alloc] initWithCapacity:[ergDB count]];
+    
+    for (NSString *ergLine in ergDB) {
+        Substance *substance = [[Substance alloc] initWithERGDBLine:ergLine];
+        if (!substance)
+            continue;
+        if ([substances objectForKey:substance.UNnumber]) {
+            NSLog(@"duplicate UN: %@, ignored for now", substance.UNnumber);
+            continue;
+        }
+        [substances setObject:substance forKey:substance.UNnumber];
+    }
+    NSLog(@"substances read: %lu", (unsigned long)[substances count]);
+    
+    NSURL *nfpaURL = [[NSBundle mainBundle] URLForResource:@"nfpadb" withExtension:@""];
+    if (!nfpaURL) {
+        NSLog(@"inconceivable, nfpa database missing");
+    }
+    NSArray *nfpaDB = [[NSString stringWithContentsOfURL:nfpaURL
+                                                encoding:NSUTF8StringEncoding
+                                                   error:&error]
+                       componentsSeparatedByString:@"\n"];
+    for (NSString *nfpaLine in nfpaDB) {
+        NSString *UNNumber = [self firstField:nfpaLine];
+        if (!UNNumber)
+            continue;
+        Substance *s = [substances objectForKey:UNNumber];
+        if (!s)
+            continue;   // we don't know about this one
+        count++;
+        [s addNFPA704DataLine:nfpaLine];
+    }
+    NSLog(@"NFPA 704 list accepted: %d", count);
+    
+    NSURL *wikiDBURL = [[NSBundle mainBundle] URLForResource:@"wikidb" withExtension:@""];
+    if (!wikiDBURL) {
+        NSLog(@"inconceivable, wiki database missing");
+    }
+    NSArray *wikiDB = [[NSString stringWithContentsOfURL:wikiDBURL
+                                                encoding:NSUTF8StringEncoding
+                                                   error:&error]
+                       componentsSeparatedByString:@"\n"];
+    count = 0;
+    for (NSString *wikiLine in wikiDB) {
+        NSString *UNNumber = [self firstField:wikiLine];
+        if (!UNNumber)
+            continue;
+        Substance *s = [substances objectForKey:wikiLine];
+        if (!s)
+            continue;   // we don't know about this one
+        count++;
+        [s addwikiLine:wikiLine];
+    }
+    NSLog(@"wiki items accepted: %d", count);
+    
+    NSURL *placardDBURL = [[NSBundle mainBundle] URLForResource:@"placarddb" withExtension:@""];
+    if (!placardDBURL) {
+        NSLog(@"inconceivable, placard database missing");
+    }
+    NSArray *placardDB = [[NSString stringWithContentsOfURL:placardDBURL
+                                                encoding:NSUTF8StringEncoding
+                                                   error:&error]
+                       componentsSeparatedByString:@"\n"];
+    count = 0;
+    for (NSString *placardLine in placardDB) {
+        NSString *UNNumber = [self firstField:placardLine];
+        if (!UNNumber)
+            continue;
+        Substance *s = [substances objectForKey:UNNumber];
+        if (!s)
+            continue;   // we don't know about this one
+        count++;
+        [s addPlacardLine: placardLine];
+    }
+    NSLog(@"placard items accepted: %d", count);
+}
+
+- (NSString *) firstField:(NSString *) line {
+    NSRange r = [line rangeOfString:@"\t"];
+    if (r.location == NSNotFound) {
+        return nil;
+    }
+    return [line substringToIndex:r.location];
+}
+
 - (void)keyboardWillBeShown:(NSNotification*)aNotification {
     NSDictionary* info = [aNotification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
@@ -222,19 +307,9 @@
 // Return YES if an answer exists. This database and routine are stupidly ineffecient,
 // but it doesn't matter.
 
-- (BOOL) displayAnswers: (int)query {
-    NSString *substanceURL = nil;
-    for (NSString *dbLine in ergDB) {
-        Substance *substance = [[Substance alloc] initWithERGDBLine:dbLine];
-        if (substance.number > query)
-            break;
-        if (substance.number == query) {
-            [answers addObject:substance];
-            if (!substanceURL)
-                substanceURL = substance.numberURL;
-        }
-    }
-    if (answers.count == 0)
+- (BOOL) displayAnswers: (NSString *)UNNumber {
+    Substance *substance = [substances objectForKey:UNNumber];
+    if (!substance)
         return NO;
     
     NSString *answerHTML =  @"<html><head>\n"
@@ -245,16 +320,16 @@
                             @"} </style>\n"
                             @"<meta name=\"viewport\" content=\"initial-scale=1.3\"/>\n"
                             @"</head><body>\n";
-    for (Substance *substance in answers) {
-        answerHTML = [NSString stringWithFormat:@"%@<p>\n%@.\n"
-                      @"<a href=\"%@\">(Handling guide #%@)</a>."
-                      @"</p>",
-                      answerHTML, substance.description,
-                      substance.guideURL, substance.guideNumber];
-    }
-    answerHTML = [answerHTML stringByAppendingString:[NSString stringWithFormat:
-                                                      @"<a href=\"%@\">NOAA UN/NA chemical description</a></p>\n",
-                                                      substanceURL]];
+    answerHTML = [NSString stringWithFormat:@"%@<p>\n%@.\n"
+                  @"<a href=\"%@\">(Handling guide #%@)</a>."
+                  @"</p>",
+                  answerHTML, substance.description,
+                  substance.guideURL, substance.guideNumber];
+    answerHTML = [answerHTML
+                  stringByAppendingString:[NSString
+                                           stringWithFormat:
+                                           @"<a href=\"%@\">NOAA UN/NA chemical description</a></p>\n",
+                                           substance.numberURL]];
     answerHTML = [answerHTML stringByAppendingString:[NSString stringWithFormat:
                                                       @"<p><small>This information is provided for educational purposes from databases "
                                                       @"from the US NOAA as of %@.  While it is believed to be accurate, first responders "
@@ -335,13 +410,10 @@ replacementString:(NSString *)string {
         [self entryNotValid];
         return YES;
     }
-    return [self displayAnswers:newText.intValue];
+    return [self displayAnswers:newText];
 }
 
 - (void) entryNotValid {
-        if (answers.count > 0) {
-            [answers removeAllObjects];
-        }
     webView.hidden = YES;
     self.navigationItem.rightBarButtonItem.enabled = leftSwipe.enabled = NO;
     [webView setNeedsDisplay];
@@ -349,7 +421,6 @@ replacementString:(NSString *)string {
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 

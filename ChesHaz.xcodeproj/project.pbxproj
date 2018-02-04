@@ -42,6 +42,7 @@
 		FBC3CEB32026590D00D4EDE2 /* Placard8.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE9D2026590D00D4EDE2 /* Placard8.gif */; };
 		FBC3CEB42026590D00D4EDE2 /* Placard9.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE9E2026590D00D4EDE2 /* Placard9.gif */; };
 		FBC3CEB52026590D00D4EDE2 /* PlacardIH.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE9F2026590D00D4EDE2 /* PlacardIH.gif */; };
+		FBC3CEB720265E9E00D4EDE2 /* placarddb in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CEB620265E9E00D4EDE2 /* placarddb */; };
 		FBDC10F91FD32697009D3933 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC10F81FD32697009D3933 /* AppDelegate.m */; };
 		FBDC10FC1FD32697009D3933 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC10FB1FD32697009D3933 /* ViewController.m */; };
 		FBDC11021FD32697009D3933 /* ChesHaz.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FBDC11001FD32697009D3933 /* ChesHaz.xcdatamodeld */; };
@@ -128,6 +129,7 @@
 		FBC3CE9D2026590D00D4EDE2 /* Placard8.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard8.gif; sourceTree = "<group>"; };
 		FBC3CE9E2026590D00D4EDE2 /* Placard9.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard9.gif; sourceTree = "<group>"; };
 		FBC3CE9F2026590D00D4EDE2 /* PlacardIH.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = PlacardIH.gif; sourceTree = "<group>"; };
+		FBC3CEB620265E9E00D4EDE2 /* placarddb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = placarddb; sourceTree = "<group>"; };
 		FBDC10F41FD32697009D3933 /* ChesHaz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChesHaz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBDC10F71FD32697009D3933 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FBDC10F81FD32697009D3933 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				FBC3CE802025F8EC00D4EDE2 /* classesdb */,
 				FBC3CE812025F8EC00D4EDE2 /* ergdb */,
 				FBC3CE822025F8EC00D4EDE2 /* nfpadb */,
+				FBC3CEB620265E9E00D4EDE2 /* placarddb */,
 				FBC3CE832025F8EC00D4EDE2 /* wikidb */,
 			);
 			path = Databases;
@@ -435,6 +438,7 @@
 				FBFFB0391FD6C433007D6191 /* Main.storyboard in Resources */,
 				FBC3CEA82026590D00D4EDE2 /* Placard3373.gif in Resources */,
 				FBC3CEA72026590D00D4EDE2 /* Placard3.gif in Resources */,
+				FBC3CEB720265E9E00D4EDE2 /* placarddb in Resources */,
 				FBC3CEB42026590D00D4EDE2 /* Placard9.gif in Resources */,
 				FBC3CEAE2026590D00D4EDE2 /* Placard6.1.gif in Resources */,
 				FBC3CEA32026590D00D4EDE2 /* Placard2.2.gif in Resources */,
