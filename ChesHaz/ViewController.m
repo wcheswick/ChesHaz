@@ -263,9 +263,11 @@
             skipped++;
             continue;
         }
-        Substance *s = [substances objectForKey:wikiLine];
-        if (!s)
+        Substance *s = [substances objectForKey:UNNumber];
+        if (!s) {
+            skipped++;
             continue;   // we don't know about this one
+        }
         count++;
         [s addwikiLine:wikiLine];
     }

@@ -23,7 +23,8 @@
     if (self) {
         NSArray *fields = [line componentsSeparatedByString:@"\t"];
         if ([fields count] != 6) {
-            NSLog(@"ERG db error, wrong field count:%@", line);
+            NSLog(@"ERG db error, wrong field count (%lu): '%@'",
+                  (unsigned long)[fields count], line);
             return nil;
         }
         UNnumber = [fields objectAtIndex:0];
@@ -65,7 +66,7 @@
 
 - (void) addPlacardLine: (NSString *) line {
     NSArray *fields = [line componentsSeparatedByString:@"\t"];
-    if ([fields count] != 1) {
+    if ([fields count] != 2) {
         NSLog(@"Wiki db error, wrong field count:%@", line);
         return;
     }
