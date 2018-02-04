@@ -47,7 +47,9 @@ NF == 2 {
 	$1 = lastfirst
 }
 
-{
+{	gsub(/<b>/, "", $3)
+	gsub(/<\/b>/, "", $3)
+	gsub(/href=\"/, "href=\"https://en.wikipedia.org", $3)
 	print $0
 	next
 }' |
