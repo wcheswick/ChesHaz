@@ -10,6 +10,7 @@
 #import "AboutVC.h"
 #import "OfficialVC.h"
 #import "ViewController.h"
+#import "PlacardView.h"
 #import "Substance.h"
 
 #define LATER   0   // rect value to be filled in later
@@ -38,6 +39,7 @@
 
 @property (nonatomic, strong)   UIImageView *dotImageView;
 @property (nonatomic, strong)   UITextField *textField;
+@property (nonatomic, strong)   PlacardView *placardView;
 @property (nonatomic, strong)   WKWebView *webView;
 @property (nonatomic, strong)   NSString *dataDate;
 @property (nonatomic, strong)   UISwipeGestureRecognizer *leftSwipe;
@@ -52,8 +54,8 @@
 
 @implementation ViewController
 
-@synthesize dotImageView;
-@synthesize textField;
+@synthesize dotImageView, textField;
+@synthesize placardView;
 @synthesize webView;
 @synthesize dataDate;
 @synthesize leftSwipe;
@@ -147,6 +149,11 @@
     textField.backgroundColor = [UIColor clearColor];
     [dotImageView addSubview:textField];
     
+    placardView = [[PlacardView alloc] init];
+    placardView.hidden = YES;
+    [self.view addSubview:placardView];
+    [self.view bringSubviewToFront:placardView];
+    
     webView = [[WKWebView alloc] init];
 #ifdef notdef
     [webView addObserver:self
@@ -184,9 +191,15 @@
     f.origin.x = (f.size.width - dotImageView.frame.size.width)/2.0;
     f.origin.y = [[UIApplication sharedApplication] statusBarFrame].size.height +
     self.navigationController.navigationBar.frame.size.height;
+    
     f.size = dotImageView.frame.size;
     dotImageView.frame = f;
     [dotImageView setNeedsDisplay];
+    
+    f.origin.y = dotImageView.frame.size.height - placardView.frame.size.height;
+    f.origin.x = self.view.frame.size.width - placardView.frame.size.width;
+    f.size = placardView.frame.size;
+    placardView.frame = f;
     
     f = self.view.frame;
     f.origin.y = BELOW(dotImageView.frame) + VSEP;
@@ -330,25 +343,22 @@
                             @"} </style>\n"
                             @"<meta name=\"viewport\" content=\"initial-scale=1.3\"/>\n"
                             @"</head><body>\n";
-    answerHTML = [NSString stringWithFormat:@"%@<p>\n%@.\n"
-                  @"<a href=\"%@\">(Handling guide #%@)</a>."
+    answerHTML = [NSString stringWithFormat:@"%@<p>\n"
+                  @"<b>UN %@:</b> %@.\n"
                   @"</p>",
-                  answerHTML, substance.description,
-                  substance.guideURL, substance.guideNumber];
-    answerHTML = [answerHTML
-                  stringByAppendingString:[NSString
-                                           stringWithFormat:
-                                           @"<a href=\"%@\">NOAA UN/NA chemical description</a></p>\n",
-                                           substance.numberURL]];
-    answerHTML = [answerHTML stringByAppendingString:[NSString stringWithFormat:
-                                                      @"<p><small>This information is provided for educational purposes from databases "
-                                                      @"from the US NOAA as of %@.  While it is believed to be accurate, first responders "
-                                                      @"should probably use official apps to access data in emergency situations.</small></p>"
-                                                      @"</body></html>\n",
-                                                      dataDate]];
+                  answerHTML,
+                  UNNumber,
+                  substance.description];
     [webView loadHTMLString:answerHTML baseURL:nil];
     webView.hidden = NO;
     [webView setNeedsDisplay];
+    
+    if (substance.NFPAnumbers) {
+        [placardView useSubstance:substance];
+        placardView.hidden = NO;
+        [placardView setNeedsDisplay];
+    }
+    
     self.navigationItem.rightBarButtonItem.enabled = leftSwipe.enabled = YES;
     return YES;
 }
@@ -424,7 +434,7 @@ replacementString:(NSString *)string {
 }
 
 - (void) entryNotValid {
-    webView.hidden = YES;
+    webView.hidden = placardView.hidden = YES;
     self.navigationItem.rightBarButtonItem.enabled = leftSwipe.enabled = NO;
     [webView setNeedsDisplay];
 }

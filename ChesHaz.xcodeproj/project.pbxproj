@@ -43,6 +43,8 @@
 		FBC3CEB42026590D00D4EDE2 /* Placard9.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE9E2026590D00D4EDE2 /* Placard9.gif */; };
 		FBC3CEB52026590D00D4EDE2 /* PlacardIH.gif in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE9F2026590D00D4EDE2 /* PlacardIH.gif */; };
 		FBC3CEB720265E9E00D4EDE2 /* placarddb in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CEB620265E9E00D4EDE2 /* placarddb */; };
+		FBC3CEBA2027544900D4EDE2 /* PlacardView.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC3CEB92027544900D4EDE2 /* PlacardView.m */; };
+		FBC3CEBC2027568F00D4EDE2 /* NFPA.png in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CEBB2027568F00D4EDE2 /* NFPA.png */; };
 		FBDC10F91FD32697009D3933 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC10F81FD32697009D3933 /* AppDelegate.m */; };
 		FBDC10FC1FD32697009D3933 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDC10FB1FD32697009D3933 /* ViewController.m */; };
 		FBDC11021FD32697009D3933 /* ChesHaz.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FBDC11001FD32697009D3933 /* ChesHaz.xcdatamodeld */; };
@@ -130,6 +132,9 @@
 		FBC3CE9E2026590D00D4EDE2 /* Placard9.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Placard9.gif; sourceTree = "<group>"; };
 		FBC3CE9F2026590D00D4EDE2 /* PlacardIH.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = PlacardIH.gif; sourceTree = "<group>"; };
 		FBC3CEB620265E9E00D4EDE2 /* placarddb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = placarddb; sourceTree = "<group>"; };
+		FBC3CEB82027544900D4EDE2 /* PlacardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlacardView.h; sourceTree = "<group>"; };
+		FBC3CEB92027544900D4EDE2 /* PlacardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlacardView.m; sourceTree = "<group>"; };
+		FBC3CEBB2027568F00D4EDE2 /* NFPA.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NFPA.png; sourceTree = "<group>"; };
 		FBDC10F41FD32697009D3933 /* ChesHaz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChesHaz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBDC10F71FD32697009D3933 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FBDC10F81FD32697009D3933 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -284,6 +289,8 @@
 				FBDC11141FD3277B009D3933 /* Substance.m */,
 				FBC3CE782024B25800D4EDE2 /* OfficialVC.h */,
 				FBC3CE792024B25800D4EDE2 /* OfficialVC.m */,
+				FBC3CEB82027544900D4EDE2 /* PlacardView.h */,
+				FBC3CEB92027544900D4EDE2 /* PlacardView.m */,
 				FBC3CE732024A68B00D4EDE2 /* AboutVC.h */,
 				FBC3CE742024A68B00D4EDE2 /* AboutVC.m */,
 				FBDC11081FD32697009D3933 /* Info.plist */,
@@ -301,6 +308,7 @@
 			children = (
 				FBC3CE762024AD1F00D4EDE2 /* about.html */,
 				FBDC11031FD32697009D3933 /* Assets.xcassets */,
+				FBC3CEBB2027568F00D4EDE2 /* NFPA.png */,
 				FBDC11191FD334B1009D3933 /* DOT.gif */,
 				FBFFB03A1FD6CCBC007D6191 /* Launch.png */,
 			);
@@ -438,6 +446,7 @@
 				FBFFB0391FD6C433007D6191 /* Main.storyboard in Resources */,
 				FBC3CEA82026590D00D4EDE2 /* Placard3373.gif in Resources */,
 				FBC3CEA72026590D00D4EDE2 /* Placard3.gif in Resources */,
+				FBC3CEBC2027568F00D4EDE2 /* NFPA.png in Resources */,
 				FBC3CEB720265E9E00D4EDE2 /* placarddb in Resources */,
 				FBC3CEB42026590D00D4EDE2 /* Placard9.gif in Resources */,
 				FBC3CEAE2026590D00D4EDE2 /* Placard6.1.gif in Resources */,
@@ -492,6 +501,7 @@
 			files = (
 				FBC3CE752024A68B00D4EDE2 /* AboutVC.m in Sources */,
 				FBDC10FC1FD32697009D3933 /* ViewController.m in Sources */,
+				FBC3CEBA2027544900D4EDE2 /* PlacardView.m in Sources */,
 				FBC3CE7A2024B25800D4EDE2 /* OfficialVC.m in Sources */,
 				FBDC11151FD3277B009D3933 /* Substance.m in Sources */,
 				FBDC11021FD32697009D3933 /* ChesHaz.xcdatamodeld in Sources */,
