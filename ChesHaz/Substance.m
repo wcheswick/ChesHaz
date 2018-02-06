@@ -18,6 +18,8 @@
 @synthesize dataSheetURL, NFPAnumbers, special;
 @synthesize hazardClass, htmlDescription;
 
+@synthesize placardFiles;
+
 - (id)initWithERGDBLine:(NSString *) line {
     self = [super init];
     if (self) {

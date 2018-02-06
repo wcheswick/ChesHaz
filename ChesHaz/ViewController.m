@@ -49,6 +49,7 @@
 @property (nonatomic, strong)   NSArray *instabilityList;
 
 @property (nonatomic, strong)   NSMutableDictionary *substances;
+@property (nonatomic, strong)   Substance *currentSubstance;
 
 @end
 
@@ -64,10 +65,12 @@
 @synthesize healthList;
 @synthesize instabilityList;
 
-@synthesize substances;
+@synthesize substances, currentSubstance;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    currentSubstance = nil;
     
     self.navigationController.navigationBar.hidden = NO;
     self.navigationController.navigationBar.opaque = YES;
@@ -331,10 +334,11 @@
 // but it doesn't matter.
 
 - (BOOL) displayAnswers: (NSString *)UNNumber {
-    Substance *substance = [substances objectForKey:UNNumber];
-    if (!substance)
+    Substance *s = [substances objectForKey:UNNumber];
+    if (!s)
         return NO;
     
+    currentSubstance = s;
     NSString *answerHTML =  @"<html><head>\n"
                             @"<style>\n"
                             @"body {\n"
@@ -343,18 +347,51 @@
                             @"} </style>\n"
                             @"<meta name=\"viewport\" content=\"initial-scale=1.3\"/>\n"
                             @"</head><body>\n";
-    answerHTML = [NSString stringWithFormat:@"%@<p>\n"
-                  @"<b>UN %@:</b> %@.\n"
-                  @"</p>",
-                  answerHTML,
-                  UNNumber,
-                  substance.description];
-    [webView loadHTMLString:answerHTML baseURL:nil];
+    
+    answerHTML = [answerHTML
+                  stringByAppendingString:[NSString
+                                           stringWithFormat:
+                                           @"<b>UN %@:</b> %@.\n"
+                                           @"<p>\n",
+                                           UNNumber,
+                                           currentSubstance.description]];
+
+    if (currentSubstance.placardFiles &&
+        ![currentSubstance.placardFiles isEqualToString:@""]) {
+        NSArray *placardList = [currentSubstance.placardFiles componentsSeparatedByString:@" "];
+//        NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"." error:nil];
+//        for (NSString *file in files)
+//            NSLog(@"  %@", file);
+        
+        for (NSString *file in placardList) {
+            if ([file isEqualToString:@""])
+                continue;
+//            NSURL *placardURL = [[NSBundle mainBundle] URLForResource:@"Placards" withExtension:@""];
+//            NSLog(@"url = %@", placardURL);
+            answerHTML = [answerHTML
+                          stringByAppendingString:[NSString stringWithFormat:
+                                                   @"<img src=\"%@\">%@ \n",
+                                                   file, file]];
+        }
+        answerHTML = [answerHTML stringByAppendingString:@"\n<p>\n"];
+    }
+    if (currentSubstance.htmlDescription &&
+        ![currentSubstance.htmlDescription isEqualToString:@""]) {
+        answerHTML = [answerHTML
+                          stringByAppendingString:[NSString stringWithFormat:
+                                                   @"<b>Wikipedia:</b> %@\n"
+                                                   @"<p>\n",
+                                                   currentSubstance.htmlDescription]];
+    }
+    
+    answerHTML = [answerHTML stringByAppendingString:@"</body></html>\n"];
+    NSLog(@"answerHTML: %@", answerHTML);
+    [webView loadHTMLString:answerHTML baseURL:[NSURL URLWithString:@"file:///"]];
     webView.hidden = NO;
     [webView setNeedsDisplay];
     
-    if (substance.NFPAnumbers) {
-        [placardView useSubstance:substance];
+    if (currentSubstance.NFPAnumbers) {
+        [placardView useSubstance:currentSubstance];
         placardView.hidden = NO;
         [placardView setNeedsDisplay];
     }
@@ -381,7 +418,7 @@
 }
 
 - (IBAction)doOfficial:(UISwipeGestureRecognizer *)sender {
-    OfficialVC *ovc = [[OfficialVC alloc] init];
+    OfficialVC *ovc = [[OfficialVC alloc] initWithSubstance:currentSubstance];
     [[self navigationController] pushViewController: ovc animated: YES];
 }
 
@@ -434,6 +471,7 @@ replacementString:(NSString *)string {
 }
 
 - (void) entryNotValid {
+    currentSubstance = nil;
     webView.hidden = placardView.hidden = YES;
     self.navigationItem.rightBarButtonItem.enabled = leftSwipe.enabled = NO;
     [webView setNeedsDisplay];
