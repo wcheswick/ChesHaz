@@ -75,11 +75,13 @@
     officialHTML = [officialHTML
                     stringByAppendingString:
                     [NSString stringWithFormat:
-                     @"<b>UN/NA %@: Links to official information<b><p>\n"
-                     @"<a href=\"%@\">ERG handling guide number %@.</a><p>\n"
-                     @"<a href=\"%@\">NFPA 704 data sheet.</a><p>\n"
+                     @"<b>UN/NA %@:</b> %@<p>"
+                     @"Links to official information<p>\n"
+                     @"<a href=\"%@\">ERG handling guide number %@. (NOAA)</a><p>\n"
+                     @"<a href=\"%@\">NFPA 704 data sheet.</a> (NOAA)<p>\n"
                      @"</body></html>\n",
                      substance.UNnumber,
+                     substance.description,
                      substance.guideURL, substance.guideNumber,
                      substance.dataSheetURL
                      ]];

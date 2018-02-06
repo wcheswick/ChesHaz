@@ -356,6 +356,7 @@
                                            UNNumber,
                                            currentSubstance.description]];
 
+    NSURL *baseURL = nil;
     if (currentSubstance.placardFiles &&
         ![currentSubstance.placardFiles isEqualToString:@""]) {
         NSArray *placardList = [currentSubstance.placardFiles componentsSeparatedByString:@" "];
@@ -366,12 +367,14 @@
         for (NSString *file in placardList) {
             if ([file isEqualToString:@""])
                 continue;
-//            NSURL *placardURL = [[NSBundle mainBundle] URLForResource:@"Placards" withExtension:@""];
-//            NSLog(@"url = %@", placardURL);
+            if (!baseURL)
+                baseURL = [[[NSBundle mainBundle] URLForResource:file withExtension:@""]
+                           URLByDeletingLastPathComponent];
+NSLog(@"baseURL = %@", baseURL);
             answerHTML = [answerHTML
                           stringByAppendingString:[NSString stringWithFormat:
-                                                   @"<img src=\"%@\">%@ \n",
-                                                   file, file]];
+                                                   @"<img src=\"%@\">\n",
+                                                   file]];
         }
         answerHTML = [answerHTML stringByAppendingString:@"\n<p>\n"];
     }
@@ -386,7 +389,7 @@
     
     answerHTML = [answerHTML stringByAppendingString:@"</body></html>\n"];
     NSLog(@"answerHTML: %@", answerHTML);
-    [webView loadHTMLString:answerHTML baseURL:[NSURL URLWithString:@"file:///"]];
+    [webView loadHTMLString:answerHTML baseURL:baseURL];
     webView.hidden = NO;
     [webView setNeedsDisplay];
     
