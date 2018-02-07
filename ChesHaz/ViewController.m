@@ -7,6 +7,7 @@
 //
 
 // #import <Intents.h>
+#import "Defines.h"
 #import "AboutVC.h"
 #import "OfficialVC.h"
 #import "ViewController.h"
@@ -14,7 +15,6 @@
 #import "Substance.h"
 
 #define LATER   0   // rect value to be filled in later
-#define INSET   5
 #define VSEP    9
 
 #define DOT_H           200
@@ -24,9 +24,6 @@
 #define HSEP    5
 #define BUTTON_FONT_SIZE    30
 #define BUTTON_H        (BUTTON_FONT_SIZE*1.2)
-
-#define BELOW(r)    ((r).origin.y + (r).size.height)
-#define RIGHT(r)    ((r).origin.x + (r).size.width)
 
 #define SET_VIEW_X(v,nx) {CGRect f = (v).frame; f.origin.x = (nx); (v).frame = f;}
 #define SET_VIEW_Y(v,ny) {CGRect f = (v).frame; f.origin.y = (ny); (v).frame = f;}
@@ -49,6 +46,7 @@
 @property (nonatomic, strong)   NSArray *instabilityList;
 
 @property (nonatomic, strong)   NSMutableDictionary *substances;
+@property (nonatomic, strong)   Substance *currentSubstance;
 
 @end
 
@@ -64,10 +62,12 @@
 @synthesize healthList;
 @synthesize instabilityList;
 
-@synthesize substances;
+@synthesize substances, currentSubstance;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    currentSubstance = nil;
     
     self.navigationController.navigationBar.hidden = NO;
     self.navigationController.navigationBar.opaque = YES;
@@ -132,9 +132,6 @@
     UIImage *dotImage = [UIImage imageNamed:@"DOT.gif"];
     dotImageView = [[UIImageView alloc] initWithImage:dotImage];
     dotImageView.frame = CGRectMake(0, 30, DOT_H, DOT_H);
-//    dotImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-//    dotImageView.layer.borderWidth = 1.0;
-//    dotImageView.layer.cornerRadius = 5.0;
     [self.view addSubview:dotImageView];
     
     textField = [[UITextField alloc] initWithFrame:CGRectMake(40, 75, 120, HAZ_H)];
@@ -151,16 +148,14 @@
     
     placardView = [[PlacardView alloc] init];
     placardView.hidden = YES;
+#ifdef notdef
+    placardView.layer.borderColor = [UIColor grayColor].CGColor;
+    placardView.layer.borderWidth = 1.0;
+    placardView.layer.cornerRadius = 0.5;
+#endif
     [self.view addSubview:placardView];
-    [self.view bringSubviewToFront:placardView];
     
     webView = [[WKWebView alloc] init];
-#ifdef notdef
-    [webView addObserver:self
-              forKeyPath:@"URL"
-                 options:NSKeyValueObservingOptionNew
-                 context:NULL];
-#endif
     webView.navigationDelegate = self;
     webView.scrollView.showsVerticalScrollIndicator = YES;
     [self.view addSubview:webView];
@@ -188,7 +183,7 @@
 
 - (void) layoutViews {
     CGRect f = self.view.frame;
-    f.origin.x = (f.size.width - dotImageView.frame.size.width)/2.0;
+    f.origin.x = (f.size.width - dotImageView.frame.size.width)*0.5;
     f.origin.y = [[UIApplication sharedApplication] statusBarFrame].size.height +
     self.navigationController.navigationBar.frame.size.height;
     
@@ -196,9 +191,18 @@
     dotImageView.frame = f;
     [dotImageView setNeedsDisplay];
     
-    f.origin.y = dotImageView.frame.size.height - placardView.frame.size.height;
-    f.origin.x = self.view.frame.size.width - placardView.frame.size.width;
-    f.size = placardView.frame.size;
+    f.origin.x = RIGHT(dotImageView.frame);
+    f.origin.y = dotImageView.frame.origin.y + dotImageView.frame.size.height/2.0;
+    f.size.width = self.view.frame.size.width - f.origin.x;
+    f.size.height = dotImageView.frame.size.height/2;
+    if (f.size.width > f.size.height) {
+        f.origin.x += (f.size.width - f.size.height);
+        f.size.width = f.size.height;
+    } else {
+        f.origin.y += (f.size.height - f.size.width);
+        f.size.height = f.size.width;
+    }
+    f.origin.x -= INSET;    // a little room
     placardView.frame = f;
     
     f = self.view.frame;
@@ -331,10 +335,11 @@
 // but it doesn't matter.
 
 - (BOOL) displayAnswers: (NSString *)UNNumber {
-    Substance *substance = [substances objectForKey:UNNumber];
-    if (!substance)
+    Substance *s = [substances objectForKey:UNNumber];
+    if (!s)
         return NO;
     
+    currentSubstance = s;
     NSString *answerHTML =  @"<html><head>\n"
                             @"<style>\n"
                             @"body {\n"
@@ -343,18 +348,52 @@
                             @"} </style>\n"
                             @"<meta name=\"viewport\" content=\"initial-scale=1.3\"/>\n"
                             @"</head><body>\n";
-    answerHTML = [NSString stringWithFormat:@"%@<p>\n"
-                  @"<b>UN %@:</b> %@.\n"
-                  @"</p>",
-                  answerHTML,
-                  UNNumber,
-                  substance.description];
-    [webView loadHTMLString:answerHTML baseURL:nil];
+    
+    answerHTML = [answerHTML
+                  stringByAppendingString:[NSString
+                                           stringWithFormat:
+                                           @"<b>UN %@:</b> %@.\n"
+                                           @"<p>\n",
+                                           UNNumber,
+                                           currentSubstance.description]];
+
+    NSURL *baseURL = nil;
+    if (currentSubstance.placardFiles &&
+        ![currentSubstance.placardFiles isEqualToString:@""]) {
+        NSArray *placardList = [currentSubstance.placardFiles componentsSeparatedByString:@" "];
+//        NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"." error:nil];
+//        for (NSString *file in files)
+//            NSLog(@"  %@", file);
+        
+        for (NSString *file in placardList) {
+            if ([file isEqualToString:@""])
+                continue;
+            if (!baseURL)
+                baseURL = [[[NSBundle mainBundle] URLForResource:file withExtension:@""]
+                           URLByDeletingLastPathComponent];
+            answerHTML = [answerHTML
+                          stringByAppendingString:[NSString stringWithFormat:
+                                                   @"<img src=\"%@\">\n",
+                                                   file]];
+        }
+        answerHTML = [answerHTML stringByAppendingString:@"\n<p>\n"];
+    }
+    if (currentSubstance.htmlDescription &&
+        ![currentSubstance.htmlDescription isEqualToString:@""]) {
+        answerHTML = [answerHTML
+                          stringByAppendingString:[NSString stringWithFormat:
+                                                   @"<b>Wikipedia:</b> %@\n"
+                                                   @"<p>\n",
+                                                   currentSubstance.htmlDescription]];
+    }
+    
+    answerHTML = [answerHTML stringByAppendingString:@"</body></html>\n"];
+    [webView loadHTMLString:answerHTML baseURL:baseURL];
     webView.hidden = NO;
     [webView setNeedsDisplay];
     
-    if (substance.NFPAnumbers) {
-        [placardView useSubstance:substance];
+    if (currentSubstance.NFPAnumbers) {
+        [placardView useSubstance:currentSubstance];
         placardView.hidden = NO;
         [placardView setNeedsDisplay];
     }
@@ -381,7 +420,7 @@
 }
 
 - (IBAction)doOfficial:(UISwipeGestureRecognizer *)sender {
-    OfficialVC *ovc = [[OfficialVC alloc] init];
+    OfficialVC *ovc = [[OfficialVC alloc] initWithSubstance:currentSubstance];
     [[self navigationController] pushViewController: ovc animated: YES];
 }
 
@@ -434,6 +473,7 @@ replacementString:(NSString *)string {
 }
 
 - (void) entryNotValid {
+    currentSubstance = nil;
     webView.hidden = placardView.hidden = YES;
     self.navigationItem.rightBarButtonItem.enabled = leftSwipe.enabled = NO;
     [webView setNeedsDisplay];

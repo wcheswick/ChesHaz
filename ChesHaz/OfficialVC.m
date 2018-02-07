@@ -11,17 +11,27 @@
 @interface OfficialVC ()
 
 @property (nonatomic, strong)   WKWebView *webView;
+@property (nonatomic, strong)   Substance *substance;
 
 @end
 
 @implementation OfficialVC
 
 @synthesize webView;
+@synthesize substance;
+
+- (id)initWithSubstance:(Substance *) s {
+    self = [super init];
+    if (self) {
+        substance = s;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Links to Official Sites";
+    self.title = @"Official online information";
     
     UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]
                                       initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -39,7 +49,6 @@
                  action:@selector(swipeRight:)];
     rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:rightSwipe];
-
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -63,11 +72,19 @@
                                                       substanceURL]];
 #endif
     
-    officialHTML = [officialHTML stringByAppendingString:[NSString stringWithFormat:
-                                                      @"<p><small>This information is provided for educational purposes from databases. "
-                                                      @"While it is believed to be accurate, first responders "
-                                                      @"should probably use official apps to access data in emergency situations.</small></p>"
-                                                      @"</body></html>\n"]];
+    officialHTML = [officialHTML
+                    stringByAppendingString:
+                    [NSString stringWithFormat:
+                     @"<b>UN/NA %@:</b> %@<p>"
+                     @"Links to official information<p>\n"
+                     @"<a href=\"%@\">ERG handling guide number %@. (NOAA)</a><p>\n"
+                     @"<a href=\"%@\">NFPA 704 data sheet.</a> (NOAA)<p>\n"
+                     @"</body></html>\n",
+                     substance.UNnumber,
+                     substance.description,
+                     substance.guideURL, substance.guideNumber,
+                     substance.dataSheetURL
+                     ]];
     [webView loadHTMLString:officialHTML baseURL:nil];
     [webView setNeedsDisplay];
 }

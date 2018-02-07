@@ -46,6 +46,8 @@ typedef enum HazardFlags {
 @property (nonatomic, strong)   NSString *hazardClass;
 @property (nonatomic, strong)   NSString *htmlDescription;
 
+@property (nonatomic, strong)   NSString *placardFiles;
+
 - (id)initWithERGDBLine:(NSString *) line;
 - (void) addNFPA704DataLine: (NSString *) line;
 - (void) addwikiLine: (NSString *) line;

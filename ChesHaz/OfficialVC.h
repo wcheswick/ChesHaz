@@ -9,7 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
 
+#import "Substance.h"
+
 @interface OfficialVC : UIViewController <WKNavigationDelegate>
 
-@end
+- (id)initWithSubstance:(Substance *) s;
 
+@end
