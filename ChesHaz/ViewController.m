@@ -154,6 +154,10 @@
     
     placardView = [[PlacardView alloc] init];
     placardView.hidden = YES;
+//    placardView.backgroundColor = [UIColor clearColor];
+    placardView.layer.borderColor = [UIColor grayColor].CGColor;
+    placardView.layer.borderWidth = 1.0;
+    placardView.layer.cornerRadius = 0.5;
     [self.view addSubview:placardView];
     [self.view bringSubviewToFront:placardView];
     
@@ -199,9 +203,18 @@
     dotImageView.frame = f;
     [dotImageView setNeedsDisplay];
     
-    f.origin.y = dotImageView.frame.size.height - placardView.frame.size.height;
-    f.origin.x = self.view.frame.size.width - placardView.frame.size.width;
-    f.size = placardView.frame.size;
+    f.origin.x = RIGHT(dotImageView.frame);
+    f.origin.y = dotImageView.frame.origin.y + dotImageView.frame.size.height/2.0;
+    f.size.width = self.view.frame.size.width - f.origin.x;
+    f.size.height = dotImageView.frame.size.height/2;
+    if (f.size.width > f.size.height) {
+        f.origin.x += (f.size.width - f.size.height);
+        f.size.width = f.size.height;
+    } else {
+        f.origin.y += (f.size.height - f.size.width);
+        f.size.height = f.size.width;
+    }
+    f.origin.x -= INSET;    // a little room
     placardView.frame = f;
     
     f = self.view.frame;
@@ -370,7 +383,6 @@
             if (!baseURL)
                 baseURL = [[[NSBundle mainBundle] URLForResource:file withExtension:@""]
                            URLByDeletingLastPathComponent];
-NSLog(@"baseURL = %@", baseURL);
             answerHTML = [answerHTML
                           stringByAppendingString:[NSString stringWithFormat:
                                                    @"<img src=\"%@\">\n",
