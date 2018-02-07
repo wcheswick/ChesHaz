@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Substance.h"
 
-@interface PlacardView : UIImageView
+@interface PlacardView : UIView;
 
 - (void) useSubstance:(Substance *)s;
 

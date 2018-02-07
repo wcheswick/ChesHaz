@@ -7,6 +7,7 @@
 //
 
 // #import <Intents.h>
+#import "Defines.h"
 #import "AboutVC.h"
 #import "OfficialVC.h"
 #import "ViewController.h"
@@ -14,7 +15,6 @@
 #import "Substance.h"
 
 #define LATER   0   // rect value to be filled in later
-#define INSET   5
 #define VSEP    9
 
 #define DOT_H           200
@@ -24,9 +24,6 @@
 #define HSEP    5
 #define BUTTON_FONT_SIZE    30
 #define BUTTON_H        (BUTTON_FONT_SIZE*1.2)
-
-#define BELOW(r)    ((r).origin.y + (r).size.height)
-#define RIGHT(r)    ((r).origin.x + (r).size.width)
 
 #define SET_VIEW_X(v,nx) {CGRect f = (v).frame; f.origin.x = (nx); (v).frame = f;}
 #define SET_VIEW_Y(v,ny) {CGRect f = (v).frame; f.origin.y = (ny); (v).frame = f;}
@@ -135,9 +132,6 @@
     UIImage *dotImage = [UIImage imageNamed:@"DOT.gif"];
     dotImageView = [[UIImageView alloc] initWithImage:dotImage];
     dotImageView.frame = CGRectMake(0, 30, DOT_H, DOT_H);
-//    dotImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-//    dotImageView.layer.borderWidth = 1.0;
-//    dotImageView.layer.cornerRadius = 5.0;
     [self.view addSubview:dotImageView];
     
     textField = [[UITextField alloc] initWithFrame:CGRectMake(40, 75, 120, HAZ_H)];
@@ -154,20 +148,14 @@
     
     placardView = [[PlacardView alloc] init];
     placardView.hidden = YES;
-//    placardView.backgroundColor = [UIColor clearColor];
+#ifdef notdef
     placardView.layer.borderColor = [UIColor grayColor].CGColor;
     placardView.layer.borderWidth = 1.0;
     placardView.layer.cornerRadius = 0.5;
+#endif
     [self.view addSubview:placardView];
-    [self.view bringSubviewToFront:placardView];
     
     webView = [[WKWebView alloc] init];
-#ifdef notdef
-    [webView addObserver:self
-              forKeyPath:@"URL"
-                 options:NSKeyValueObservingOptionNew
-                 context:NULL];
-#endif
     webView.navigationDelegate = self;
     webView.scrollView.showsVerticalScrollIndicator = YES;
     [self.view addSubview:webView];
@@ -195,7 +183,7 @@
 
 - (void) layoutViews {
     CGRect f = self.view.frame;
-    f.origin.x = (f.size.width - dotImageView.frame.size.width)/2.0;
+    f.origin.x = (f.size.width - dotImageView.frame.size.width)*0.5;
     f.origin.y = [[UIApplication sharedApplication] statusBarFrame].size.height +
     self.navigationController.navigationBar.frame.size.height;
     
@@ -400,7 +388,6 @@
     }
     
     answerHTML = [answerHTML stringByAppendingString:@"</body></html>\n"];
-    NSLog(@"answerHTML: %@", answerHTML);
     [webView loadHTMLString:answerHTML baseURL:baseURL];
     webView.hidden = NO;
     [webView setNeedsDisplay];
