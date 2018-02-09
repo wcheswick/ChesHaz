@@ -81,14 +81,16 @@
                                       action:@selector(doAbout:)];
     self.navigationItem.leftBarButtonItem = leftBarButton;
  
+#ifdef notdef
     UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
-                                      initWithTitle:@"Official links >"
+                                      initWithTitle:@"Log"
                                       style:UIBarButtonItemStylePlain
                                       target:self
                                       action:@selector(doOfficial:)];
     rightBarButton.enabled = NO;
     self.navigationItem.rightBarButtonItem = rightBarButton;
-
+#endif
+    
     flammabilityList = [NSArray arrayWithObjects:   // starting with 0
                         @"Normally stable, even under fire conditions."
                         @"Must be preheated before ignition can occur.",
@@ -352,7 +354,7 @@
     answerHTML = [answerHTML
                   stringByAppendingString:[NSString
                                            stringWithFormat:
-                                           @"<b>UN %@:</b> %@.\n"
+                                           @"<b>UN/NA %@:</b> %@.\n"
                                            @"<p>\n",
                                            UNNumber,
                                            currentSubstance.description]];
@@ -382,11 +384,22 @@
         ![currentSubstance.htmlDescription isEqualToString:@""]) {
         answerHTML = [answerHTML
                           stringByAppendingString:[NSString stringWithFormat:
-                                                   @"<b>Wikipedia:</b> %@\n"
+                                                   @"From Wikipedia: %@\n"
                                                    @"<p>\n",
                                                    currentSubstance.htmlDescription]];
     }
     
+    answerHTML = [answerHTML
+                    stringByAppendingString:
+                    [NSString stringWithFormat:
+                     @"<p>Links to official information:<p>\n"
+                     @"<a href=\"%@\">NOAA ERG handling guide number %@.</a><p>\n"
+                     @"<a href=\"%@\">NOAA NFPA 704 data sheet.</a><p>\n",
+                     currentSubstance.guideURL,
+                     currentSubstance.guideNumber,
+                     currentSubstance.dataSheetURL
+                     ]];
+
     answerHTML = [answerHTML stringByAppendingString:@"</body></html>\n"];
     [webView loadHTMLString:answerHTML baseURL:baseURL];
     webView.hidden = NO;
@@ -402,7 +415,7 @@
     return YES;
 }
 
--(IBAction) doAbout: (id) sender {
+- (IBAction) doAbout: (id) sender {
     AboutVC *avc = [[AboutVC alloc] init];
     
     UINavigationController *nav = [[UINavigationController alloc]
