@@ -14,12 +14,14 @@
 #import "PlacardView.h"
 #import "Substance.h"
 
+#define VERTICAL_LINE   @"❘"
+
 #define LATER   0   // rect value to be filled in later
 #define VSEP    9
 
 #define DOT_H           200
-#define HAZ_H           50
 #define HAZ_FONT_SIZE   40
+#define HAZ_H           (HAZ_FONT_SIZE + 6)
 
 #define HSEP    5
 #define BUTTON_FONT_SIZE    30
@@ -35,8 +37,10 @@
 @interface ViewController ()
 
 @property (nonatomic, strong)   UIImageView *dotImageView;
-@property (nonatomic, strong)   UITextField *textField;
+@property (nonatomic, strong)   UIButton *digitsView;
+@property (nonatomic, strong)   PadView *padView;
 @property (nonatomic, strong)   PlacardView *placardView;
+@property (nonatomic, strong)   NSString *UNNAnumber;
 @property (nonatomic, strong)   WKWebView *webView;
 @property (nonatomic, strong)   NSString *dataDate;
 @property (nonatomic, strong)   UISwipeGestureRecognizer *leftSwipe;
@@ -48,12 +52,17 @@
 @property (nonatomic, strong)   NSMutableDictionary *substances;
 @property (nonatomic, strong)   Substance *currentSubstance;
 
+@property (nonatomic, strong)   NSMutableDictionary *digitTree;
+
 @end
 
 @implementation ViewController
 
-@synthesize dotImageView, textField;
+@synthesize dotImageView;
+@synthesize digitsView;
+@synthesize padView;
 @synthesize placardView;
+@synthesize UNNAnumber;
 @synthesize webView;
 @synthesize dataDate;
 @synthesize leftSwipe;
@@ -64,10 +73,13 @@
 
 @synthesize substances, currentSubstance;
 
+@synthesize digitTree;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     currentSubstance = nil;
+    UNNAnumber = @"";
     
     self.navigationController.navigationBar.hidden = NO;
     self.navigationController.navigationBar.opaque = YES;
@@ -134,20 +146,21 @@
     UIImage *dotImage = [UIImage imageNamed:@"DOT.gif"];
     dotImageView = [[UIImageView alloc] initWithImage:dotImage];
     dotImageView.frame = CGRectMake(0, 30, DOT_H, DOT_H);
+    dotImageView.userInteractionEnabled = YES;
     [self.view addSubview:dotImageView];
     
-    textField = [[UITextField alloc] initWithFrame:CGRectMake(40, 75, 120, HAZ_H)];
-    textField.font = [UIFont boldSystemFontOfSize:36];
-    textField.text = @"";
-    textField.delegate = self;
-    textField.keyboardType = UIKeyboardTypeNumberPad;
-    textField.enabled = YES;
-// can't get this to work:
-//  textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    textField.textAlignment = NSTextAlignmentCenter;
-    textField.backgroundColor = [UIColor clearColor];
-    [dotImageView addSubview:textField];
-    
+    digitsView = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    digitsView.frame = CGRectMake(40, 77, 120, HAZ_H);
+    digitsView.titleLabel.font = [UIFont boldSystemFontOfSize:36];
+    [digitsView setTitle:@"" forState:UIControlStateNormal];
+//    [digitsView setTitle:VERTICAL_LINE forState:UIControlStateNormal];
+    [digitsView setTitleColor:[UIColor lightGrayColor]
+                     forState:UIControlStateNormal];
+    [digitsView addTarget:self
+                   action:@selector(doDigitsTapped:)
+         forControlEvents:UIControlEventTouchUpInside];
+    [dotImageView addSubview:digitsView];
+
     placardView = [[PlacardView alloc] init];
     placardView.hidden = YES;
 #ifdef notdef
@@ -168,19 +181,111 @@
     leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
     leftSwipe.enabled = NO;
     [self.view addGestureRecognizer:leftSwipe];
-
+    
+    padView = [[PadView alloc] initWithTarget:self];
+    padView.hidden = YES;
+    [self.view addSubview:padView];
+    
+    [self enableAvailableDigits];
     self.view.backgroundColor = [UIColor whiteColor];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self toggleDigitsView];
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    NSLog(@"%s: v h = %.1f", __PRETTY_FUNCTION__, self.view.frame.size.height);
+    [padView layoutSubviews];
+    [self layoutViews];
+    NSLog(@"%s @ h = %.1f pv @ %.1f", __PRETTY_FUNCTION__,
+          self.view.frame.size.height, padView.frame.origin.y);
+}
+
+- (void) toggleDigitsView {
+    if (padView.hidden) {   // bring it up
+        CGRect f = padView.frame;
+        f.origin.x = (self.view.frame.size.width - padView.frame.size.width)/2; // center
+        f.origin.y = self.view.frame.size.height;   // below the current screen
+        padView.frame = f;
+        padView.hidden = NO;
+        
+        [UIView transitionWithView:self.view
+                          duration:0.25
+                           options:UIViewAnimationOptionTransitionNone
+                        animations:^{
+                            [self adjustPadViewToHide:NO];
+                        }
+                        completion:^(BOOL finished) {
+                            ;
+                        }];
+    } else {                // hide the digit pad
+        [UIView transitionWithView:self.view
+                          duration:0.25
+                           options:UIViewAnimationOptionTransitionNone
+                        animations:^{
+                            [self adjustPadViewToHide: YES];
+                         }
+                        completion:^(BOOL finished) {
+                            padView.hidden = YES;
+                       }];
+    }
+}
+
+- (void) adjustPadViewToHide:(BOOL) hide {
+    CGRect f = padView.frame;
+    if (hide)
+        f.origin.y = self.view.frame.size.height;
+    else
+        f.origin.y = self.view.frame.size.height - padView.frame.size.height;
+    padView.frame = f;
+}
+
+- (IBAction)doDigitsTapped:(UIButton *)sender {
+     [self toggleDigitsView];
+}
+
+- (void) padTextIsNow: (NSString *)text {
+    UNNAnumber = text;
+    [digitsView setTitle:UNNAnumber forState:UIControlStateNormal];
+    [digitsView setNeedsDisplay];
+    if (UNNAnumber.length == 4) {
+        if ([self displayAnswers:UNNAnumber])
+            [self toggleDigitsView];
+    } else
+        [self entryNotValid];
+    if (UNNAnumber.length > 0)
+        [digitsView setTitleColor:[UIColor blackColor]
+                         forState:UIControlStateNormal];
+    else {
+        [digitsView setTitleColor:[UIColor lightGrayColor]
+                         forState:UIControlStateNormal];
+        [digitsView setTitle:@"" forState:UIControlStateNormal];
+    }
+    [self enableAvailableDigits];
+}
+
+- (void) enableAvailableDigits {
+    NSMutableDictionary *node = digitTree;
+    for (int i=0; i<[UNNAnumber length] && i < 4-1; i++) {
+        NSString *ch = [UNNAnumber substringWithRange:NSMakeRange(i, 1)];
+        NSMutableDictionary *nextNode = [node objectForKey:ch];
+        node = nextNode;
+    }
+    NSString *available = @"";
+    for (NSString *key in node) {
+        available = [available stringByAppendingString:key];
+    }
+    NSLog(@"%s: %@ is %@", __PRETTY_FUNCTION__,
+          UNNAnumber, available);
+    [padView enabledKeys:available];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
     [self layoutViews];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillBeShown:)
-                                                 name:UIKeyboardWillShowNotification object:nil];
-//    + (void)requestSiriAuthorization:(void (^)(INSiriAuthorizationStatus status))handler;
-//[INPreferences requestSiriAuthorization]
 }
 
 - (void) layoutViews {
@@ -188,7 +293,7 @@
     f.origin.x = (f.size.width - dotImageView.frame.size.width)*0.5;
     f.origin.y = [[UIApplication sharedApplication] statusBarFrame].size.height +
     self.navigationController.navigationBar.frame.size.height;
-    
+
     f.size = dotImageView.frame.size;
     dotImageView.frame = f;
     [dotImageView setNeedsDisplay];
@@ -212,14 +317,17 @@
     f.size.height -= f.origin.y;
     webView.frame = f;
     [webView setNeedsLayout];
-
-    [textField becomeFirstResponder];
-    [textField setNeedsDisplay];
+    
+    [self adjustPadViewToHide:padView.hidden];
+    NSLog(@"%s @ %.1f,%.1f", __PRETTY_FUNCTION__,
+          padView.frame.origin.x, padView.frame.origin.y);
 }
 
 - (void) loadDataBases {
     NSError *error;
     int count = 0;
+    
+    digitTree = [[NSMutableDictionary alloc] initWithCapacity:10];
 
     NSURL *dbURL = [[NSBundle mainBundle] URLForResource:@"ergdb" withExtension:@""];
     if (!dbURL) {
@@ -240,6 +348,7 @@
             continue;
         }
         [substances setObject:substance forKey:substance.UNnumber];
+        [self addToTree: substance.UNnumber];
     }
     NSLog(@"substances read: %lu", (unsigned long)[substances count]);
     
@@ -316,21 +425,30 @@
     NSLog(@"placard items accepted: %d, skipped %d", count, skipped);
 }
 
+- (void) addToTree: (NSString *) digits {
+    NSMutableDictionary *node = digitTree;
+    for (int i=1; i <=digits.length; i++) {
+        NSString *ch = [digits substringWithRange:NSMakeRange(i-1, 1)];
+        NSMutableDictionary *subNode = [node objectForKey:ch];
+        if (!subNode) { // this is a new digit at this level
+            if (i == digits.length) {   // last digit, no new pointer
+                [node setObject:[NSNull null] forKey:ch];
+            } else {
+                NSMutableDictionary *newNode = [[NSMutableDictionary alloc] init];
+                [node setObject:newNode forKey:ch];
+                node = newNode;
+            }
+        } else
+            node = subNode;
+    }
+}
+
 - (NSString *) firstField:(NSString *) line {
     NSRange r = [line rangeOfString:@"\t"];
     if (r.location == NSNotFound) {
         return nil;
     }
     return [line substringToIndex:r.location];
-}
-
-- (void)keyboardWillBeShown:(NSNotification*)aNotification {
-    NSDictionary* info = [aNotification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    CGRect f = webView.frame;
-    f.size.height = self.view.frame.size.height - f.origin.y - kbSize.height;
-    webView.frame = f;
-    [webView setNeedsLayout];
 }
 
 // Return YES if an answer exists. This database and routine are stupidly ineffecient,
@@ -460,31 +578,6 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     decisionHandler(WKNavigationActionPolicyAllow);
 }
 
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
-    return NO;
-}
-
-- (BOOL) textFieldShouldReturn:(UITextField *)textField {
-    return NO;
-}
-
-- (BOOL)textField:(UITextField *)textField
-shouldChangeCharactersInRange:(NSRange)range
-replacementString:(NSString *)string {
-    NSCharacterSet* notDigits = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
-    if ([string rangeOfCharacterFromSet:notDigits].location != NSNotFound)
-        return NO;  // non-digits
-    
-    NSString *newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    if (newText.length > 4)
-        return NO;
-    if (newText.length < 4) {
-        [self entryNotValid];
-        return YES;
-    }
-    return [self displayAnswers:newText];
-}
-
 - (void) entryNotValid {
     currentSubstance = nil;
     webView.hidden = placardView.hidden = YES;
@@ -495,6 +588,5 @@ replacementString:(NSString *)string {
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
 
 @end

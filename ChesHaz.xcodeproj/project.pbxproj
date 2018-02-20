@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB0C70B02036FE0D000AC6C2 /* PadView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB0C70AF2036FE0D000AC6C2 /* PadView.m */; };
 		FBC3CE752024A68B00D4EDE2 /* AboutVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC3CE742024A68B00D4EDE2 /* AboutVC.m */; };
 		FBC3CE772024AD1F00D4EDE2 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = FBC3CE762024AD1F00D4EDE2 /* about.html */; };
 		FBC3CE7A2024B25800D4EDE2 /* OfficialVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC3CE792024B25800D4EDE2 /* OfficialVC.m */; };
@@ -65,6 +66,8 @@
 
 /* Begin PBXFileReference section */
 		FB0AD5511FDADDA50036057C /* ChesHaz.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChesHaz.entitlements; sourceTree = "<group>"; };
+		FB0C70AE2036FE0D000AC6C2 /* PadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PadView.h; sourceTree = "<group>"; };
+		FB0C70AF2036FE0D000AC6C2 /* PadView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PadView.m; sourceTree = "<group>"; };
 		FB3402F4202B647100F79A27 /* Defines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Defines.h; sourceTree = "<group>"; };
 		FBC3CE732024A68B00D4EDE2 /* AboutVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AboutVC.h; path = ChesHaz/AboutVC.h; sourceTree = SOURCE_ROOT; };
 		FBC3CE742024A68B00D4EDE2 /* AboutVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AboutVC.m; path = ChesHaz/AboutVC.m; sourceTree = SOURCE_ROOT; };
@@ -221,6 +224,8 @@
 				FBC3CE732024A68B00D4EDE2 /* AboutVC.h */,
 				FBC3CE742024A68B00D4EDE2 /* AboutVC.m */,
 				FBDC11081FD32697009D3933 /* Info.plist */,
+				FB0C70AE2036FE0D000AC6C2 /* PadView.h */,
+				FB0C70AF2036FE0D000AC6C2 /* PadView.m */,
 				FBDC11091FD32697009D3933 /* main.m */,
 				FBDC11001FD32697009D3933 /* ChesHaz.xcdatamodeld */,
 				FBFFB0381FD6C433007D6191 /* Main.storyboard */,
@@ -350,6 +355,7 @@
 			files = (
 				FBC3CE752024A68B00D4EDE2 /* AboutVC.m in Sources */,
 				FBDC10FC1FD32697009D3933 /* ViewController.m in Sources */,
+				FB0C70B02036FE0D000AC6C2 /* PadView.m in Sources */,
 				FBC3CEBA2027544900D4EDE2 /* PlacardView.m in Sources */,
 				FBC3CE7A2024B25800D4EDE2 /* OfficialVC.m in Sources */,
 				FBDC11151FD3277B009D3933 /* Substance.m in Sources */,

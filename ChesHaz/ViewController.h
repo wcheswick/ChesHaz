@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
+#import "PadView.h"
+
 
 @interface ViewController : UIViewController
-    <UITextFieldDelegate,
-        UIPopoverPresentationControllerDelegate,
-        WKNavigationDelegate>
+    <UIPopoverPresentationControllerDelegate,
+        WKNavigationDelegate,
+        PadDelegate>
 
 - (void) layoutViews;
 
