@@ -233,7 +233,6 @@
                 continue;
             default: {
                 button.enabled = [enabled rangeOfString:button.titleLabel.text].location != NSNotFound;
-                NSLog(@" %@: %@", button.enabled ? @"E" : @"d",  button.titleLabel.text);
                 [button setNeedsDisplay];
             }
         }

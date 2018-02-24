@@ -204,7 +204,6 @@
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    NSLog(@"%s: v h = %.1f", __PRETTY_FUNCTION__, self.view.frame.size.height);
     [self layoutViews];
     [UIView transitionWithView:self.view
                       duration:0.25
@@ -215,8 +214,6 @@
                     completion:^(BOOL finished) {
                         ;
                     }];
-    NSLog(@"%s @ h = %.1f pv @ %.1f", __PRETTY_FUNCTION__,
-          self.view.frame.size.height, padView.frame.origin.y);
 }
 
 - (void) toggleDigitsView {
@@ -229,9 +226,6 @@
                        options:UIViewAnimationOptionTransitionNone
                     animations:^{
                           [padView setupForView:self.view toHide:hiding];
-                        NSLog(@"animating to %.0f  %@  %@",
-                              padView.frame.origin.y, padView.hidden ? @"hidden" : @"",
-                              hiding ? @"hiding" : @"");
                    }
                     completion:^(BOOL finished) {
                         if (hiding && finished)
@@ -274,8 +268,6 @@
     for (NSString *key in node) {
         available = [available stringByAppendingString:key];
     }
-    NSLog(@"%s: %@ is %@", __PRETTY_FUNCTION__,
-          UNNAnumber, available);
     [padView enabledKeys:available];
 }
 
@@ -308,9 +300,6 @@
     f.size.height -= f.origin.y;
     webView.frame = f;
     [webView setNeedsLayout];
-    
-    NSLog(@"%s @ %.1f,%.1f", __PRETTY_FUNCTION__,
-          padView.frame.origin.x, padView.frame.origin.y);
 }
 
 - (void) loadDataBases {
@@ -501,12 +490,17 @@
                     stringByAppendingString:
                     [NSString stringWithFormat:
                      @"<p>Links to official information:<p>\n"
-                     @"<a href=\"%@\">NOAA ERG handling guide number %@.</a><p>\n"
-                     @"<a href=\"%@\">NOAA NFPA 704 data sheet.</a><p>\n",
+                     @"<a href=\"%@\">NOAA ERG handling guide number %@.</a><p>\n",
                      currentSubstance.guideURL,
-                     currentSubstance.guideNumber,
-                     currentSubstance.dataSheetURL
+                     currentSubstance.guideNumber
                      ]];
+    if (currentSubstance.dataSheetURL)
+        answerHTML = [answerHTML
+                      stringByAppendingString:
+                      [NSString stringWithFormat:
+                       @"<a href=\"%@\">NOAA NFPA 704 data sheet.</a><p>\n",
+                       currentSubstance.dataSheetURL
+                       ]];
 
     answerHTML = [answerHTML stringByAppendingString:@"</body></html>\n"];
     [webView loadHTMLString:answerHTML baseURL:baseURL];
