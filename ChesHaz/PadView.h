@@ -28,4 +28,7 @@
 - (void) enabledKeys: (NSString *)enabled;
 - (void) enableBackspace: (BOOL)e;
 - (void) enableClear: (BOOL) e;
+
+- (void) setupForView:(UIView *) v toHide:(BOOL)toHide;
+
 @end

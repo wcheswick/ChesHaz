@@ -128,17 +128,27 @@
     NSLog(@"not yet");
 }
 
+#ifdef notdef
 - (void) layoutSubviews {
+//    self.frame = [self adjustFrame];
+    NSLog(@"%s @ %.1f,%.1f", __PRETTY_FUNCTION__,
+          self.frame.origin.x, self.frame.origin.y);
+}
+#endif
+
+- (void) setupForView:(UIView *) v toHide:(BOOL)toHide {
+    CGRect f;
+    
     // Our minimum keypad width is the lesser of KEYPAD_W or the current screen
     // width.  Buttons are slightly narrower than this.
     // If the screen is wider, our keypad is the minimum plus padding
     // with rounded corners, to look nice on, say, an iPad.
     
-    CGFloat keypadW = [[UIScreen mainScreen] bounds].size.width;
+    CGFloat keypadW = v.frame.size.width;
     BOOL showFull = keypadW > KEYPAD_W;
     CGFloat firstX, rowW;
     CGFloat firstY = KEYPAD_TOP_INSET;
-
+    
     if (showFull) {
         keypadW = KEYPAD_FULL_W;
         firstX = INSET + KEYPAD_CORNER_RADIUS;
@@ -180,17 +190,31 @@
                                   keyW - INSET,
                                   KEY_H);
     }
-
+    
+    // if we have room for the full keypad, I want the top two corners
+    // to be rounded, but not the bottom.  In this case, make the view a
+    // little taller, and shift those corners off the bottom of the screen.
+    
+    CGFloat fullHAdjust = showFull ? KEYPAD_CORNER_RADIUS : 0;
     digitsView.frame = CGRectMake(0, 0,
                                   keypadW,
-                                  firstY + buttonRows*(KEY_H + INSET) + KEYPAD_BOTTOM_INSET);
-    self.layer.cornerRadius = showFull ? KEYPAD_CORNER_RADIUS : 0;
-    
-    CGRect f = digitsView.frame;
-    f.origin = self.frame.origin;
+                                  firstY + buttonRows*(KEY_H + INSET) +
+                                  fullHAdjust +     // don't show bottom corners
+                                  KEYPAD_BOTTOM_INSET);
+    f = digitsView.frame;
+    f.origin.x = (v.frame.size.width - f.size.width)/2;
+
+    if (toHide) { // off the bottom
+        f.origin.y = v.frame.origin.y + v.frame.size.height;
+    } else {
+        f.origin.y =  v.frame.size.height - digitsView.frame.size.height +
+        fullHAdjust;
+        // ugg: side effect
+        self.layer.cornerRadius = showFull ? KEYPAD_CORNER_RADIUS : 0;
+    }
     self.frame = f;
-    NSLog(@"%s @ %.1f,%.1f", __PRETTY_FUNCTION__, f.origin.x, f.origin.y);
 }
+
 - (void) enableBackspace: (BOOL)e {
     backspaceKey.enabled = e;
     [backspaceKey setNeedsDisplay];

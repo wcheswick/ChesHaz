@@ -183,63 +183,60 @@
     [self.view addGestureRecognizer:leftSwipe];
     
     padView = [[PadView alloc] initWithTarget:self];
-    padView.hidden = YES;
     [self.view addSubview:padView];
     
     [self enableAvailableDigits];
     self.view.backgroundColor = [UIColor whiteColor];
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [padView setupForView:self.view toHide:YES];
+    padView.hidden = YES;
+    [self layoutViews];
+}
+
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
     [self toggleDigitsView];
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     NSLog(@"%s: v h = %.1f", __PRETTY_FUNCTION__, self.view.frame.size.height);
-    [padView layoutSubviews];
     [self layoutViews];
+    [UIView transitionWithView:self.view
+                      duration:0.25
+                       options:UIViewAnimationOptionTransitionNone
+                    animations:^{
+                        [padView setupForView:self.view toHide:padView.hidden];
+                     }
+                    completion:^(BOOL finished) {
+                        ;
+                    }];
     NSLog(@"%s @ h = %.1f pv @ %.1f", __PRETTY_FUNCTION__,
           self.view.frame.size.height, padView.frame.origin.y);
 }
 
 - (void) toggleDigitsView {
-    if (padView.hidden) {   // bring it up
-        CGRect f = padView.frame;
-        f.origin.x = (self.view.frame.size.width - padView.frame.size.width)/2; // center
-        f.origin.y = self.view.frame.size.height;   // below the current screen
-        padView.frame = f;
+    BOOL hiding = !padView.hidden;
+    if (!hiding) {
         padView.hidden = NO;
-        
-        [UIView transitionWithView:self.view
-                          duration:0.25
-                           options:UIViewAnimationOptionTransitionNone
-                        animations:^{
-                            [self adjustPadViewToHide:NO];
-                        }
-                        completion:^(BOOL finished) {
-                            ;
-                        }];
-    } else {                // hide the digit pad
-        [UIView transitionWithView:self.view
-                          duration:0.25
-                           options:UIViewAnimationOptionTransitionNone
-                        animations:^{
-                            [self adjustPadViewToHide: YES];
-                         }
-                        completion:^(BOOL finished) {
-                            padView.hidden = YES;
-                       }];
     }
-}
-
-- (void) adjustPadViewToHide:(BOOL) hide {
-    CGRect f = padView.frame;
-    if (hide)
-        f.origin.y = self.view.frame.size.height;
-    else
-        f.origin.y = self.view.frame.size.height - padView.frame.size.height;
-    padView.frame = f;
+    [UIView transitionWithView:self.view
+                      duration:0.25
+                       options:UIViewAnimationOptionTransitionNone
+                    animations:^{
+                          [padView setupForView:self.view toHide:hiding];
+                        NSLog(@"animating to %.0f  %@  %@",
+                              padView.frame.origin.y, padView.hidden ? @"hidden" : @"",
+                              hiding ? @"hiding" : @"");
+                   }
+                    completion:^(BOOL finished) {
+                        if (hiding && finished)
+                            padView.hidden = YES;
+                    }];
 }
 
 - (IBAction)doDigitsTapped:(UIButton *)sender {
@@ -282,12 +279,6 @@
     [padView enabledKeys:available];
 }
 
-- (void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    [self layoutViews];
-}
-
 - (void) layoutViews {
     CGRect f = self.view.frame;
     f.origin.x = (f.size.width - dotImageView.frame.size.width)*0.5;
@@ -318,7 +309,6 @@
     webView.frame = f;
     [webView setNeedsLayout];
     
-    [self adjustPadViewToHide:padView.hidden];
     NSLog(@"%s @ %.1f,%.1f", __PRETTY_FUNCTION__,
           padView.frame.origin.x, padView.frame.origin.y);
 }
