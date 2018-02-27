@@ -22,7 +22,11 @@
 
 - (BOOL)application:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    if (![[NSFileManager defaultManager] changeCurrentDirectoryPath: documentsDirectory])
+        NSLog(@"inconceivable: could not cd to documents directory ***");
+
     self.window = [[UIWindow alloc]
                    initWithFrame:[[UIScreen mainScreen]
                                   bounds]];

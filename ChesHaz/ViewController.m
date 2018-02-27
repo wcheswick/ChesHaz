@@ -13,6 +13,7 @@
 #import "ViewController.h"
 #import "PlacardView.h"
 #import "Substance.h"
+#import "LogVC.h"
 
 #define VERTICAL_LINE   @"❘"
 
@@ -43,7 +44,6 @@
 @property (nonatomic, strong)   NSString *UNNAnumber;
 @property (nonatomic, strong)   WKWebView *webView;
 @property (nonatomic, strong)   NSString *dataDate;
-@property (nonatomic, strong)   UISwipeGestureRecognizer *leftSwipe;
 
 @property (nonatomic, strong)   NSArray *flammabilityList;
 @property (nonatomic, strong)   NSArray *healthList;
@@ -53,6 +53,8 @@
 @property (nonatomic, strong)   Substance *currentSubstance;
 
 @property (nonatomic, strong)   NSMutableDictionary *digitTree;
+
+@property (nonatomic, strong)   Log *log;
 
 @end
 
@@ -65,7 +67,6 @@
 @synthesize UNNAnumber;
 @synthesize webView;
 @synthesize dataDate;
-@synthesize leftSwipe;
 
 @synthesize flammabilityList;
 @synthesize healthList;
@@ -74,16 +75,17 @@
 @synthesize substances, currentSubstance;
 
 @synthesize digitTree;
+@synthesize log;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     currentSubstance = nil;
     UNNAnumber = @"";
+    log = [[Log alloc] init];
     
     self.navigationController.navigationBar.hidden = NO;
     self.navigationController.navigationBar.opaque = YES;
-    self.navigationController.toolbarHidden = YES;
     self.title = @"ChesHaz";
 
     UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc]
@@ -93,15 +95,13 @@
                                       action:@selector(doAbout:)];
     self.navigationItem.leftBarButtonItem = leftBarButton;
  
-#ifdef notdef
     UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
                                       initWithTitle:@"Log"
                                       style:UIBarButtonItemStylePlain
                                       target:self
-                                      action:@selector(doOfficial:)];
-    rightBarButton.enabled = NO;
+                                      action:@selector(doLog:)];
+    rightBarButton.enabled = YES;
     self.navigationItem.rightBarButtonItem = rightBarButton;
-#endif
     
     flammabilityList = [NSArray arrayWithObjects:   // starting with 0
                         @"Normally stable, even under fire conditions."
@@ -175,11 +175,11 @@
     webView.scrollView.showsVerticalScrollIndicator = YES;
     [self.view addSubview:webView];
     
-    leftSwipe = [[UISwipeGestureRecognizer alloc]
+    UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc]
                  initWithTarget:self
                  action:@selector(swipeLeft:)];
     leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-    leftSwipe.enabled = NO;
+    leftSwipe.enabled = YES;
     [self.view addGestureRecognizer:leftSwipe];
     
     padView = [[PadView alloc] initWithTarget:self];
@@ -192,6 +192,8 @@
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    self.navigationController.toolbarHidden = YES;
+
     [padView setupForView:self.view toHide:YES];
     padView.hidden = YES;
     [self layoutViews];
@@ -455,6 +457,10 @@
                                            @"<p>\n",
                                            UNNumber,
                                            currentSubstance.description]];
+    
+    // prepend adds a newline
+    [log prependToLog:[NSString stringWithFormat:@"%@: %@",
+                       UNNumber, currentSubstance.description]];
 
     NSURL *baseURL = nil;
     if (currentSubstance.placardFiles &&
@@ -512,8 +518,6 @@
         placardView.hidden = NO;
         [placardView setNeedsDisplay];
     }
-    
-    self.navigationItem.rightBarButtonItem.enabled = leftSwipe.enabled = YES;
     return YES;
 }
 
@@ -534,13 +538,14 @@
     [self presentViewController:nav animated:YES completion:nil];
 }
 
-- (IBAction)doOfficial:(UISwipeGestureRecognizer *)sender {
-    OfficialVC *ovc = [[OfficialVC alloc] initWithSubstance:currentSubstance];
-    [[self navigationController] pushViewController: ovc animated: YES];
+- (IBAction)doLog:(UISwipeGestureRecognizer *)sender {
+    LogVC *lvc = [[LogVC alloc] initWithLog:log];
+//    self.navigationController.toolbarHidden = NO;
+    [[self navigationController] pushViewController: lvc animated: YES];
 }
 
 - (IBAction)swipeLeft:(UISwipeGestureRecognizer *)sender {
-    [self doOfficial:sender];
+    [self doLog:sender];
 }
 
 // We intercept clicks on our local web pages and send them off to the Safari
@@ -565,7 +570,6 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 - (void) entryNotValid {
     currentSubstance = nil;
     webView.hidden = placardView.hidden = YES;
-    self.navigationItem.rightBarButtonItem.enabled = leftSwipe.enabled = NO;
     [webView setNeedsDisplay];
 }
 
