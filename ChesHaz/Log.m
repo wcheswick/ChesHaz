@@ -22,13 +22,11 @@
                                       encoding:NSUTF8StringEncoding
                                            error:&error];
         if (!text) {
-            if (DEBUG)
-                NSLog(@"Creating log");
+            NSLog(@"Creating log");
             text = @"";
             [self save];
         }
-        if (DEBUG)
-            NSLog(@"log length %lu", (unsigned long)[text length]);
+        NSLog(@"log length %lu", (unsigned long)[text length]);
     }
     return self;
 }
