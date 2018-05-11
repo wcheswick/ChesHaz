@@ -245,18 +245,21 @@
 
 - (IBAction)doKey:(id)sender {
     UIButton *v = (UIButton *)sender;
+    NSString *newEntry;
     switch (v.tag) {
         case BACKSPACE_TAG:
-            keypadText = [keypadText substringToIndex:keypadText.length - 1];
+            newEntry = [keypadText substringToIndex:keypadText.length - 1];
             break;
         case CLEAR_TAG:
-            keypadText = @"";
+            newEntry = @"";
             break;
         default:    // regular key pressed
-            keypadText = [keypadText stringByAppendingString:v.titleLabel.text];
+            newEntry = [keypadText stringByAppendingString:v.titleLabel.text];
     }
-    [caller padTextIsNow:keypadText];
-    [self adjustActiveKeys];
+    if ([caller padTextIsOK:newEntry]) {
+        keypadText = newEntry;
+        [self adjustActiveKeys];
+    }
 }
 
 @end

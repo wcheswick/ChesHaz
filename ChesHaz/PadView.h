@@ -11,7 +11,7 @@
 @protocol PadDelegate <NSObject>
 @required
 
-- (void) padTextIsNow: (NSString *)text;
+- (BOOL) padTextIsOK: (NSString *)text;
 
 @end
 
@@ -22,7 +22,7 @@
 @property (nonatomic, strong)   NSString *keypadText;
 
 - (id)initWithTarget:(id<PadDelegate>) t keys:(NSString *)keys;
--(id)initWithTarget:(id<PadDelegate>) t;
+- (id)initWithTarget:(id<PadDelegate>) t;
 
 - (void) scrambleKeys;
 - (void) enabledKeys: (NSString *)enabled;

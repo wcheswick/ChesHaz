@@ -48,6 +48,8 @@
         NSLog(@"NFPA db error, wrong field count:%@", line);
         return;
     }
+    if ([UNnumber isEqualToString:@"1113"])
+        NSLog(@"1113: %@", line);
     dataSheetURL = [fields objectAtIndex:1];
     NFPAnumbers = [fields objectAtIndex:2];
     if ([fields count] == 4)

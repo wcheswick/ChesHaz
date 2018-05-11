@@ -239,15 +239,17 @@
      [self toggleDigitsView];
 }
 
-- (void) padTextIsNow: (NSString *)text {
+- (BOOL) padTextIsOK: (NSString *)text {
     UNNAnumber = text;
     [digitsView setTitle:UNNAnumber forState:UIControlStateNormal];
     [digitsView setNeedsDisplay];
     if (UNNAnumber.length == 4) {
         if ([self displayAnswers:UNNAnumber])
             [self toggleDigitsView];
-    } else
+    } else {
         [self entryNotValid];
+        return NO;
+    }
     if (UNNAnumber.length > 0)
         [digitsView setTitleColor:[UIColor blackColor]
                          forState:UIControlStateNormal];
@@ -257,6 +259,7 @@
         [digitsView setTitle:@"" forState:UIControlStateNormal];
     }
     [self enableAvailableDigits];
+    return YES;
 }
 
 - (void) enableAvailableDigits {
@@ -507,7 +510,8 @@
                        @"<a href=\"%@\">NOAA NFPA 704 data sheet.</a><p>\n",
                        currentSubstance.dataSheetURL
                        ]];
-
+    NSLog(@"*** %@: data sheet URL: %@",
+          UNNumber, currentSubstance.dataSheetURL);
     answerHTML = [answerHTML stringByAppendingString:@"</body></html>\n"];
     [webView loadHTMLString:answerHTML baseURL:baseURL];
     webView.hidden = NO;
