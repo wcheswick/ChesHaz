@@ -205,18 +205,21 @@
     [self toggleDigitsView];
 }
 
+#ifdef notdef
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [self layoutViews];
     [UIView transitionWithView:self.view
                       duration:0.25
                        options:UIViewAnimationOptionTransitionNone
                     animations:^{
-                        [padView setupForView:self.view toHide:padView.hidden];
+                        [self->padView setupForView:self.view
+                                             toHide:self->padView.hidden];
                      }
                     completion:^(BOOL finished) {
                         ;
                     }];
 }
+#endif
 
 - (void) toggleDigitsView {
     BOOL hiding = !padView.hidden;
@@ -227,11 +230,11 @@
                       duration:0.25
                        options:UIViewAnimationOptionTransitionNone
                     animations:^{
-                          [padView setupForView:self.view toHide:hiding];
+                          [self->padView setupForView:self.view toHide:hiding];
                    }
                     completion:^(BOOL finished) {
                         if (hiding && finished)
-                            padView.hidden = YES;
+                            self->padView.hidden = YES;
                     }];
 }
 
