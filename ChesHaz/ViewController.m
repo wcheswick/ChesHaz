@@ -211,7 +211,7 @@
                       duration:0.25
                        options:UIViewAnimationOptionTransitionNone
                     animations:^{
-                        [padView setupForView:self.view toHide:padView.hidden];
+                        [self->padView setupForView:self.view toHide:self.padView.hidden];
                      }
                     completion:^(BOOL finished) {
                         ;
@@ -227,11 +227,11 @@
                       duration:0.25
                        options:UIViewAnimationOptionTransitionNone
                     animations:^{
-                          [padView setupForView:self.view toHide:hiding];
+                          [self.padView setupForView:self.view toHide:hiding];
                    }
                     completion:^(BOOL finished) {
                         if (hiding && finished)
-                            padView.hidden = YES;
+                            self.padView.hidden = YES;
                     }];
 }
 
@@ -243,7 +243,7 @@
     UNNAnumber = text;
     [digitsView setTitle:UNNAnumber forState:UIControlStateNormal];
     [digitsView setNeedsDisplay];
-    if (UNNAnumber.length == 4) {
+    if (UNNAnumber.length <= 4) {
         if ([self displayAnswers:UNNAnumber])
             [self toggleDigitsView];
     } else {

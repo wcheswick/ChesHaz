@@ -283,10 +283,6 @@ shouldChangeTextInRange:(NSRange)range
     return YES;
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
 }
