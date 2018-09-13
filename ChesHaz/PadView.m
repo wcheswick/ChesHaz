@@ -118,7 +118,6 @@
     [backspaceKey addTarget:self action:@selector(doKey:)
            forControlEvents:UIControlEventTouchUpInside];
     [digitsView addSubview:backspaceKey];
-
     [self addSubview:digitsView];
     
     self.backgroundColor = [UIColor lightGrayColor];

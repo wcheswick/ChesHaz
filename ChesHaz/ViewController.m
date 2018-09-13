@@ -246,7 +246,7 @@
     UNNAnumber = text;
     [digitsView setTitle:UNNAnumber forState:UIControlStateNormal];
     [digitsView setNeedsDisplay];
-    if (UNNAnumber.length == 4) {
+    if (UNNAnumber.length <= 4) {
         if ([self displayAnswers:UNNAnumber])
             [self toggleDigitsView];
     } else {
