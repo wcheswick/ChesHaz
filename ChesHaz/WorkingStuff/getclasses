@@ -6,9 +6,9 @@ usage="$prog"
 #	Get the hazard classes
 
 
-
 URL="https://ehs.ncsu.edu/hazardous-materials-classification/"
 
+TMPDIR=${TMPDIR:-/tmp}
 WRKDIR=${WRKDIR:-${TMPDIR}/${prog}}
 mkdir -p $WRKDIR
 

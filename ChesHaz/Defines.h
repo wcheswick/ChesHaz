@@ -9,6 +9,8 @@
 #ifndef Defines_h
 #define Defines_h
 
+#define UN_NA_LEN   4
+
 #define INSET   5   // from edge of display
 
 #define BELOW(r)    ((r).origin.y + (r).size.height)

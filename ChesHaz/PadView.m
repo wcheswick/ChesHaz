@@ -7,6 +7,7 @@
 //
 // This view size is fixed based on the number of keys required.
 
+#import "Defines.h"
 #import "PadView.h"
 
 #define DELETE_ERASE_CH @"⌫"
@@ -231,7 +232,8 @@
             case BACKSPACE_TAG:
                 continue;
             default: {
-                button.enabled = [enabled rangeOfString:button.titleLabel.text].location != NSNotFound;
+                button.enabled = [enabled
+                                      rangeOfString:button.titleLabel.text].location != NSNotFound;
                 [button setNeedsDisplay];
             }
         }

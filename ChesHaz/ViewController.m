@@ -246,7 +246,7 @@
     UNNAnumber = text;
     [digitsView setTitle:UNNAnumber forState:UIControlStateNormal];
     [digitsView setNeedsDisplay];
-    if (UNNAnumber.length <= 4) {
+    if (UNNAnumber.length <= UN_NA_LEN) {
         if ([self displayAnswers:UNNAnumber])
             [self toggleDigitsView];
     } else {
@@ -266,8 +266,12 @@
 }
 
 - (void) enableAvailableDigits {
+    if (UNNAnumber.length == UN_NA_LEN) {
+        [padView enabledKeys:@""];
+        return;
+    }
     NSMutableDictionary *node = digitTree;
-    for (int i=0; i<[UNNAnumber length] && i < 4-1; i++) {
+    for (int i=0; i<[UNNAnumber length] && i < UN_NA_LEN-1; i++) {
         NSString *ch = [UNNAnumber substringWithRange:NSMakeRange(i, 1)];
         NSMutableDictionary *nextNode = [node objectForKey:ch];
         node = nextNode;

@@ -1,6 +1,6 @@
 DB=../Databases
 
-DBS=ergdb wikidb classesdb nfpadb placarddb
+DBS=ergdb wikidb classesdb # placarddb # nfpadb 
 
 all:	${DBS}
 
