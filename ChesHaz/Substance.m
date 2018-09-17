@@ -23,6 +23,8 @@
 - (id)initWithERGDBLine:(NSString *) line {
     self = [super init];
     if (self) {
+        if ([line isEqualToString:@""])
+            return nil;
         NSArray *fields = [line componentsSeparatedByString:@"\t"];
         if ([fields count] != 6) {
             NSLog(@"ERG db error, wrong field count (%lu): '%@'",
@@ -48,8 +50,6 @@
         NSLog(@"NFPA db error, wrong field count:%@", line);
         return;
     }
-    if ([UNnumber isEqualToString:@"1113"])
-        NSLog(@"1113: %@", line);
     dataSheetURL = [fields objectAtIndex:1];
     NFPAnumbers = [fields objectAtIndex:2];
     if ([fields count] == 4)

@@ -56,7 +56,6 @@
                error:&error];
     if (error)
         NSLog(@"inconceivable: log write error %@", [error localizedDescription]);
-    NSLog(@"log now has length %lu", (unsigned long)text.length);
 }
 
 - (NSString *) logPath {

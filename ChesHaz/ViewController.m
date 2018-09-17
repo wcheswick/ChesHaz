@@ -341,7 +341,7 @@
         [substances setObject:substance forKey:substance.UNnumber];
         [self addToTree: substance.UNnumber];
     }
-    NSLog(@"substances read: %lu", (unsigned long)[substances count]);
+    NSLog(@"ergdb, substances read: %lu", (unsigned long)[substances count]);
     
     NSURL *nfpaURL = [[NSBundle mainBundle] URLForResource:@"nfpadb" withExtension:@""];
     if (!nfpaURL) {
@@ -517,8 +517,6 @@
                        @"<a href=\"%@\">NOAA NFPA 704 data sheet.</a><p>\n",
                        currentSubstance.dataSheetURL
                        ]];
-    NSLog(@"*** %@: data sheet URL: %@",
-          UNNumber, currentSubstance.dataSheetURL);
     answerHTML = [answerHTML stringByAppendingString:@"</body></html>\n"];
     [webView loadHTMLString:answerHTML baseURL:baseURL];
     webView.hidden = NO;

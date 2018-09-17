@@ -215,7 +215,6 @@
 		FBDC10F61FD32697009D3933 /* ChesHaz */ = {
 			isa = PBXGroup;
 			children = (
-				FB0AD5511FDADDA50036057C /* ChesHaz.entitlements */,
 				FBDC10F71FD32697009D3933 /* AppDelegate.h */,
 				FBDC10F81FD32697009D3933 /* AppDelegate.m */,
 				FB3402F4202B647100F79A27 /* Defines.h */,
@@ -248,6 +247,7 @@
 		FBDC11161FD32D80009D3933 /* WorkingStuff */ = {
 			isa = PBXGroup;
 			children = (
+				FB0AD5511FDADDA50036057C /* ChesHaz.entitlements */,
 				FBC3CE762024AD1F00D4EDE2 /* about.html */,
 				FBDC11031FD32697009D3933 /* Assets.xcassets */,
 				FBDC11191FD334B1009D3933 /* DOT.gif */,
