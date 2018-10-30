@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+prog="fetchallexamples"
+usage="$prog [-r] [ergdb]"
+#
+#	Fetch all examples available for the contents of ergdb, and
+#	write the examples to stdout.
+#
+#	refresh everything from the web page
+
+export	TMPDIR=${TMPDIR:-/var/tmp}
+export	WRKDIR=${WRKDIR:-${TMPDIR}/${prog}}
+mkdir -p $WRKDIR        || exit 100
+
+refresh=""
+case "$1" in
+-r)	rm -rf $WRKDIR/*
+	refresh="-r"
+	shift;;
+-*)	echo "$usage" 1>&2
+	exit 3
+esac
+
+if [ ! -s $WRKDIR/unnalist -o "$refresh" ]
+then
+	echo "$prog: refresh from NOAA's wb pages" 1>&2
+	case $# in
+	0)	cat ergdb;;
+	*)	cat -
+	esac |
+	awk '{print $1}'
+else
+	echo "$prog: using previous unna list" 1>&2
+	cat $WRKDIR/unnalist
+fi |
+while read unna
+do
+	WRKDIR=$WRKDIR ./fetchexamples $refresh $unna
+done 
+
+cd $WRKDIR
+ls | grep '\.raw$' | awk -v FS='.' '{print $1}' | sort -u >$WRKDIR/unnalist
+
+wc -l unnalist

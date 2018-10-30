@@ -11,6 +11,7 @@ case $# in
 	exit 1
 esac
 
+TMPDIR=${TMPDIR:-/tmp}
 WRKDIR=${WRKDIR:-${TMPDIR}/${prog}}
 mkdir -p $WRKDIR
 
@@ -35,6 +36,8 @@ grep -v '^$' |
 sed 's/^UN //' | tee $WRKDIR/tsv |
 awk -v FS='	' -v OFS='	' ' 
 BEGIN {	lastfirst = "" }
+
+/^[^0-9]/ {	next }
 
 NF < 2 || NF > 3 {
 	print "bad line, " NR ": " $0 >>"/dev/stderr"

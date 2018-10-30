@@ -32,7 +32,7 @@ esac
 WRKDIR=${WRKDIR:-${TMPDIR}/${prog}}
 mkdir -p $WRKDIR
 
-NFPAURL="https://cameochemicals.noaa.gov/chemical/$UN"
+NFPAURL="https://cameochemicals.noaa.gov/unna/$UN"
 
 curl -s -S "$NFPAURL" | tee $WRKDIR/noaa.html |
 awk '

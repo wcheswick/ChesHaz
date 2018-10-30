@@ -15,6 +15,7 @@ case $# in
 	exit 1
 esac
 
+TMPDIR=${TMPDIR:-/tmp}
 WRKDIR=${WRKDIR:-${TMPDIR}/${prog}}
 mkdir -p $WRKDIR
 

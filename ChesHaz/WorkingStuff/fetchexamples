@@ -1,0 +1,172 @@
+#!/bin/sh
+#
+prog="fetchexamples"
+usage="$prog [-r] unna1"
+#
+#	Fetch all compounds given as examples for a UN/NA number. Each line
+#	on stdout contains, separated by tabs:
+#		un/na number
+#		name
+#		description
+#		DOT Hazard label
+#		CAS Number
+#
+#	-r	refresh all from the source site, else use our cached information,
+#		if present
+
+TMPDIR=${TMPDIR:-/var/tmp}
+WRKDIR=${WRKDIR:-${TMPDIR}/${prog}}
+mkdir -p $WRKDIR        || exit 100
+
+refresh=false
+case "$1" in
+-r)	refresh=true
+	shift;;
+-*)	echo "$usage" 1>&2
+	exit 10
+esac
+
+case $# in
+1)	case $1 in
+	[0-9][0-9][0-9][0-9])
+		unna=$1;;
+	*)	echo "$usage" 1>&2
+		exit 1
+	esac;;
+
+*)	echo "$usage" 1>&2
+	exit 11
+esac
+
+MAINURL="http://cameochemicals.noaa.gov/unna/$unna"
+SEARCHURL="http://cameochemicals.noaa.gov/search/chemicals_for_unna?id=$unna"
+
+if [ $refresh = "true" ]
+then
+	count=`lynx -dump -nolist "$MAINURL" | awk '
+		BEGIN { n = 0 }
+		/CAMEO Chemicals has [0-9][0-9]* chemical datasheets/ { n=$5; exit }
+		END { print n }'`
+	if [ $count -eq 0 ]
+	then
+		exit 1
+	fi
+elif [ ! -s $WRKDIR/${unna}.raw ]
+then
+	exit 2
+fi
+
+# save the NOAA some network load by caching web results:
+
+if [ -s $WRKDIR/${unna}.raw ]
+then
+	cat $WRKDIR/${unna}.raw
+else
+	lynx -dump -nolist "$SEARCHURL" | tee $WRKDIR/${unna}.raw
+fi |
+sed '1,/^Search Results/d'	|
+sed '1,/page:/d'	|
+sed 's/^ *//'	|	# no leading blanks
+sed 's/^View Data.*//'	|
+sed '/ results.*Prev.*Next/,$d'	|
+awk -v OFS='	' '  
+
+function flush() {
+	gsub(/ ,/, ",", casnum)
+	gsub(/  +/, " ", casnum)
+	if (name != "") {
+#		print unna
+#		print "	" name
+#		print "	" description
+#		print "	" dothazlab
+#		print "	" casnum
+		if (unna == "")
+			print FNR ": name -" name "- missing unna" >"/dev/stderr"
+		else
+			print unna, name, description, dothazlab, casnum
+	}
+	name = unna = description = dothazlab = casnum = prev = ""
+}
+
+BEGIN {	name = "" }
+
+/^ *$/ {	next }	# ignore empty lines
+
+/^[A-Z0-9,\- \(\)%\[\]\.<>\'"'"'=\:\/]+$/ && name == "" {
+	name = tolower($0)
+	prev = "name"
+	unna = ""
+	next
+}
+
+name == "" && prev == "" {
+	# must be a name.  We get here if the name contains a character
+	# not in the string of characters in the previous match
+
+	print FNR ": *** unmatched name: " $0 >"/dev/stderr"
+	name = tolower($0)
+	prev = "name"
+	unna = ""
+	next
+}
+
+name == "" {
+	print FNR ", prev = " prev "  trouble: -" $0 "-"
+	next
+}
+
+/DOT Hazard Label:/ {
+	dothazlab = $0
+	prev = "dothaz"
+	sub(/DOT Hazard Label: /, "", dothazlab)
+	next
+}
+
+/CAS Number:/ {
+	casnum = $0
+	prev = "casnum"
+	sub(/CAS Number: /, "", casnum)
+	next
+}
+
+/UN\/NA Number:/ {
+	unna = $3
+	flush()
+	next
+}
+
+# The description and the CAS numbers can be multiline.
+
+prev == "name" {
+	if (description == "")
+		description = $0
+	else
+		description = description " " $0
+	next
+}
+
+prev == "dothaz" {
+	dothazlab = dothazlab " " $0
+	next
+}
+
+prev == "casnum" {
+	casnum = casnum "; " $0
+	next
+}
+
+{	print FNR ": unexpected, prev=" prev ", " $0
+	next
+}
+
+END {	flush() }'
+
+awk -v unna=$unna <$WRKDIR/${unna}.raw '
+/ results/ {
+	returned = $3
+	available = $5
+	if (returned < available)
+		print unna " is missing " available - returned " results.">"/dev/stderr"
+}'
+
+exit 0
