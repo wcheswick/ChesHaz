@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB07D62E2189EA380053795E /* examplesdb in Resources */ = {isa = PBXBuildFile; fileRef = FB07D62D2189EA380053795E /* examplesdb */; };
 		FB0C70B02036FE0D000AC6C2 /* PadView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB0C70AF2036FE0D000AC6C2 /* PadView.m */; };
 		FB36F6D220456ECC00F5458C /* LogVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FB36F6D120456ECC00F5458C /* LogVC.m */; };
 		FB36F6D5204571A300F5458C /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = FB36F6D4204571A300F5458C /* Log.m */; };
@@ -67,6 +68,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FB07D62D2189EA380053795E /* examplesdb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = examplesdb; sourceTree = "<group>"; };
 		FB0AD5511FDADDA50036057C /* ChesHaz.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChesHaz.entitlements; sourceTree = "<group>"; };
 		FB0C70AE2036FE0D000AC6C2 /* PadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PadView.h; sourceTree = "<group>"; };
 		FB0C70AF2036FE0D000AC6C2 /* PadView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PadView.m; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			children = (
 				FBC3CE882026590D00D4EDE2 /* Placards */,
 				FBC3CE802025F8EC00D4EDE2 /* classesdb */,
+				FB07D62D2189EA380053795E /* examplesdb */,
 				FBC3CE812025F8EC00D4EDE2 /* ergdb */,
 				FBC3CE822025F8EC00D4EDE2 /* nfpadb */,
 				FBC3CEB620265E9E00D4EDE2 /* placarddb */,
@@ -341,6 +344,7 @@
 				FBC3CE852025F8EC00D4EDE2 /* ergdb in Resources */,
 				FBC3CEAB2026590D00D4EDE2 /* Placard4.3.gif in Resources */,
 				FBC3CEB02026590D00D4EDE2 /* Placard6.2.gif in Resources */,
+				FB07D62E2189EA380053795E /* examplesdb in Resources */,
 				FBC3CEAD2026590D00D4EDE2 /* Placard5.2.gif in Resources */,
 				FBC3CEAA2026590D00D4EDE2 /* Placard4.2.gif in Resources */,
 				FBC3CEA02026590D00D4EDE2 /* Placard1.gif in Resources */,
