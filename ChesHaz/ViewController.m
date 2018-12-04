@@ -247,6 +247,13 @@
     [digitsView setTitle:UNNAnumber forState:UIControlStateNormal];
     [digitsView setNeedsDisplay];
     if (UNNAnumber.length <= UN_NA_LEN) {
+        if (UNNAnumber.length < UN_NA_LEN) {
+            // jayla's fix: don't display data if number is incomplete
+            webView.hidden = YES;
+            [webView setNeedsDisplay];
+            placardView.hidden = YES;
+            [placardView setNeedsDisplay];
+        }
         if ([self displayAnswers:UNNAnumber])
             [self toggleDigitsView];
     } else {
